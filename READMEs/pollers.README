@@ -1,0 +1,36 @@
+#
+# $Id$
+#
+
+Every device has a corresponding polling agent or poller for short.
+A poller is just a program that queries the device periodically,
+and writes the a summary of the data to stdout when instructed.
+The collector manager executes the pollers as pipes and sends them the
+instructions via stdin. In pseudo code a typical poller consists of
+the following
+
+open_device()
+while(fgets(stdin, buffer) != NULL) {
+  if(buffer == "POLL\n"){
+	get_data_from_device(&data);
+  }else if(buffer == "REPORT\n")
+	fprintf(stdout, data);
+  }
+}
+close_device
+
+The typical interval between "POLL" commands is a few seconds and
+a typical interval between the "REPORT\n" is one or a few minutes.
+The poller can use the "data" collected" during the various
+polling intervals previous the report, to calculate averages,
+maximum and minimums and the like, for the period covered by
+each report.
+
+It is guaranteed that the commads that the pollers receive
+in stdin contain 31 characters at most, and they are terminated
+by a '\n' (which is counted in the 31 characters).
+
+At this moment the only commands are those shown above,
+"POLL\n" and "REPORT\n".
+
+-

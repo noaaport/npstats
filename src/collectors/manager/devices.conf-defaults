@@ -1,0 +1,14 @@
+#
+# $Id$
+#
+
+#
+# Defaults for monitoring a novra box in standalone mode
+#
+lappend devices(devicelist) {
+    localdomain.novra
+    novra_s75
+    0000
+    {export 0 csvarchive 1 displaystatus 1}
+    novra_s75.tml
+}

@@ -1,0 +1,24 @@
+#
+# $Id$
+#
+@include@ @q@Makefile.inc@q@
+@include@ @q@VERSION@q@
+
+DIRS = src tclhttpd
+
+all: 
+	for dir in ${DIRS}; do \
+	(cd $$dir; ${MAKE}) \
+	done
+
+install:
+	for dir in ${DIRS}; do \
+	(cd $$dir; ${MAKE} install) \
+	done
+
+clean:
+	./configure.sh
+	for dir in ${DIRS}; do \
+	(cd $$dir; ${MAKE} clean) \
+	done
+	rm -f *~ Makefile Makefile.inc

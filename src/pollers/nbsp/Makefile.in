@@ -1,0 +1,31 @@
+#
+# Copyright (c) 2006-2009 Jose F. Nieves <nieves@ltp.upr.clu.edu>
+#
+# See LICENSE
+#
+# $Id$
+#
+@include@ @q@../../../Makefile.inc@q@
+
+TCLTARGET = 	nbsppoll nbspqstatspoll
+TCLSOURCES =	nbsppoll.tcl nbspqstatspoll.tcl
+
+POLLERS =	${TCLTARGET}
+TARGET =	${TCLTARGET}
+
+TCLSH =		@TCLSH@
+INSTALL =	@INSTALL@
+
+all: ${TARGET}
+
+nbsppoll: nbsppoll.tcl
+	sed -e /%TCLSH%/s##${TCLSH}# nbsppoll.tcl > nbsppoll
+
+nbspqstatspoll: nbspqstatspoll.tcl
+	sed -e /%TCLSH%/s##${TCLSH}# nbspqstatspoll.tcl > nbspqstatspoll
+
+install: ${TARGET}
+	${INSTALL} -m 755 ${POLLERS} ${MYPOLLERSDIR}
+
+clean:
+	rm -f *~ ${TARGET} Makefile

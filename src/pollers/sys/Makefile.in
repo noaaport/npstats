@@ -1,0 +1,28 @@
+#
+# Copyright (c) 2006-2009 Jose F. Nieves <nieves@ltp.upr.clu.edu>
+#
+# See LICENSE
+#
+# $Id$
+#
+@include@ @q@../../../Makefile.inc@q@
+
+TCLTARGET = 	syspoll
+TCLSOURCES =	syspoll.tcl
+
+POLLER =	${TCLTARGET}
+TARGET =	${TCLTARGET}
+
+TCLSH =		@TCLSH@
+INSTALL =	@INSTALL@
+
+all: ${TARGET}
+
+syspoll: syspoll.tcl
+	sed -e /%TCLSH%/s##${TCLSH}# syspoll.tcl > syspoll
+
+install: ${TARGET}
+	${INSTALL} -m 755 ${POLLER} ${MYPOLLERSDIR}
+
+clean:
+	rm -f *~ ${TARGET} Makefile

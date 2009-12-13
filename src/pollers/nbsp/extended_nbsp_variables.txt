@@ -1,0 +1,30 @@
+Tue Jul  7 19:30:52 AST 2009
+
+Extended nbsp variables -
+
+Standalone and slave modes use the first two sets. Memory spool
+mode uses all three sets.
+
+- From nbspd.qstate
+time
+qstate.processor
+qstate.filter
+qstate.server
+
+- From nbspd.qdbstats
+time
+qdb_panic_flag                Panic value
+qdb_cache_pages_found         Requested pages found in the cache (99%)
+qdb_cache_pages_foundfr       Requested pages found in the cache (99%)
+qdb_cache_pages_notfound      Requested pages not found in the cache
+qdb_cache_pages_created       Pages created in the cache
+qdb_cache_pages_readin        Pages read into the cache
+qdb_cache_pages_writtenout    Pages written from the cache to the backing file
+
+- From nbspd.mdbstats
+time
+mdb_panic_flag
+mdb_cache_pages_found
+mdb_cache_pages_foundfr
+mdb_cache_pages_notfound 
+mdb_cache_pages_created

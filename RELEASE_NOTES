@@ -1,0 +1,45 @@
+$Id$
+
+- This is the 1st release of the Noaaport Statistics Tracking System (npstats).
+Sources and documentation are available from
+
+    http://code.google.com/p/npstats
+
+and native binary packages for some OS's are available from
+
+    http://www.noaaport.net
+
+- What is it
+
+Npstats is a system designed to collect data from a number of devices
+from a number of sites, and send the data to a remote central
+server for analysis, display and archival. It is particularly well suited
+to monitor the noaaport signal and the performance of Nbsp servers,
+and was built with that motivation in mind, but its design allows it
+to be used for monitoring anything that can send data to a computer.
+
+The system consists of the npstatsd daemon and a few programs that
+run under the control of npstatsd. One such program is the
+collector manager, or "manager" for short. A site configures the
+manager to monitor a list of devices, and for each device
+it specifies a program ("poller") that knows how to comnicate with the device
+and query the device to read the relevant data from it.
+Each time the "polling period" expires, the manager signals the pollers
+to poll the devices. Similarly, when the "report period" expires, the manager
+instruct the pollers to write the corresponding device's data.
+
+After the package installation the default configuration is set
+to monitor a novra box in stand alone mode, that is, the data is stored
+locally and the status of the novra is displayed by the built-in web server
+on port 8025. 
+
+With further configuration npstats can run also in client mode, in which
+the case the data is also saved to a file that is queued for transfer to a
+central server. At predetermiend periodic intervals, the npstatsd
+daemon executes the "qrunner" which is the program that examines the queue
+and transfers to the central server all the files that have accumulated
+since the last run. 
+
+Npstats can also be configured as the central server that receives,
+displays and archives the data from any number of remote client sites and
+devices.

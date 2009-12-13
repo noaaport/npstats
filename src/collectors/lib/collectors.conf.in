@@ -1,0 +1,80 @@
+#
+# $Id$
+#
+# This file contains common definitions for all the collector scripts.
+# This file is required; the scripts will not run without it.
+# The default location of this file is the directory "/usr/local/etc/npstats".
+#
+# In addition, each script may have an individual conf file and an rc file. 
+#
+
+set common(collectorsconf)   "collectors.conf";
+#
+# Common directories
+#
+set common(confdir)	  "/usr/local/etc/npstats"
+set common(localconfdirs) [list [file join $common(confdir) "defaults"] \
+				[file join $common(confdir) "site"]];
+set common(rcdir)	[file join $common(confdir) "rc.d"];
+#
+set common(libdir)	"/usr/local/libexec/npstats";
+set common(locallibdir)	[file join $common(libdir) "site"];
+set common(pollersdir)	[file join $common(libdir) "pollers"];
+set common(uploadersdir) [file join $common(libdir) "uploaders"];
+set common(gnuplot_templates_subdir) "gnuplot";
+set common(tml_templates_subdir) "tml";
+#
+set common(datadir)	"/var/npstats";
+set common(queuedir)    [file join $common(datadir) "queue"];
+set common(spooldir)	[file join $common(queuedir) "spool"];
+set common(lockdir)	[file join $common(queuedir) "lock"];
+set common(sentdir)	[file join $common(queuedir) "sent"];
+set common(statusdir)	[file join $common(queuedir) "status"];
+set common(tmpdir)	[file join $common(datadir) "tmp"];
+set common(archivedir)  [file join $common(datadir) "archive"];
+set common(csvarchivedir)  [file join $common(archivedir) "csv"];
+set common(sqlitearchivedir)  [file join $common(archivedir) "sqlite"];
+#
+set common(datafext)    ".df";
+set common(queuefext)   ".qf";
+set common(statusfext)   ".st";
+set common(csvfext)   ".csv";
+set common(sqlitefext)   ".sq";
+#
+# The devices conf and def files are shared by the manager and the qrunner
+#
+set common(devicesdef) [file join $common(confdir) "devices.def"];
+set common(devicesconf) [file join $common(confdir) "devices.conf"];
+set common(deviceslib) [file join $common(libdir) "devices.lib"];
+
+# Location of the external programs.
+#
+set env(PATH) "%PATH%";
+append env(PATH) ":/usr/local/bin:/usr/local/sbin";
+append env(PATH) ":$common(libdir):$common(locallibdir):$common(pollersdir)";
+#
+lappend auto_path $common(libdir) $common(locallibdir);
+#
+# Common external programs
+#
+set common(spooler) [file join $common(libdir) "spooler"]; # manager and httpd
+set common(monitor) [file join $common(libdir) "monitor"]; # manager and httpd
+
+#
+# Read the local overrides
+#
+if {[info exists source_collectors_conf_defined]} {
+    return;
+}
+set source_collectors_conf_defined 1;
+
+set _confname $common(collectorsconf);
+foreach _d $common(localconfdirs) {
+    set _localconfname ${_d}/${_confname}
+    if {[file exists ${_localconfname}] == 1} {
+        source ${_localconfname};
+    }
+}
+unset _d;
+unset _confname;
+unset _localconfname;

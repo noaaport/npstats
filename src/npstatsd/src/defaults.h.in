@@ -1,0 +1,72 @@
+/*
+ * Copyright (c) 2009 Jose F. Nieves <nieves@ltp.upr.clu.edu>
+ *
+ * See LICENSE
+ *
+ * $Id$
+ */
+#ifndef DEFAULTS_H
+#define DEFAULTS_H
+
+#include <syslog.h>
+
+/*
+ * Some of the settings defined here are also used in the main
+ * configuration files used by the filters "collectors.conf".
+ * That to file should be checked anytime this file is modified.
+ */
+
+#define DAEMON_NAME		"npstatsd"
+
+/* syslog */
+#define SYSLOG_IDENT		DAEMON_NAME
+#define SYSLOG_OPTS		LOG_CONS
+#define SYSLOG_FACILITY		LOG_USER
+
+#define CONFIGFILE		"%MYCONFDIR%/npstatsd.conf"
+
+/* 
+ * Almost all of the settings below can be modified in the runtime
+ * configuration file.
+ */
+
+#define NPSTATS_USER		NULL
+#define NPSTATS_GROUP		NULL
+#define NPSTATS_UMASK		022
+
+/* pid file */
+#define NPSTATS_PIDFILE		"/var/run/npstats/npstatsd.pid"
+
+/*
+ * These (tcl) scripts are evaluated by the npstatsd daemon itself
+ * as the last step during the initalization and shutdown phase, respectively.
+ */
+#define NPSTATS_STARTSCRIPT	"%MYLIBEXECDIR%/npstatsd-start.tcl"
+#define NPSTATS_STOPSCRIPT	"%MYLIBEXECDIR%/npstatsd-stop.tcl"
+
+/* The scheduler is run every minute */
+#define NPSTATS_SCHEDULER	"%MYLIBEXECDIR%/scheduler"
+
+/* The collectors' manager */
+#define NPSTATS_COLLECTOR_MANAGER_ENABLE        1
+#define NPSTATS_COLLECTOR_MANAGER		"%MYLIBEXECDIR%/manager"
+
+/* How often to collect the statistics (in seconds). */
+#define NPSTATS_COLLECTOR_POLL_PERIOD_SECS	10
+
+/* How often to write the report (in seconds). */
+#define NPSTATS_COLLECTOR_REPORT_PERIOD_SECS	60
+
+/* The queue processor and how often it is run */
+#define NPSTATS_QRUNNER_ENABLE			1
+#define NPSTATS_QRUNNER				"%MYLIBEXECDIR%/qrunner"
+#define NPSTATS_QRUNNER_PERIOD_SECS		60
+
+/* The built-in web server (tclhttpd) */
+#define NPSTATS_HTTPD_ENABLE			1
+#define NPSTATS_HTTPD				"%MYLIBEXECDIR%/httpd"
+
+/* main loop sleep interval */
+#define NPSTATS_MAINLOOP_SLEEP_SECS	1
+	
+#endif

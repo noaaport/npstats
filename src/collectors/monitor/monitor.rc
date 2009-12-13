@@ -1,0 +1,33 @@
+#
+# $Id$
+#
+
+# This is the monitor rc file. It is setp up to read the set of alerts from
+# the following files
+#
+# site/monitor.rc
+# rc.d/monitor/*.rc
+#
+# The lists should be put in any of those files.
+#
+# See the files
+#
+#   monitor.rc-ex
+#
+# for examples, and the file monitor.README for explanations.
+
+# Load all the sets of condition/alerts pairs.
+if {[llength $monitor(rcfiles)] != 0} {
+    foreach _rc $monitor(rcfiles) {
+        if {[file exists ${_rc}] == 1} {
+            set cond [list];
+            set alert [list];
+            source ${_rc};
+            lappend monitor(condition) $cond;
+            lappend monitor(alert) $alert;
+        }
+    }
+    unset _rc;
+    unset cond;
+    unset alert;
+}

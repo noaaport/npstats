@@ -1,0 +1,21 @@
+#
+# $Id$
+#
+@include@ @q@../../../Makefile.inc@q@
+
+TARGET =	npstatsd.conf-sample
+
+READMES =	README CONFIGURING
+
+INSTALL =	@INSTALL@
+
+all: ${TARGET}
+
+npstatsd.conf-sample: npstatsd.conf
+	cp npstatsd.conf npstatsd.conf-sample
+
+install:
+	${INSTALL} -m 644 npstatsd.conf-sample ${MYCONFDIR}
+
+clean:
+	rm -f *~ ${TARGET} Makefile

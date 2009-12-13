@@ -1,0 +1,17 @@
+#
+# $Id$
+#
+
+#
+# defaults
+#
+set qrunner(verbose) 0;
+set qrunner(savesent) 0;
+
+set qrunner(configured) "dbinsert";
+
+set qrunner(dbinsert,enable) 1;
+set qrunner(dbinsert,cmd) "mysql";
+set qrunner(dbinsert,cmdoptions) {
+    -B -h stats.noaaport.net -pNbsp2010 -u wxpro_npstats wxpro_npstats
+};

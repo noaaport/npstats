@@ -1,0 +1,241 @@
+#
+# $Id$
+#
+
+# novra_s75
+set devices(param,novra_s75) [list \
+	time \
+	data_lock \
+	signal_lock \
+	signal_strength \
+	vber_min \
+	vber_max \
+	errors];	
+set devices(poller,novra_s75) "novrapoll";
+set devices(dbtable,novra_s75) "dev_novra_s75";
+set devices(dbcols,novra_s75) [list \
+	device_id \
+	sample_time \
+	data_lock \
+	signal_lock \
+	signal_strength \
+	vber_min \
+	vber_max \
+	errors];	
+
+# nbsp server
+set devices(param,nbsp) [list \
+	time \
+	frames_received \
+	frames_data_size \
+	products_transmitted \
+	products_completed \
+	products_missed \
+	products_retransmitted];
+set devices(poller,nbsp) "nbsppoll";
+set devices(dbtable,nbsp) "dev_nbsp";
+set devices(dbcols,nbsp) [list \
+	device_id \
+	sample_time \
+	frames_received \
+	frames_data_size \
+	products_transmitted \
+	products_completed \
+	products_missed \
+	products_retransmitted];
+
+
+# npemwin server
+set devices(param,npemwin) [list \
+	time \
+	frames_received \
+	frames_data_size \
+	products_transmitted \
+	products_completed \
+	products_missed \
+	products_retransmitted];
+set devices(poller,npemwin) "npemwinpoll";
+set devices(dbtable,npemwin) "dev_npemwin";
+set devices(dbcols,npemwin) [list \
+	device_id \
+	sample_time \
+	frames_received \
+	frames_data_size \
+	products_transmitted \
+	products_completed \
+	products_missed \
+	products_retransmitted];
+
+# load averages
+set devices(param,load) [list \
+	time \
+	load1 \
+	load5 \
+	load15];
+set devices(poller,load) "syspoll -t load";
+set devices(dbtable,load) "dev_load";
+set devices(dbcols,load) [list \
+	device_id \
+	sample_time \
+	load1 \
+	load5 \
+	load15];
+
+# disk (fs)
+set devices(param,fs) [list \
+	time \
+	device \
+	size \
+	used \
+	usedfr \
+	free];
+set devices(poller,fs) "";  # each instance must define its poller
+#
+# For example
+#
+# set device(poller,noaaportnet.atom-var_noaaport_data) \
+#           "syspoll -t fs /var/noaaport/data";
+#
+set devices(dbtable,fs) "dev_fs";
+set devices(dbcols,fs) [list \
+	device_id \
+	sample_time \
+	device \
+	size \
+	used \
+	usedfr \
+	free];
+
+# memory - freebsd
+set devices(param,mem_freebsd) [list \
+	time \
+        mem.active \
+        mem.inact \
+        mem.wired \
+        mem.cache \
+        mem.buf \
+        mem.free \
+        swap.total \
+	swap.used \
+        swap.free \
+	vmstat.pi \
+	vmstat.po];
+
+set devices(poller,mem_freebsd) "syspoll -t mem_freebsd";
+set devices(dbtable,mem_freebsd) "dev_mem_freebsd";
+set devices(dbcols,mem_freebsd) [list \
+	device_id \
+	sample_time \
+	mem_active \
+	mem_inact \
+	mem_wired \
+	mem_cache \
+	mem_buf \
+	mem_free \
+	swap_total \
+	swap_used \
+	swap_free \
+	vmstat_pi \
+	vmstat_po];
+
+# memory - linux
+set devices(param,mem_linux) [list \
+	time \
+	mem.total \
+	mem.used \
+	mem.free \
+	mem.buffers \
+	swap.total \
+	swap.used \
+	swap.free \
+	swap.cached \
+	vmstat.si \
+	vmstat.so];
+set devices(poller,mem_linux) "syspoll -t mem_linux";
+set devices(dbtable,mem_linux) "dev_mem_linux";
+set devices(dbcols,mem_linux) [list \
+	device_id \
+	sample_time \
+	mem_total \
+	mem_used \
+	mem_free \
+	mem_buffers \
+	swap_total \
+	swap_used \
+	swap_free \
+	swap_cached \
+	vmstat_si \
+	vmstat_so];
+
+set devices(param,qdbstats) [list \
+	time \
+	panic_flag \
+	cache.pages.found \
+	cache.pages.notfound \
+	cache.pages.foundfr \
+	cache.pages.created \
+	cache.pages.read \
+	cache.pages.written];
+set devices(poller,qdbstats) "nbspqstatspoll -t qdb";
+set devices(dbtable,qdbstats) "dev_qdbstats";
+set devices(dbcols,qdbstats) [list \
+	device_id \
+	sample_time \
+	panic_flag \
+	cache_pages_found \
+	cache_pages_notfound \
+	cache_pages_foundfr \
+	cache_pages_created \
+	cache_pages_read \
+	cache_pages_written];
+
+set devices(param,mdbstats) [list \
+	time \
+	panic_flag \
+	cache.pages.found \
+	cache.pages.notfound \
+	cache.pages.foundfr \
+	mdbstats.cache.pages.created];
+set devices(poller,mdbstats) "nbspqstatspoll -t mdb";
+set devices(dbtable,mdbstats) "dev_mdbstats";
+set devices(dbcols,mdbstats) [list \
+	device_id \
+	sample_time \
+	panic_flag \
+	cache_pages_found \
+	cache_pages_notfound \
+	cache_pages_foundfr \
+	cache_pages_created];
+
+set devices(param,qstate) [list \
+	time \
+	processor \
+	filter \
+	server];
+set devices(poller,qstate) "nbspqstatspoll -t qstate";
+set devices(dbtable,qstate) "dev_qstate";
+set devices(dbcols,qstate) [list \
+	device_id \
+	sample_time \
+	processor \
+	filter \
+	server];
+
+#
+# Read the local overrides from the files
+#
+if {[info exists source_devices_def_defined]} {
+    return;
+}
+set source_devices_def_defined 1;
+
+set _confname [file tail $common(devicesdef)];
+foreach _d $common(localconfdirs) {
+    set _localconfname ${_d}/${_confname}
+    if {[file exists ${_localconfname}] == 1} {
+        source ${_localconfname};
+    }
+}
+unset _d;
+unset _confname;
+unset _localconfname;

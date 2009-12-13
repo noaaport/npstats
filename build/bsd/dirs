@@ -1,0 +1,13 @@
+sbin
+bin
+etc
+etc/npstats
+etc/npstats/dist
+libexec/npstats
+libexec/npstats/uploaders
+libexec/npstats/pollers
+libexec/npstats/tclhttpd
+libexec/npstats/tclhttpd/dist
+libexec/npstats/tclhttpd/npstats
+share/doc/npstats
+man/man1

@@ -1,0 +1,44 @@
+- htaccess
+AuthUserFile /usr/local/htaccess/passwd
+AuthGroupFile /usr/local/htaccess/group
+AuthName BuyScriptics
+AuthType Basic
+ 
+<Limit GET POST>
+require group webmaster
+</Limit>              
+
+- passwd
+welch: YkLSk81SEq8a
+ouster:nD09nMdbQQFl
+stanton:.fgfqjIsao2z
+surles:BQesGuTXtMIw
+hershey:wdIfQPCjjj5x
+lfb:KtdkH5RMnhzm
+joe:KslcJRSEK6mN
+kim:Hx/lpsdIViQs
+katie:Hr0NlNJkaXL9
+stacey:NmqsOhaerFCF
+johnd:38WDbg/uSTaF
+xml:SeqspIvz2xjs
+tclpro:Zmbl9/XGvTAO
+jtrent:9rggMg.QZKo1
+connect:XosCXE6SpAem
+ntr:PrFajVqIvEfw
+larens:MP0WdWb4sCc6
+sap:Qrl2Q3lz4ruX
+tibco:Abt/xy2Fcrop
+ajuba2:Oi9XfBThnCyY
+angie:xqrhYr8dPywu
+
+- group
+test: welch
+webmaster: welch,johnd
+scriptics: johnd,welch,joe,ouster,kim,katie,stacey,jtrent,ntr,larens,angie
+eng: welch,stanton,hershey,ouster,surles,lfb
+xml: welch,johnd,xml
+tclproupgrade: tclpro
+tibcouser: tibco,welch,johnd
+sapuser: sap,welch,johnd
+ajuba2user: ajuba2,welch,johnd
+connectuser: connect,welch,johnd

@@ -1,0 +1,13 @@
+#
+# $Id$
+#
+set qrunner(verbose) 1;
+set qrunner(savesent) 1;  # Sent files are renamed instead of deleted
+
+#
+### Uploads section ###
+#
+set qrunner(configured) "http";
+
+set qrunner(http,sitekey) "kakameni";
+set qrunner(http,url) "http://indra.wxpro.net:8025/npstats/collect";

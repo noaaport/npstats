@@ -1,0 +1,18 @@
+#
+# $Id$
+#
+The format is
+
+device=<device>,<param1>=<value1>,...
+
+where <device> is of the foem
+
+	<site>.<device_name>
+
+and <param> is of the form
+
+	<site>.<device_name>.<param_name>
+
+Example -
+
+device=noaaportnet.linda,noaaportnet.linda.time=1247150513,noaaportnet.linda.data_lock=1,noaaportnet.linda.signal_lock=1,noaaportnet.linda.signal_strength=67,noaaportnet.linda.vber_min=7.10e-06,noaaportnet.linda.vber_max=1.57e-05,noaaportnet.linda.errors=0

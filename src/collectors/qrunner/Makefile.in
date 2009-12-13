@@ -1,0 +1,36 @@
+#
+# Copyright (c) 2006-2009 Jose F. Nieves <nieves@ltp.upr.clu.edu>
+#
+# See LICENSE
+#
+# $Id$
+#
+@include@ @q@../../../Makefile.inc@q@
+
+LIBEXECTARGET = qrunner
+UPLOADERSDIR_FILES = ftp.tcl sftp.tcl http.tcl dbinsert.tcl
+
+SAMPLES =	qrunner.conf-sample
+EXAMPLES =	qrunner.conf-dbinsert qrunner.conf-http
+#DEFAULTS =	qrunner.conf-defaults
+
+TARGET =	${LIBEXECTARGET} ${SAMPLES}
+
+TCLSH =		@TCLSH@
+INSTALL =	@INSTALL@
+
+all: ${TARGET}
+
+qrunner: qrunner.tcl
+	sed -e /%TCLSH%/s##${TCLSH}# qrunner.tcl > qrunner
+
+qrunner.conf-sample: qrunner.conf
+	cp qrunner.conf qrunner.conf-sample
+
+install: ${TARGET}
+	${INSTALL} -m 755 ${LIBEXECTARGET} ${MYLIBEXECDIR}
+	${INSTALL} -m 644 ${SAMPLES} ${EXAMPLES} ${MYCONFDIR}
+	${INSTALL} -m 644 ${UPLOADERSDIR_FILES} ${MYUPLOADERSDIR}
+
+clean:
+	rm -f *~ ${TARGET} Makefile

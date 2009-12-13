@@ -1,0 +1,8 @@
+#
+# $Id$
+#
+In order to monitor a novra s75 device, the "novrapoll" application
+must be installed in
+
+	/usr/local/libexec/npstats/pollers/novrapoll
+-

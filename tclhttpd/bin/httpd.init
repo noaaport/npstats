@@ -1,0 +1,120 @@
+#
+# $Id$
+#
+# Configure the auto_path so we can find the script library.
+#
+if {![info exist Config(lib)]} {
+    error "Cannot find TclHttpd library in auto_path:\n[join $auto_path \n]"
+}
+set auto_path [concat [list $Config(lib)] $auto_path]
+
+# Search around for the Standard Tcl Library
+#
+if {[catch {package require md5 1}]} {
+  error "Cannot find Standard Tcl Library in auto_path:\n[join $auto_path \n]"
+}
+
+package require httpd 1.6
+package require httpd::version		;# For Version proc
+package require httpd::utils		;# For Stderr
+package require httpd::counter		;# For Count
+package require httpd::compat
+package require httpd::url
+
+# Config file (optional)
+#
+if {[file exists $Config(config)]} {
+    source $Config(config)
+}
+
+if {[string length $Config(library)]} {
+    lappend auto_path $Config(library)
+}
+
+# Stub out Thread_Respond so threadmgr isn't required
+proc Thread_Respond {args} {return 0}
+proc Thread_Enabled {} {return 0}
+
+# Start the server
+Httpd_Init
+
+# Open the listening sockets
+if {$Config(http_enable) != 0} {
+    Httpd_Server $Config(port) $Config(host) $Config(ipaddr)
+}
+
+# https
+if {$Config(https_enable) != 0} {
+
+    package require tls;
+
+    # Secure server startup, which depends on the TLS extension.
+    # Tls doesn't provide good error messages in these cases,
+    # so we check ourselves that we have the right certificates in place.
+
+    if {[file isdirectory $Config(SSL_CADIR)] == 0} {
+	error "Config(SSL_CADIR) is not a directory.";
+    }
+
+    if {$Config(SSL_CAFILE) eq ""} {
+	error "Config(SSL_CAFILE) not set."
+    }
+
+    if {[file exists $Config(SSL_CAFILE)] == 0} {
+	error "CA file $Config(SSL_CAFILE) not found.";
+    }
+
+    if {$Config(SSL_CERTFILE) eq ""} {
+	error "Config(SSL_CERTFILE) not set."
+    }
+
+    if {[file exists $Config(SSL_CERTFILE)] == 0} {
+	error "CERT file $Config(SSL_CERTFILE) not found.";
+    }
+
+    tls::init -request $Config(SSL_REQUEST) \
+	-require $Config(SSL_REQUIRE) \
+	-ssl2 $Config(USE_SSL2) \
+	-ssl3 $Config(USE_SSL3) \
+	-tls1 $Config(USE_TLS1) \
+	-cipher $Config(SSL_CIPHERS) \
+	-cadir $Config(SSL_CADIR) \
+	-cafile $Config(SSL_CAFILE) \
+	-certfile $Config(SSL_CERTFILE) \
+	-keyfile $Config(SSL_KEYFILE)
+
+    Httpd_SecureServer $Config(https_port) \
+	$Config(https_host) \
+	$Config(https_ipaddr);
+}
+
+##################################
+# Main application initialization
+##################################
+
+if {[catch {source $Config(main)} message]} {
+    global errorInfo
+    set error "Error processing main startup script $Config(main)."
+    append error "\n$errorInfo"
+    error $error
+}
+
+# The main thread owns the log
+Log_SetFile		$Config(LogFile)$Config(port)_
+Log_FlushMinutes	$Config(LogFlushMinutes)
+Log_Flush
+
+#
+# main loop
+#
+set done 0
+while {$done == 0} {
+    fileevent stdin readable {set done 1}
+    vwait done
+    if {[gets stdin line] >= 0} {
+	set done 0
+    }
+}
+
+Httpd_ServerShutdown
+Httpd_SecureServerShutdown

@@ -1,0 +1,220 @@
+/*
+ * Copyright (c) 2009 Jose F. Nieves <nieves@ltp.upr.clu.edu>
+ *
+ * See LICENSE
+ *
+ * $Id$
+ */
+#include <stdio.h>
+#include <err.h>
+#include <tcl.h>
+#include "libtclconf/tclconf.h"
+#include "defaults.h"
+#include "globals.h"
+#include "conf.h"
+
+#define CONFOPT_USER			@counter@
+#define DEFVAL_USER			NPSTATS_USER
+
+#define CONFOPT_GROUP			@counter@
+#define DEFVAL_GROUP			NPSTATS_GROUP
+
+#define CONFOPT_UMASK			@counter@
+#define DEFVAL_UMASK			NPSTATS_UMASK
+
+#define CONFOPT_PIDFILE			@counter@
+#define DEFVAL_PIDFILE			NPSTATS_PIDFILE
+
+#define CONFOPT_STARTSCRIPT		@counter@
+#define DEFVAL_STARTSCRIPT		NPSTATS_STARTSCRIPT
+
+#define CONFOPT_STOPSCRIPT		@counter@
+#define DEFVAL_STOPSCRIPT		NPSTATS_STOPSCRIPT
+
+#define CONFOPT_SCHEDULER		@counter@
+#define DEFVAL_SCHEDULER		NPSTATS_SCHEDULER
+
+#define CONFOPT_COLLECTOR_MANAGER_ENABLE	@counter@
+#define DEFVAL_COLLECTOR_MANAGER_ENABLE	NPSTATS_COLLECTOR_MANAGER_ENABLE
+
+#define CONFOPT_COLLECTOR_MANAGER	@counter@
+#define DEFVAL_COLLECTOR_MANAGER	NPSTATS_COLLECTOR_MANAGER
+
+#define CONFOPT_COLLECTOR_POLL_PERIOD_SECS	@counter@
+#define DEFVAL_COLLECTOR_POLL_PERIOD_SECS NPSTATS_COLLECTOR_POLL_PERIOD_SECS
+
+#define CONFOPT_COLLECTOR_REPORT_PERIOD_SECS	@counter@
+#define DEFVAL_COLLECTOR_REPORT_PERIOD_SECS \
+	NPSTATS_COLLECTOR_REPORT_PERIOD_SECS
+
+#define CONFOPT_QRUNNER_ENABLE		@counter@
+#define DEFVAL_QRUNNER_ENABLE		NPSTATS_QRUNNER_ENABLE
+
+#define CONFOPT_QRUNNER			@counter@
+#define DEFVAL_QRUNNER			NPSTATS_QRUNNER
+
+#define CONFOPT_QRUNNER_PERIOD_SECS	@counter@
+#define DEFVAL_QRUNNER_PERIOD_SECS	NPSTATS_QRUNNER_PERIOD_SECS
+
+#define CONFOPT_HTTPD_ENABLE		@counter@
+#define DEFVAL_HTTPD_ENABLE		NPSTATS_HTTPD_ENABLE
+
+#define CONFOPT_HTTPD			@counter@
+#define DEFVAL_HTTPD			NPSTATS_HTTPD
+
+static struct confoption_st confoptions[] = {
+  {"user", CONFOPT_USER, TCL_LINK_STRING, NULL, 0},
+  {"group", CONFOPT_GROUP, TCL_LINK_STRING, NULL, 0},
+  {"umask", CONFOPT_UMASK, TCL_LINK_INT, NULL, DEFVAL_UMASK},
+  {"pidfile", CONFOPT_PIDFILE, TCL_LINK_STRING, NULL, 0},
+  {"startscript", CONFOPT_STARTSCRIPT, TCL_LINK_STRING, NULL, 0},
+  {"stopscript", CONFOPT_STOPSCRIPT, TCL_LINK_STRING, NULL, 0},
+  {"scheduler", CONFOPT_SCHEDULER, TCL_LINK_STRING, NULL, 0},
+  {"collector_manager_enable", CONFOPT_COLLECTOR_MANAGER_ENABLE,
+	TCL_LINK_INT, NULL, DEFVAL_COLLECTOR_MANAGER_ENABLE},
+  {"collector_manager", CONFOPT_COLLECTOR_MANAGER, TCL_LINK_STRING, NULL, 0},
+  {"collector_poll_period_secs", CONFOPT_COLLECTOR_POLL_PERIOD_SECS,
+	TCL_LINK_INT, NULL, DEFVAL_COLLECTOR_POLL_PERIOD_SECS},
+  {"collector_report_period_secs", CONFOPT_COLLECTOR_REPORT_PERIOD_SECS,
+	TCL_LINK_INT, NULL, DEFVAL_COLLECTOR_REPORT_PERIOD_SECS},
+  {"qrunner_enable", CONFOPT_QRUNNER_ENABLE, TCL_LINK_INT, NULL,
+	DEFVAL_QRUNNER_ENABLE},
+  {"qrunner", CONFOPT_QRUNNER, TCL_LINK_STRING, NULL, 0},
+  {"qrunner_period_secs", CONFOPT_QRUNNER_PERIOD_SECS,
+	TCL_LINK_INT, NULL, DEFVAL_QRUNNER_PERIOD_SECS},
+  {"httpd_enable", CONFOPT_HTTPD_ENABLE, TCL_LINK_INT, NULL,
+	DEFVAL_HTTPD_ENABLE},
+  {"httpd", CONFOPT_HTTPD, TCL_LINK_STRING, NULL, 0},
+
+  {NULL, 0, 0, NULL, 0}
+};  
+
+static void fprintf_str(FILE *f, char *fmt,
+			char *name, char *value);
+
+int configure(void){
+
+  int status = 0;
+
+  if(g.configfile != NULL)
+    status = parse_configfile(g.configfile, confoptions);
+  else
+    status = parse_configfile2(g.defconfigfile, confoptions);
+
+  if(status != 0)
+    return(status);
+
+  setoptval(&g.user, confoptions, CONFOPT_USER);
+  setoptval(&g.group, confoptions, CONFOPT_GROUP);
+  setoptval(&g.umask, confoptions, CONFOPT_UMASK);
+  setoptval(&g.pidfile, confoptions, CONFOPT_PIDFILE);
+  setoptval(&g.startscript, confoptions, CONFOPT_STARTSCRIPT);
+  setoptval(&g.stopscript, confoptions, CONFOPT_STOPSCRIPT);
+  setoptval(&g.scheduler, confoptions, CONFOPT_SCHEDULER);
+  setoptval(&g.collector_manager_enable, confoptions,
+	CONFOPT_COLLECTOR_MANAGER_ENABLE);
+  setoptval(&g.collector_manager, confoptions, CONFOPT_COLLECTOR_MANAGER);
+  setoptval(&g.collector_poll_period_secs, confoptions,
+	CONFOPT_COLLECTOR_POLL_PERIOD_SECS);
+  setoptval(&g.collector_report_period_secs, confoptions,
+	CONFOPT_COLLECTOR_REPORT_PERIOD_SECS);
+  setoptval(&g.qrunner_enable, confoptions, CONFOPT_QRUNNER_ENABLE);
+  setoptval(&g.qrunner, confoptions, CONFOPT_QRUNNER);
+  setoptval(&g.qrunner_period_secs, confoptions, CONFOPT_QRUNNER_PERIOD_SECS);
+  setoptval(&g.httpd_enable, confoptions, CONFOPT_HTTPD_ENABLE);
+  setoptval(&g.httpd, confoptions, CONFOPT_HTTPD);
+
+  return(status);
+}
+
+void release_confoptions(void){
+  
+  kill_confopt_table(confoptions);
+}
+
+void print_confoptions(void){
+
+  char *fmt = "%s %s\n";
+
+  fprintf_str(stdout, fmt, "user", g.user);
+  fprintf_str(stdout, fmt, "group", g.group);
+  fprintf(stdout, "umask %o\n", g.umask);
+
+  fprintf_str(stdout, fmt, "pidfile", g.pidfile);
+  fprintf_str(stdout, fmt, "startscript", g.startscript);
+  fprintf_str(stdout, fmt, "stopscript", g.stopscript);
+  fprintf_str(stdout, fmt, "scheduler", g.scheduler);
+
+  fprintf(stdout, "collector_manager_enable %d\n",
+	g.collector_manager_enable);
+  fprintf_str(stdout, fmt, "collector_manager", g.collector_manager);
+  fprintf(stdout, "collector_poll_period_secs %d\n",
+	g.collector_poll_period_secs);
+  fprintf(stdout, "collector_report_period_secs %d\n",
+	g.collector_report_period_secs);
+
+  fprintf(stdout, "qrunner_enable %d\n", g.qrunner_enable);
+  fprintf_str(stdout, fmt, "qrunner", g.qrunner);
+  fprintf(stdout, "qrunner_period_secs %d\n", g.qrunner_period_secs);
+
+  fprintf(stdout, "httpd_enable %d\n", g.httpd_enable);
+  fprintf_str(stdout, fmt, "httpd", g.httpd);
+
+}
+
+#define VALIDATE_PARAM(v, a, b, s) \
+  if((v < a) || (v > b)){varname = s; goto end;}
+
+#define VALIDATE_PARAM_L(v, a, s) \
+  if(v < a){varname = s; goto end;}
+
+#define VALIDATE_PARAM_H(v, a, s) \
+  if(v > a){varname = s; goto end;}
+
+#define VALIDATE_STR(v, s) \
+  if((v == NULL) || (v[0] == '\0')){varname = s; goto end;}
+
+int validate_configuration(void){
+
+  char *varname = NULL;
+
+  /* char* user, group can be NULL or empty */
+  /* mode_t umask	type */
+  VALIDATE_STR(g.pidfile, "pidfile");
+  /* char* startscript, stopscript  can be NULL or empty. */
+  VALIDATE_STR(g.scheduler, "scheduler");
+  VALIDATE_PARAM_L(g.collector_manager_enable, 0, "collector_manager_enable");
+  VALIDATE_STR(g.collector_manager, "collector_manager");
+  VALIDATE_PARAM_L(g.collector_poll_period_secs, 1,
+	"collector_poll_period_secs");
+  VALIDATE_PARAM_L(g.collector_report_period_secs, 1,
+	"collector_report_period_secs");
+  VALIDATE_PARAM_L(g.qrunner_enable, 0, "qrunner_enable");
+  VALIDATE_STR(g.qrunner, "qrunner");
+  VALIDATE_PARAM_L(g.qrunner_period_secs, 1, "qrunner_period_secs");
+  VALIDATE_PARAM_L(g.httpd_enable, 0, "httpd_enable");
+  VALIDATE_STR(g.qrunner, "httpd");
+
+ end:
+
+  if(varname != NULL){
+    warnx("Invalid value of %s", varname);
+    print_confoptions();
+    return(1);
+  }
+
+  return(0);
+}
+
+static void fprintf_str(FILE *f, char *fmt,
+			char *name, char *value){
+  char *nullstr = "NULL";
+  char *emptystr = "\"\"";
+
+  if(value == NULL)
+    fprintf(f, fmt, name, nullstr);
+  else if(value[0] == '\0')
+    fprintf(f, fmt, name, emptystr);
+  else
+    fprintf(f, fmt, name, value);
+}

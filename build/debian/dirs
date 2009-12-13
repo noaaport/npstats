@@ -1,0 +1,13 @@
+usr/local/sbin
+usr/local/bin
+usr/local/etc
+usr/local/etc/npstats
+usr/local/etc/npstats/dist
+usr/local/libexec/npstats
+usr/local/libexec/npstats/uploaders
+usr/local/libexec/npstats/pollers
+usr/local/libexec/npstats/tclhttpd
+usr/local/libexec/npstats/tclhttpd/dist
+usr/local/libexec/npstats/tclhttpd/npstats
+usr/local/share/doc/npstats
+usr/local/man/man1

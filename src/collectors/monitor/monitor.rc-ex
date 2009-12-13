@@ -1,0 +1,11 @@
+#
+# $Id$
+#
+
+# This example raises an alert for the "noaaportnet.linda" device. The
+# handler for the "warn" alerrt is defined in the device list (devices.conf).
+
+lappend cond {
+    ($rc(deviceid) eq "noaaportnet.linda") && [expr $rc(vber_max) >= 1e-04]
+}
+lappend alert "warn";

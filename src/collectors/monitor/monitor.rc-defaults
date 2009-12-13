@@ -1,0 +1,40 @@
+#
+# $Id$
+#
+lappend cond {
+    ($rc(devicetype) eq "novra_s75") && \
+	[expr $rc(vber_max) >= 7e-5] && [expr $rc(vber_max) < 2e-4]
+}
+lappend alert "warn";
+
+lappend cond {
+    ($rc(devicetype) eq "novra_s75") && [expr $rc(vber_max) >= 2e-4]
+}
+lappend alert "crit";
+
+lappend cond {
+    ($rc(devicetype) eq "nbsp") && [expr $rc(products_retransmitted) >= 100]
+}
+lappend alert "warn";
+
+lappend cond {
+    ($rc(devicetype) eq "nbsp") && \
+	[expr $rc(products_missed) >= 1] && [expr $rc(products_missed) < 5]
+}
+lappend alert "warn";
+
+lappend cond {
+    ($rc(devicetype) eq "nbsp") && [expr $rc(products_missed) >= 5]
+}
+lappend alert "crit";
+
+lappend cond {
+    ($rc(devicetype) eq "fs") && \
+	[expr $rc(usedfr) >= 90] && [expr $rc(usedfr) < 95]
+}
+lappend "warn";
+
+lappend cond {
+    ($rc(devicetype) eq "fs") && [expr $rc(usedfr) >= 95]
+}
+lappend "crit";

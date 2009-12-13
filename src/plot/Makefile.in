@@ -1,0 +1,66 @@
+#
+# Copyright (c) 2006-2009 Jose F. Nieves <nieves@ltp.upr.clu.edu>
+#
+# See LICENSE
+#
+# $Id$
+#
+@include@ @q@../../Makefile.inc@q@
+
+BINTARGET = npstatsplot npstatsdbplot npstatspage
+SAMPLES = npstatsplot.conf-sample npstatsdbplot.conf-sample
+
+GPLOTSOURCES =	novra_s75.vber.g novra_s75.errors.g novra_s75.ss.g \
+		nbsp.files.g nbsp.bytes.g \
+		fs.usedfr.g load.1.g \
+		mem_freebsd.vmstat.pi.g mem_freebsd.vmstat.po.g \
+		mem_linux.vmstat.si.g mem_linux.vmstat.so.g \
+		qdbstats.cache.pages.foundfr.g mdbstats.cache.pages.foundfr.g \
+		qstate.qsize.g  
+
+GPLOTDIR =	gnuplot
+
+TMLSOURCES =	novra_s75.tml novra_s75.full.tml \
+		nbsp.tml \
+		fs.tml load.tml mem_freebsd.tml mem_linux.tml \
+		qdbstats.tml mdbstats.tml qstate.tml
+TMLDIR =	tml
+
+TEMPLATESTARGET = npstatsplot-templates.tgz
+
+TARGET =	${BINTARGET} ${TEMPLATESTARGET} ${SAMPLES}
+
+TCLSH =		@TCLSH@
+INSTALL =	@INSTALL@
+
+all: ${TARGET}
+
+npstatsplot: npstatsplot.tcl
+	sed -e /%TCLSH%/s##${TCLSH}# npstatsplot.tcl > npstatsplot
+
+npstatsdbplot: npstatsdbplot.tcl
+	sed -e /%TCLSH%/s##${TCLSH}# npstatsdbplot.tcl > npstatsdbplot
+
+npstatspage: npstatspage.tcl
+	sed -e /%TCLSH%/s##${TCLSH}# npstatspage.tcl > npstatspage
+
+npstatsplot.conf-sample: npstatsplot.conf
+	cp npstatsplot.conf npstatsplot.conf-sample
+
+npstatsdbplot.conf-sample: npstatsdbplot.conf
+	cp npstatsdbplot.conf npstatsdbplot.conf-sample
+
+${TEMPLATESTARGET}: ${GPLOTSOURCES} ${TMLSOURCES}
+	rm -rf ${GPLOTDIR} ${TMLDIR}
+	mkdir ${GPLOTDIR} ${TMLDIR}
+	cp ${GPLOTSOURCES} ${GPLOTDIR}
+	cp ${TMLSOURCES} ${TMLDIR}
+	tar -czf ${TEMPLATESTARGET} ${GPLOTDIR} ${TMLDIR}
+
+install: ${TARGET}
+	${INSTALL} -m 755 ${BINTARGET} ${BINDIR}
+	${INSTALL} -m 644 ${SAMPLES} ${TEMPLATESTARGET} ${MYCONFDIR}
+
+clean:
+	rm -f *~ ${TARGET} Makefile
+	rm -rf ${GPLOTDIR} ${TMLDIR}

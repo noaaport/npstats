@@ -1,0 +1,84 @@
+#!/bin/sh
+
+# so that FreeBSD runs it only once 
+name=$1
+key=$2
+[ "$key" = "PRE-INSTALL" ] && exit 0
+
+dirs="/var/npstats
+/var/npstats/queue
+/var/npstats/queue/spool
+/var/npstats/queue/sent
+/var/npstats/queue/lock
+/var/npstats/queue/status
+/var/npstats/archive
+/var/npstats/archive/csv
+/var/npstats/archive/sqlite
+/var/npstats/www
+/var/log/npstats
+/var/run/npstats
+/usr/local/etc/npstats/defaults
+/usr/local/etc/npstats/site
+/usr/local/etc/npstats/private
+/usr/local/etc/npstats/rc.d/monitor
+/usr/local/libexec/npstats/site
+/usr/local/libexec/npstats/tclhttpd/site
+/usr/local/libexec/npstats/tclhttpd/importers"
+
+for d in $dirs
+do
+  install -d -m 755 $d
+done
+
+#
+# install optional files from doc directory
+#
+docdir=/usr/local/share/doc/npstats
+confdir=/usr/local/etc/npstats
+rcdir=/usr/local/etc/rc.d
+
+install -m 0755 $docdir/npstatsd.sh-sample $rcdir/npstatsd
+
+#
+# configure default
+#
+cd $confdir/dist
+for file in *.conf-sample *.def-sample *.rc-sample
+do
+  name=${file%%"-sample"}
+  cp $file ../$name
+done
+
+for file in *-private
+do
+  name=${file%%"-private"}
+  cp $file ../private/$name
+done
+
+for file in *-defaults
+do
+  name=${file%%"-defaults"}
+  cp $file ../defaults/$name
+done
+
+for file in *-templates.tgz
+do
+  tar -C ../defaults -xzf $file
+done
+
+#
+# www and tclhttpd
+#
+cp /usr/local/share/doc/npstats/www.tgz /var/npstats/www
+cd /var/npstats/www
+tar -xzf www.tgz
+rm www.tgz
+chown -R root:wheel *
+cd htdocs/pub
+#
+# Note: If we reverse the test [ ! -e ...] && ....
+# the statement will return 1 if rst exists and pkg_add will
+# think that the script is returning an error.
+#
+[ -d "plots" ] || mkdir plots
+# [ -e "plotdata" ] || ln -s /var/npstats/plotdata 

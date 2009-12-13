@@ -1,0 +1,22 @@
+#!/bin/sh
+#
+# PROVIDE: npstatsd
+# REQUIRE: DAEMON
+# KEYWORD: shutdown
+#
+# $Id$
+
+# To enable, set "npstatsd=1" in rc.conf and then add a line such as
+#
+# [ -x /usr/local/etc/rc.d/npstatsd ] && /usr/local/etc/rc.d/npstatsd start
+#
+# in /etc/rc.local
+
+name=npstatsd
+command=/usr/local/sbin/${name}
+[ -z "$npstatsd" ] && npstatsd=0
+
+. /etc/rc.subr
+rcvar=`set_rcvar`
+load_rc_config $name
+run_rc_command "$1"

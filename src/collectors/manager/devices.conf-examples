@@ -1,0 +1,86 @@
+#
+# $Id$
+#
+set devices(devicelist) [list];
+set devices(alertlist) [list];
+
+lappend devices(devicelist) {
+    noaaportnet.linda
+    novra_s75
+    1001
+    {export 1 csvarchive 1 displaystatus 1}
+    novra_s75.tml
+}
+
+lappend devices(devicelist) {
+    noaaportnet.atom
+    nbsp
+    1002
+    {export 1 csvarchive 1 displaystatus 1}
+    nbsp.tml
+}
+
+lappend devices(devicelist) {
+    noaaportnet.atom.var_noaaport_data
+    fs
+    1003
+    {export 1 csvarchive 1 displaystatus 1}
+    fs.tml
+}
+set devices(poller,noaaportnet.atom.var_noaaport_data) \
+	"syspoll -t fs /var/noaaport/data";
+
+lappend devices(devicelist) {
+    noaaportnet.atom.load
+    load
+    1004
+    {export 1 csvarchive 1 displaystatus 1}
+    load.tml
+}
+
+lappend devices(devicelist) {
+    noaaportnet.atom.mem_freebsd
+    mem_freebsd
+    1005
+    {export 1 csvarchive 1 displaystatus 1}
+    mem_freebsd.tml
+}
+
+# lappend devices(devicelist) {
+#    noaaportnet.atom.mem_linux
+#    mem_linux
+#    1005
+#    {export 1 csvarchive 1 displaystatus 1}
+#    mem_linux.tml
+# }
+
+lappend devices(devicelist) {
+    noaaportnet.atom.qstate
+    qstate
+    1006
+    {export 1 csvarchive 1 displaystatus 1}
+    qstate.tml
+}
+
+lappend devices(devicelist) {
+    noaaportnet.atom.qdbstats
+    qdbstats
+    1007
+    {export 1 csvarchive 1 displaystatus 1}
+    qdbstats.tml
+}
+
+lappend devices(devicelist) {
+    noaaportnet.atom.mdbstats
+    mdbstats
+    1008
+    {export 1 csvarchive 1 displaystatus 1}
+    mdbstats.tml
+}
+
+lappend devices(alertlist) {
+        noaaportnet\.
+        (warn|error|crit)
+        4
+        smtp://nieves@upr.edu
+}

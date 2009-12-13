@@ -1,0 +1,85 @@
+#
+# Copyright (c) 2009 Jose F. Nieves <nieves@ltp.upr.clu.edu>
+#
+# See LICENSE
+#
+# $Id$
+#
+@include@ @q@../../../Makefile.inc@q@
+
+LIBSUBDIRS =	libtclconf
+CLEANSUBDIRS =	${LIBSUBDIRS}
+
+INSOURCES =	conf.c.in defaults.h.in
+INOBJECTS =	conf.c defaults.h
+
+SOURCES =	main.c conf.c \
+		err.c efile.c exec.c file.c httpd.c init.c manager.c \
+		per.c pfilter.c pid.c pw.c readn.c \
+		signal.c tclevalfile.c util.c
+
+OBJECTS =	main.o conf.o \
+		err.o efile.o exec.o file.o httpd.o init.o manager.o \
+		per.o pfilter.o pid.o pw.o readn.o \
+		signal.o tclevalfile.o util.o
+
+HEADERS =	defaults.h globals.h conf.h \
+		err.h efile.h exec.h file.h httpd.h init.h manager.h \
+		per.h pfilter.h pid.h pw.h readn.h \
+		signal.h tclevalfile.h util.h
+
+ALLOBJECTS =	${OBJECTS} ${INOBJECTS}
+
+DAEMON =	npstatsd
+
+TARGET =	${DAEMON}
+
+LIBOBJECTS =    libtclconf/tclconf.o
+
+INCDIRS =       @INCDIRS@
+LIBDIRS =       @LIBDIRS@
+LIBS =          @LIBS@
+INSTALL =       @INSTALL@
+CC =		@CC@
+CCWFLAGS =	@CCWFLAGS@
+
+DEBUGFLAFGS =
+DEBUGFLAGS +=	-DDEBUG
+#DEBUGFLAGS +=	-g -ggdb
+#DEBUGFLAGS =	-DNDEBUG
+
+CFLAGS +=	-c ${CCWFLAGS} ${DEBUGFLAGS} ${INCDIRS}
+LDFLAGS +=	${LIBDIRS} ${LIBS}
+
+all: ${TARGET}
+
+lib:
+	for dir in ${LIBSUBDIRS}; do \
+	(cd $$dir; ${MAKE}) \
+	done
+
+${DAEMON}: ${OBJECTS} lib
+	${CC} -o $@ ${OBJECTS} ${LIBOBJECTS} ${LDFLAGS}
+
+@SUFFIXRULES@ ${HEADERS}
+	${CC} ${CFLAGS} -o $*.o $< 
+
+conf.c: conf.c.in
+	awk -f conf.awk conf.c.in > conf.c
+
+defaults.h: defaults.h.in
+	sed -e "/%MYCONFDIR%/ s||${MYCONFDIR}|g" \
+	-e "/%MYLIBEXECDIR%/ s||${MYLIBEXECDIR}|g" \
+	defaults.h.in > defaults.h
+
+install:
+	${INSTALL} -m 755 ${DAEMON} ${SBINDIR}
+	for dir in ${LIBSUBDIRS}; do \
+	(cd $$dir; ${MAKE} install) \
+	done
+
+clean:
+	rm -f *~ ${ALLOBJECTS} ${TARGET} Makefile
+	for dir in ${LIBSUBDIRS}; do \
+	(cd $$dir; ${MAKE} clean) \
+	done

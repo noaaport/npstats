@@ -1,0 +1,20 @@
+#!/bin/sh
+#
+# $Id$
+#
+# PROVIDE: npstatsd
+# REQUIRE: DAEMON
+# KEYWORD: shutdown
+#
+. /etc/rc.subr
+
+#
+# To enable, set "npstatsd_enable=1" in rc.conf or rc.conf.local
+#
+name=npstatsd
+command=/usr/local/sbin/${name}
+[ -z "$npstatsd_enable" ] && npstatsd_enable=0
+
+rcvar=`set_rcvar`
+load_rc_config $name
+run_rc_command "$1"

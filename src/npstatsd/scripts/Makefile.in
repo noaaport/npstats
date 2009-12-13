@@ -1,0 +1,41 @@
+#
+# $Id$
+#
+@include@ @q@../../../Makefile.inc@q@
+
+TCLSH =         @TCLSH@
+INSTALL =	@INSTALL@
+RCINIT =	@RCINIT@
+RCINIT_SAMPLE =	npstatsd.sh-sample
+
+SAMPLES =	startstop.rc-sample
+BINTOOLS =	npstatsversion
+LIBFILES =      npstatsd-start.tcl npstatsd-stop.tcl
+LIBTOOLS =      startstop
+DOCS =		${RCINIT_SAMPLE}
+
+TARGET = 	${RCINIT_SAMPLE} ${SAMPLES} ${BINTOOLS} ${LIBTOOLS}
+
+all: ${TARGET}
+
+${RCINIT_SAMPLE}: ${RCINIT}
+	cp ${RCINIT} ${RCINIT_SAMPLE}
+
+startstop: startstop.tcl
+	sed -e /%TCLSH%/s##${TCLSH}# startstop.tcl > startstop
+
+startstop.rc-sample: startstop.rc
+	cp startstop.rc startstop.rc-sample
+
+npstatsversion: npstatsversion.tcl
+	sed -e /%TCLSH%/s##${TCLSH}# npstatsversion.tcl > npstatsversion
+
+install:
+	${INSTALL} -m 0644 ${SAMPLES} ${MYCONFDIR}
+	${INSTALL} -m 0644 ${DOCS} ${MYDOCDIR}
+	${INSTALL} -m 0755 ${BINTOOLS} ${BINDIR}
+	${INSTALL} -m 0755 ${LIBTOOLS} ${MYLIBEXECDIR}
+	${INSTALL} -m 0644 ${LIBFILES} ${MYLIBEXECDIR}
+
+clean:
+	rm -f *~ Makefile ${TARGET}

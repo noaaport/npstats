@@ -1,0 +1,6 @@
+AuthName Npstats
+AuthType Basic
+
+<Limit GET POST>
+Require user nieves
+</Limit>

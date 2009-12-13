@@ -1,0 +1,24 @@
+#
+# $Id$
+#
+
+# This is the configuration file for the start/stop scripts.
+# Each script is executed once, and this file is ``sourced'' (as a tcl script)
+# both times.
+#
+# The start/stop script looks for the file named "startstop.conf" first in the
+# "site" subdirectory, then the "defaults" subdirectory and finally
+# in the main directory, and uses the first one that it finds.
+#
+#
+# When this script is run, PATH is set to
+#
+# PATH=$PATH:/usr/local/{bin,sbin,libexec/npstats,libexec/npstats/site}
+
+#
+# Default Configuration
+#
+
+#
+# local additions
+#

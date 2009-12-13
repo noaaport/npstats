@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# so that FreeBSD runs it only once (on POST-DEINSTALL)
+name=$1
+key=$2
+[ "$key" = "DEINSTALL" ] && exit 0
+
+[ -f /usr/local/etc/rc.d/npstatsd ] && rm /usr/local/etc/rc.d/npstatsd
+
+cat <<EOF
+To deinstall completely this package, the directories
+
+/usr/local/etc/npstats
+/usr/local/share/doc/npstats
+/usr/local/libexec/npstats
+/var/npstats
+/var/log/npstats
+/var/run/npstats
+
+may have to be removed manually.
+EOF

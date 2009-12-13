@@ -1,0 +1,34 @@
+#
+# $Id$
+#
+set tml(page) {
+<h1>$tml(deviceid)</h1>
+
+<p>
+<table border>
+<tr><th>Start time</th> <td>$tml(starttime)</td></tr>
+<tr><th>End time</th> <td>$tml(endtime)</td></tr>
+<tr><th>Frames</th> <td>$tml(1)</td></tr>
+<tr><th>Bytes</th> <td>$tml(2)</td></tr>
+<tr><th>Files Tx</th> <td>$tml(3)</td></tr>
+<tr><th>Files Rcvd</th> <td>$tml(4)</td></tr>
+<tr><th>Files missed</th> <td>$tml(5)</td></tr>
+<tr><th>Files Rtx</th> <td>$tml(6)</td></tr>
+</tr>
+</table>
+</p>
+
+<p>
+<img src="[file join / $tml(plot.files)]">
+<img src="[file join / $tml(plot.bytes)]">
+</p>
+}
+
+#
+# Generate the plot(s) used by the tml(script) above
+#
+foreach p [list files bytes] {
+    set tml(plot.${p}) [file join $tml(outputdir) $tml(deviceid).${p}.png];
+    exec npstatsplot -o [file join $tml(docroot) $tml(plot.${p})] \
+	$tml(deviceid) nbsp.${p}.g;
+}

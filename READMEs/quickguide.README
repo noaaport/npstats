@@ -1,0 +1,196 @@
+#
+# $Id$
+#
+Quick Start Configuration Guide
+===============================
+	
+	- Device list
+	- Alert list
+	- Client configuration
+	- Server configuration
+
+- Device list
+
+The default configuration has an entry for a novra box, in the file
+
+	defaults/devices.conf
+
+To override that entry and insert your own, create the file
+
+	site/devices.conf
+
+with the following lines
+
+set devices(devicelist) [list];
+set devices(alertlist) [list];
+
+This will ensure that the default device is deleted.
+
+To monitor your own novra device, add an entry like this,
+
+lappend devices(devicelist) {
+    <devicename>
+    novra_s75
+    <devicenumber>
+    {export 0 csvarchive 1 displaystatus 1}
+    novra_s75.tml
+}
+
+In a stand-alone configuration, in which the data will not be exported to a
+remote central server, the <devicename> and <devicenumber>
+can be anything. Otherwise, to ensure a unique global name, the 
+<devicename> should be constructed in the form
+<domain>.<name>, for example noaaportnet.linda,
+and the <devicenumber> should be the number assigned by the central
+server, such as 1001.
+
+Similarly, an Nbsp server, which is assumed to be running in the same
+computer where Npstats is running, is monitored by an entry such as
+
+lappend devices(devicelist) {
+    noaaportnet.diablo
+    nbsp
+    1002
+    {export 0 csvarchive 1 displaystatus 0}
+    nbsp.tml
+}
+
+where actually noaaportnet.diablo is the
+<devicename> that should be chosen as
+explained above, and similarly with the <devicenumber> 
+1002 in this example.
+
+- Alert list
+
+For each configured device, alerts are raised based on certain
+conditions. The default alert conditions are defined in the file
+
+	defaults/monitor.rc
+
+and they can be modified if desired but this is not required. More important
+is to define the parameters for the alert notifications, and this is done
+also in the file
+
+	site/devices.conf
+
+that we already introduced.
+
+By convention, the alerts can have four levels, namely info,
+warn, error, crit. An alert notifications
+are defined by adding entries in the file site/devices.conf,
+of the form
+
+lappend devices(alertlist) {
+    <devicename_regexp>
+    <level_regexp>
+    <skip>
+    <destination>
+}
+
+such as the following
+
+lappend devices(alertlist) {
+    noaaportnet\.
+    (warn|error|crit)
+    4
+    smtp://nieves@ltp.upr.clu.edu
+}
+
+The first element is a tcl regular expression that will be matched
+against the device name that raised the alert. In the above example,
+the notification parameters apply to all the devices from
+noaaportnet. Likewise, the second element is a regular
+expression that is matched against the alert level, and thus in the
+above example the three levels indicated are covered by the notification
+while those with level info are ignored.
+
+The fourth element specifies the destination of the notification, and
+it must be of the general form <transport>://<address>.
+Currently the only transport method supported is smtp.
+
+The <skip> parameter specifies how many alerts to skip before
+a notification at the same level is sent again. If it has the special
+value 0, then the notification is sent every time the alert is raised.
+If the value is negative, then notification is sent only the first time
+the alert is raised.
+
+- Client configuration
+
+To configure a client such that it exports the data to a central server,
+the files
+
+  site/spooler.conf
+  site/qrunner.conf
+
+must be created.
+
+The file site/spooler.conf must contain the line
+
+set spooler(export_enable) 1;
+
+It can contain any other optional settings, but nothing else is required.
+
+The site/qrunner.conf should contain the settings to specify
+the upload method. For the http method the appropriate
+settings should mimic the following
+
+set qrunner(configured) "http";
+set qrunner(http,sitekey) "kakameni";
+set qrunner(http,url) "http://stats.noaaport.net:8025/npstats/collect";
+
+where the sitekey (kakameni) is assigned by (or set in coordination with)
+the central server, and stats.noaaport.net would be the
+central server.
+
+- Server configuration
+
+The server must contain a devices.conf file that lists
+all the devices that it will monitor, using the same names that the
+remote (client) sites use for the devices. Then in addition the
+files
+
+	site/npstatsd.conf
+	site/httpd.conf
+	site/monitor.conf
+	private/sitekeys.auth
+
+must be created.
+
+The site/npstatsd.conf file should contain the settings
+
+set collector_manager_enable 0
+set qrunner_enable 0
+
+The first one indicates that the server is not collecting the data
+itself from the device pollers, and the second one disables the
+qrunner since the server will not export the data to another
+server.
+
+The site/httpd.conf file should contain
+
+set Config(collect,spooler_enable) 1;
+set Config(collect,monitor_enable) 1;
+
+which indicate that the web server should spool the data so that it is
+archived, and should run the monitor in order to enable the alert
+notifications.
+
+The site/monitor.conf file specifies some settings related to the notification
+mechanisms. At present only smtp is supported, and that
+requires the following entries in the site/monitor.conf file,
+
+set monitor(alert,smtp,originator) "npstats@stats.noaaport.net";
+set monitor(alert,smtp,servers)    "smtp.noaaport.net";
+
+The <servers> should be a list of smtp servers to use,
+and <originator> is the address that will appear in the header
+of the message.
+
+Finally, the server must create the file
+
+	private/sitekeys.auth
+
+that contains the <sitekeys> for each site. For example
+
+noaapoernet	kakameni
+wxpronet	kakameno

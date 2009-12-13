@@ -1,0 +1,32 @@
+#
+# Copyright (c) 2006-2009 Jose F. Nieves <nieves@ltp.upr.clu.edu>
+#
+# See LICENSE
+#
+# $Id$
+#
+@include@ @q@../../../Makefile.inc@q@
+
+LIBEXECTARGET = spooler
+TCLSOURCES =	spooler.tcl
+SAMPLES =	spooler.conf-sample
+
+TARGET =	${LIBEXECTARGET} ${SAMPLES}
+
+TCLSH =		@TCLSH@
+INSTALL =	@INSTALL@
+
+all: ${TARGET}
+
+spooler: spooler.tcl
+	sed -e /%TCLSH%/s##${TCLSH}# spooler.tcl > spooler
+
+spooler.conf-sample: spooler.conf
+	cp spooler.conf spooler.conf-sample
+
+install: ${TARGET}
+	${INSTALL} -m 755 ${LIBEXECTARGET} ${MYLIBEXECDIR}
+	${INSTALL} -m 644 ${SAMPLES} ${MYCONFDIR}
+
+clean:
+	rm -f *~ ${TARGET} Makefile

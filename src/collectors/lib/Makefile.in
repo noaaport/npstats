@@ -1,0 +1,40 @@
+#
+# Copyright (c) 2005 Jose F. Nieves <nieves@ltp.upr.clu.edu>
+#
+# See LICENSE
+#
+# $Id$
+#
+@include@ @q@../../../Makefile.inc@q@
+
+TCLLIBS =	errx.tcl \
+		mscheduler.tcl \
+		poll.tcl \
+		sftp.tcl \
+		db.tcl \
+		devices.tcl \
+		monitor.tcl \
+		spooler.tcl \
+		pkgIndex.tcl
+
+SAMPLES =	collectors.conf-sample
+TARGET =	${SAMPLES}
+
+TCLSH =		@TCLSH@
+INSTALL =	@INSTALL@
+
+PATH =		@PATH@
+
+all: ${TARGET}
+
+collectors.conf-sample: collectors.conf.in
+	sed \
+	-e /%PATH%/s##${PATH}# \
+	collectors.conf.in > collectors.conf-sample
+
+install: ${TARGET}
+	${INSTALL} -m 644 ${TCLLIBS} ${MYLIBEXECDIR}
+	${INSTALL} -m 644 ${SAMPLES} ${MYCONFDIR}
+
+clean:
+	rm -f *~ ${TARGET} Makefile
