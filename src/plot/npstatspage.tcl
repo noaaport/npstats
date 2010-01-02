@@ -13,7 +13,8 @@
 #
 # tml(1) ... tml(n)
 #
-# that contain the current values of the data parameters of the device.
+# that contain the current values of the data parameters of the device
+# (i.e., it excludes the first two fields, the id and time).
 # In addition it defines the variables
 #
 # tml(starttime)  - from the last line

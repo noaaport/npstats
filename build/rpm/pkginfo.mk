@@ -18,7 +18,7 @@ License = BSD
 Group = Applications/Internet
 Source = http://www.noaaport.net/software/${pkgsrc_name}/src/${pkgsrc_name}.tgz
 BuildRoot = ${rpmroot}/BUILD/${pkgsrc_name}/build/rpm/pkg
-Requires = tcl tcllib gnuplot mysql
+Requires = tcl tcllib gnuplot novramon
 
 ifeq (${FLAVOR}, opensuse)
 rpmroot = /usr/src/packages

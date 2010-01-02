@@ -6,10 +6,11 @@
 TCLSH =         @TCLSH@
 INSTALL =	@INSTALL@
 RCINIT =	@RCINIT@
+HOURLYCONF =    @HOURLYCONF@
 RCINIT_SAMPLE =	npstatsd.sh-sample
 
-SAMPLES =	startstop.rc-sample
-BINTOOLS =	npstatsversion
+SAMPLES =	startstop.rc-sample hourly-cleanup.conf-sample
+BINTOOLS =	npstatsversion npstatscleanup
 LIBFILES =      npstatsd-start.tcl npstatsd-stop.tcl
 LIBTOOLS =      startstop
 DOCS =		${RCINIT_SAMPLE}
@@ -27,8 +28,14 @@ startstop: startstop.tcl
 startstop.rc-sample: startstop.rc
 	cp startstop.rc startstop.rc-sample
 
+hourly-cleanup.conf-sample: ${HOURLYCONF}
+	cp ${HOURLYCONF} hourly-cleanup.conf-sample
+
 npstatsversion: npstatsversion.tcl
 	sed -e /%TCLSH%/s##${TCLSH}# npstatsversion.tcl > npstatsversion
+
+npstatscleanup: npstatscleanup.tcl
+	sed -e /%TCLSH%/s##${TCLSH}# npstatscleanup.tcl > npstatscleanup
 
 install:
 	${INSTALL} -m 0644 ${SAMPLES} ${MYCONFDIR}

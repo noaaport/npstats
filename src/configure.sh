@@ -4,7 +4,8 @@ subdirs="npstatsd
 collectors
 plot
 pollers/nbsp
-pollers/sys"
+pollers/sys
+pollers/novra"
 
 for d in $subdirs
 do

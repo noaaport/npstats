@@ -3,7 +3,7 @@
 #
 
 # This example raises an alert for the "noaaportnet.linda" device. The
-# handler for the "warn" alerrt is defined in the device list (devices.conf).
+# handler for the "warn" alert is defined in the device list (devices.conf).
 
 lappend cond {
     ($rc(deviceid) eq "noaaportnet.linda") && [expr $rc(vber_max) >= 1e-04]

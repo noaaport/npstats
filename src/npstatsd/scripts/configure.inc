@@ -4,6 +4,7 @@
 . ../../../configure.inc
 
 RCINIT=npstatsd.sh-freebsd
+HOURLYCONF=hourly-cleanup.conf-freebsd
 
 case $os in
     FreeBSD) 
@@ -16,6 +17,7 @@ case $os in
     	;;
     Linux)
 	RCINIT=npstatsd.sh-${flavor}
+	HOURLYCONF=hourly-cleanup.conf-generic
     	;;
     Darwin)
 	RCINIT=npstatsd.sh-macosx

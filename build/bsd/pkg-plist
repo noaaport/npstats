@@ -4,8 +4,10 @@ sbin/npstatsd
 etc/npstats/dist/npstatsd.conf-sample
 share/doc/npstats/npstatsd.sh-sample
 bin/npstatsversion
+bin/npstatscleanup
 libexec/npstats/startstop
 etc/npstats/dist/startstop.rc-sample
+etc/npstats/dist/hourly-cleanup.conf-sample
 bin/npstatsplot
 bin/npstatsdbplot
 bin/npstatspage
@@ -47,6 +49,7 @@ etc/npstats/dist/monitor.rc-ex
 etc/npstats/dist/monitor.rc-defaults
 libexec/npstats/spooler
 etc/npstats/dist/spooler.conf-sample
+libexec/npstats/pollers/novrapoll
 libexec/npstats/pollers/nbsppoll
 libexec/npstats/pollers/nbspqstatspoll
 libexec/npstats/pollers/syspoll

@@ -6,9 +6,9 @@
 # Defaults for monitoring a novra box in standalone mode
 #
 lappend devices(devicelist) {
-    localdomain.novra
+    mydomain.mynovra
     novra_s75
-    0000
+    1001
     {export 0 csvarchive 1 displaystatus 1}
     novra_s75.tml
 }

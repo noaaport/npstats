@@ -33,8 +33,8 @@ set gplot(script) {
 
     set datafile separator ","
 
-    plot '-' using 2:7 with boxes title "Max", \
-    '-' using 2:6 with boxes title "Min"
+    plot '-' using 2:8 with boxes title "Max", \
+    '-' using 2:7 with boxes title "Min"
     $gplot(data)
     e
     $gplot(data)

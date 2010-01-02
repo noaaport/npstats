@@ -29,9 +29,11 @@ make clean
 /usr/local/sbin/npstatsd
 /usr/local/etc/npstats/dist/npstatsd.conf-sample
 /usr/local/share/doc/npstats/npstatsd.sh-sample
+/usr/local/bin/npstatsversion
+/usr/local/bin/npstatscleanup
 /usr/local/libexec/npstats/startstop
 /usr/local/etc/npstats/dist/startstop.rc-sample
-/usr/local/bin/npstatsversion
+/usr/local/etc/npstats/dist/hourly-cleanup.conf-sample
 /usr/local/bin/npstatsplot
 /usr/local/bin/npstatsdbplot
 /usr/local/bin/npstatspage
@@ -73,6 +75,7 @@ make clean
 /usr/local/etc/npstats/dist/monitor.rc-defaults
 /usr/local/libexec/npstats/spooler
 /usr/local/etc/npstats/dist/spooler.conf-sample
+/usr/local/libexec/npstats/pollers/novrapoll
 /usr/local/libexec/npstats/pollers/nbsppoll
 /usr/local/libexec/npstats/pollers/nbspqstatspoll
 /usr/local/libexec/npstats/pollers/syspoll

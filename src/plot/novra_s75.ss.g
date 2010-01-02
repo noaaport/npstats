@@ -33,6 +33,7 @@ set gplot(script) {
 
     set datafile separator ","
 
+    # This is the Min value
     plot '-' using 2:5 notitle with lines 2
     $gplot(data)
 

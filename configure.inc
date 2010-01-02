@@ -7,9 +7,9 @@ INCLUDE=".include"
 Q='"'
 PREFIX=usr/local
 
-TCL_INCDIR="-I /usr/local/include/tcl8.5"
-TCL_LIB="-ltcl85"
-TCLSH=/usr/local/bin/tclsh8.5
+TCL_INCDIR="-I /usr/local/include/tcl8.6"
+TCL_LIB="-ltcl86"
+TCLSH=/usr/local/bin/tclsh8.6
 
 LOCAL_LIBDIR="-L /usr/local/lib"
 LOCAL_INCDIR="-I /usr/local/include"
@@ -73,7 +73,6 @@ case $os in
 	   TCL_LIB="-ltcl8.4"
 	elif [ $flavor = debian ]
 	then
-	   TCLSH=/usr/bin/tclsh8.5
 	   TCL_INCDIR="-I /usr/include/tcl8.5"
     	fi
      	;;

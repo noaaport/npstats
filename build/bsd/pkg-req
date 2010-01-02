@@ -1,6 +1,6 @@
 #!/bin/sh
 
-requires="tcl-8.5 tcllib gnuplot mysql-client"
+requires="tcl-8.6 tcllib gnuplot novramon"
 
 # so that FreeBSD runs it only once 
 name=$1

@@ -10,10 +10,11 @@ set tml(page) {
 <tr><th>End time</th> <td>$tml(endtime)</td></tr>
 <tr><th>Data lock</th> <td>$tml(1)</td></tr>
 <tr><th>Signal lock</th> <td>$tml(2)</td></tr>
-<tr><th>Signal strength</th> <td>$tml(3)</td></tr>
-<tr> <th>Vber Min</th> <td>$tml(4)</td></tr>
-<tr><th>Vber Max</th> <td>$tml(5)</td></tr>
-<tr><th>Uncorrectable errors</th> <td>$tml(6)</td></tr>
+<tr><th>Signal strength Min</th> <td>$tml(3)</td></tr>
+<tr><th>Signal strength Max</th> <td>$tml(4)</td></tr>
+<tr> <th>Vber Min</th> <td>$tml(5)</td></tr>
+<tr><th>Vber Max</th> <td>$tml(6)</td></tr>
+<tr><th>Uncorrectable errors</th> <td>$tml(7)</td></tr>
 </tr>
 </table>
 </p>
