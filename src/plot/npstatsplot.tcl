@@ -184,12 +184,13 @@ unset defaultsfile;
 package require errx;
 
 # Configuration
-set npstatsplot(conf) [file join $common(confdir) "npstatsplot.conf"];
 set npstatsplot(confdir) $common(confdir);
 set npstatsplot(localconfdirs) $common(localconfdirs);
 set npstatsplot(gnuplot_templates_subdir) $common(gnuplot_templates_subdir);
 set npstatsplot(csvarchivedir) $common(csvarchivedir);
 set npstatsplot(csvfext) $common(csvfext);
+# Optional configuration file
+set npstatsplot(conf) [file join $common(confdir) "npstatsplot.conf"];
 
 if {[file exists $npstatsplot(conf)]} {
     source $npstatsplot(conf);
