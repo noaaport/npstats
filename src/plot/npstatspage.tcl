@@ -148,6 +148,10 @@ if {$data eq ""} {
     return 1;
 }
 set data [split $data "\n"];
+
+if {[llength $data] < 2} {
+    return 1;
+}
 set data0 [lindex $data end];
 set data1 [lindex $data end-1];
 

@@ -33,7 +33,7 @@ set qrunner(lockfile) [file join $common(lockdir) "qrunner.lock"];
 set qrunner(verbose) 0;
 set qrunner(savesent) 0;
 #
-set qrunner(configured) "dbinsert";	# ftp, sftp, http, dbinsert
+set qrunner(configured) "";	# http, ftp, sftp, dbinsert
 
 #
 ### ftp configuration
@@ -104,8 +104,14 @@ if {[file exists $qrunner(conf)] == 1} {
 }
 
 # Check the upload method
-if {[regexp {^(ftp|sftp|http|dbinsert)$} $qrunner(configured)] == 0} {
-    ::syslog::err "qrunner.conf unconfigured.";
+if {$qrunner(configured) eq ""} {
+    if {$$qrunner(verbose) != 0} {
+	::syslog::msg "qrunner.conf unconfigured.";
+    }
+    return 0;
+}
+if {[regexp {^(http|ftp|sftp|dbinsert)$} $qrunner(configured)] == 0} {
+    ::syslog::err "Invalid qrunner(configured) setting.";
     return 1;
 }
 

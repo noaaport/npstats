@@ -65,8 +65,10 @@ proc npstats/status/display_main_device {} {
 
     global Config;
 
+    set r "No devices configured.";
+
     if {[llength $Config(devicelist)] == 0} {
-	return "No devices configured.";
+	return $r
     }
 
     foreach device $Config(devicelist) {
