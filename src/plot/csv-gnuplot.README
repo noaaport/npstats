@@ -1,0 +1,18 @@
+#
+# $Id$
+#
+The (common) fields in the data in the csv file of the novra device
+
+1001,1262986511,1,1,80,80,1.00e-07,2.68e-05,0,75,76,7,0,56,19
+
+are the following
+
+	device tid
+	unix seconds
+	data lock flag
+	signal lock flag
+	signal strength min
+	signal strength max
+	vber min
+	vber max
+	uncorrectables errors in interval

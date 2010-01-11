@@ -22,12 +22,21 @@ set tml(page) {
 <p>
 <img src="[file join / $tml(plot.vber)]">
 </p>
+
+<p>
+<img src="[file join / $tml(plot.ss)]">
+</p>
+
+<p>
+<img src="[file join / $tml(plot.errors)]">
+</p>
+
 }
 
 #
 # Generate the plot(s) used by the tml(script) above
 #
-foreach p [list vber] {
+foreach p [list vber ss errors] {
     set tml(plot.${p}) [file join $tml(outputdir) $tml(deviceid).${p}.png];
     exec npstatsplot -o [file join $tml(docroot) $tml(plot.${p})] \
 	$tml(deviceid) novra_s75.${p}.g;
