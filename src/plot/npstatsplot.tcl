@@ -6,12 +6,15 @@
 #                    [-f fmt] [-F] [-g fmtoptions]
 #                    [-n days_back | -y yyyymmdd]
 #                    [-o outputfile] [-s size]
-#                    <deviceid> <template>
+#                    <deviceid> [<template>]
+#
+# If the <template> is not given, then the data is output to stdout.
 #
 # Examples:
-#           npstatsplot linda novra_s75_vber.g
+#           npstatsplot linda.noaaportnet novra_s75_vber.g
 #           npstatsplot -o "wxpronet.novra9020.vber.png" \
-#                       novra9020 novra_s75_vber.g
+#                       novra9020.wxpronet novra_s75_vber.g
+#           npstatsplot linda.noaaportnet (output the data to stdout)
 #
 # -b => use syslog
 # -d => directory for output file
@@ -29,7 +32,7 @@ package require cmdline;
 set usage {npstatsplot [-b] [-d outputdir] [-D datafile]
     [-f fmt] [-F] [-g fmtoptions] [-n days_back | -y yyyymmdd]
     [-o outputfile] [-s size] [-y yyyymmdd]
-    <device_type> <deviceid> <template>};
+    <deviceid> [<template>]};
 
 set optlist {b {d.arg ""} {D.arg ""} {f.arg "png"} F {g.arg "small xd0d0d0"}
     {n.arg 0} {o.arg ""} {s.arg "0.6,0.6"} {y.arg ""}}; 
@@ -200,21 +203,39 @@ if {[file exists $npstatsplot(conf)]} {
 # main
 #
 array set option [::cmdline::getoptions argv $optlist $usage];
+set argc [llength $argv];
 if {[npstatsplot_verify_option_conflicts] != 0} {
     return 1;
 }
 
-set argc [llength $argv];
-if {$argc != 2} {
-    puts "device name and template are required.";
-    puts $usage;
-    return 1;
-}
 if {$option(b) == 1} {
     ::syslog::usesyslog;
 }
+
+if {($argc == 0) || ($argc > 2)} {
+    ::syslog::warn "Invalid number of arguments.";
+    ::syslog::warn $usage;
+    return 1;
+}
 set option(deviceid) [lindex $argv 0];
-set option(template) [lindex $argv 1];
+set option(template) "";
+if {$argc == 2} {
+    set option(template) [lindex $argv 1];
+}
+
+# Get the data first. If no template was specified, output the data and return.
+set gplot(data) [npstatsplot_get_data_csv];
+
+if {$option(template) eq ""} {
+    puts $gplot(data);
+    return 0;
+}
+
+# If a template was specified and there is no data return an error.
+if {$gplot(data) eq ""} {
+    ::syslog::warn "No data.";
+    return 1;
+}
 
 # The device name
 set gplot(deviceid) $option(deviceid);
@@ -242,12 +263,5 @@ if {($gnuplottemplate eq "") || ([file exists $gnuplottemplate] == 0)} {
     return 1;
 }
 source $gnuplottemplate;
-
-set gplot(data) [npstatsplot_get_data_csv];
-
-if {$gplot(data) eq ""} {
-    ::syslog::warn "No data.";
-    return 1;
-}
 
 npstatsplot_gnuplot;

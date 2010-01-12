@@ -20,7 +20,7 @@ GPLOTSOURCES =	novra_s75.vber.g novra_s75.errors.g novra_s75.ss.g \
 
 GPLOTDIR =	gnuplot
 
-TMLSOURCES =	novra_s75.tml novra_s75.full.tml \
+TMLSOURCES =	novra_s75.tml \
 		nbsp.tml \
 		fs.tml load.tml mem_freebsd.tml mem_linux.tml \
 		qdbstats.tml mdbstats.tml qstate.tml

@@ -11,8 +11,8 @@ set gplot(script) {
     set terminal $gplot(fmt) $gplot(fmtoptions)
     set output "$gplot(output)"
 
-    set ylabel "Signal strength"
-    set xlabel "Time"
+    set ylabel "New Signal strength"
+    set xlabel "Time HERE"
     set title "Signal strength $gplot(deviceid)"
 
     # set size 0.6,0.6
@@ -28,13 +28,12 @@ set gplot(script) {
     set format x "%d\n%H"
     # set logscale y
 
-    # set style fill solid
-    # set boxwidth 0.5 relative
+    set style fill solid
+    set boxwidth 0.5 relative
 
     set datafile separator ","
 
-
-    plot '-' using 2:5 with boxes title "Min", \
+    plot [][10:110]'-' using 2:5 with boxes title "Min", \
     '-' using 2:6 with boxes title "Max"
     $gplot(data)
     e

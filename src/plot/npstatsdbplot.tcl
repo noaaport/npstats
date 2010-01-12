@@ -5,13 +5,16 @@
 # Usage: npstatsdbplot [-b] [-d outputdir]
 #                      [-f fmt] [-F] [-g fmtoptions] [-n 24hperiods]
 #                      [-o outputfile] [-s size] [-t deviceid]
-#                      <devicetable> <devicetid> <template>
+#                      <devicetable> <devicetid> [<template>]
+#
+# If the template is not specified, the data is written to stdout.
 #
 # Examples:
-#           npstatsdbplot dev_novra_s75 1001 novra_s75_vber.g
+#           npstatsdbplot novra_s75 1001 novra_s75_vber.g
 #           npstatsdbplot -t "wxpronet.novra9020" \
 #               -o "wxpronet.novra9020.vber.png" \
-#               dev_novra_s75 1004 novra_s75_vber.g
+#               novra_s75 1004 novra_s75_vber.g
+#           npstatsdbplot novra_s75 1001 (outputs the data)
 #
 # -b => use syslog
 # -d => directory for output file
@@ -28,7 +31,7 @@ package require cmdline;
 set usage {npstatsdbplot [-b] [-d outputdir]
     [-f fmt] [-F] [-g fmtoptions] [-n 24hperiods]
     [-o outputfile] [-s size] [-t deviceid]
-    <devicetable> <devicetid> <template>};
+    <devicetable> <devicetid> [<template>]};
 
 set optlist {b {d.arg ""} {f.arg "png"} F {g.arg "small xd0d0d0"}
     {n.arg 0} {o.arg ""} {s.arg "0.6,0.6"} {t.arg ""}}; 
@@ -36,9 +39,12 @@ set optlist {b {d.arg ""} {f.arg "png"} F {g.arg "small xd0d0d0"}
 #
 # Functions
 #
-proc npstatsdbplot_get_data_mysql {devicetable devicetid nperiods} {
+proc npstatsdbplot_get_data_mysql {devicetable devicetid} {
 
+    global option;
     global npstatsdbplot;
+
+    set nperiods $option(n);
 
     set mysqlscript {
 	use $npstatsdbplot(mysql,dbname);
@@ -145,21 +151,42 @@ if {[file exists $npstatsdbplot(conf)]} {
 #
 array set option [::cmdline::getoptions argv $optlist $usage];
 set argc [llength $argv];
-if {$argc != 3} {
-    ::syslog::warn "device table, tid and template are required.";
-    ::syslog::warn $usage;
-    return 1;
-}
+
 if {$option(b) == 1} {
     ::syslog::usesyslog;
 }
 
+if {($argc < 2) || ($argc > 3)} {
+    ::syslog::warn "Invalid number of arguments";
+    ::syslog::warn $usage;
+    return 1;
+}
+
 set option(devicetable) [lindex $argv 0];	# mysql table name
-set option(devicetid) [lindex $argv 1];
-set option(template) [lindex $argv 2];
+set option(devicetid) [lindex $argv 1]
+set option(template) "";
+
+if {$argc == 3} {
+    set option(template) [lindex $argv 2];
+}
 
 if {$option(n) < 0} {    
-    ::syslog::warn "-n argument must be positive.";
+    ::syslog::warn "-n argument cannot be negative.";
+    return 1;
+}
+
+# Get the data first. If no template was specified, output the data and return.
+set gplot(data) [npstatsdbplot_get_data_mysql \
+		     $option(devicetable) $option(devicetid)];
+
+if {$option(template) eq ""} {
+    puts $gplot(data);
+    return 0;
+}
+
+# If a template was specified and there is no data return an error.
+if {$gplot(data) eq ""} {
+    ::syslog::warn "No data.";
     return 1;
 }
 
@@ -193,13 +220,5 @@ if {($gnuplottemplate eq "") || ([file exists $gnuplottemplate] == 0)} {
     return 1;
 }
 source $gnuplottemplate;
-
-set gplot(data) [npstatsdbplot_get_data_mysql \
-		     $option(devicetable) $option(devicetid) $option(n)];
-
-if {$gplot(data) eq ""} {
-    ::syslog::warn "No data.";
-    return 1;
-}
 
 npstatsdbplot_gnuplot;
