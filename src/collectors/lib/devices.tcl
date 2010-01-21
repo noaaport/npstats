@@ -102,7 +102,7 @@ proc ::devices::get_tml_fromid {devicelist deviceid} {
     return [get_tml $device];
 }
 
-# These fnctions are used to uniformize the exchange of data among
+# These functions are used to uniformize the exchange of data among
 # the various programs. The rationale is this. The data enters into
 # the system via the manager, which sends the data to the spooler
 # and the monitor, which can in turn propagate it further via the qrunner.
@@ -187,18 +187,18 @@ proc ::devices::get_devicename {deviceid} {
 
 proc ::devices::get_devicefname_parts {devicefname} {
 #
-# By <devicefname> we understand the rootname of a device data file,
+# By <devicefname> we understand the rootname of a device data file
 # such as
 #
 #         noaaportnet.atom.var_noaaport_data.20090813.csv
 # or
-#         noaaportnet.var_noaaport_data.1250127090.df
+#         noaaportnet.atom.var_noaaport_data.1250127090.df
 #
 # The <devicefname> is the portion of the form
 #
 # <deviceid>.<time> = <site>.<devicename>.<time>
 #
-# where <time> is a date or a unix time. In any case this function
+# where <time> is a date or a unix time. This function
 # returns the two pieces <deviceid> and <time> as a tcl list.
 
     set deviceid [file rootname $devicefname];
