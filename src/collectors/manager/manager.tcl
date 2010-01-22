@@ -71,6 +71,16 @@ foreach _f [list $manager(devicesdef) $manager(devicesconf)] {
     source ${_f};
 }
 
+# Verify the device list (in case it was manually constructed rather
+# than loading it from a tdb file.
+set status [catch {
+    ::devices::verify_devicelist $devices(devicelist);
+} errmsg];
+if {$status != 0} {
+    ::syslog::err $errmsg;
+    return 1;
+}
+
 # Copy all the devices(..) entries for easy reference in the functions
 foreach key [array names devices *] {
     set manager(dev,$key) $devices($key);
@@ -301,11 +311,11 @@ proc manager_get_device_type {device} {
     return $device_type;
 }
 
-proc manager_get_device_tid {device} {
+proc manager_get_device_number {device} {
 
-    set device_tid [::devices::get_tid $device];
+    set device_number [::devices::get_number $device];
 
-    return $device_tid;
+    return $device_number;
 }
 
 proc manager_get_device_options {device} {

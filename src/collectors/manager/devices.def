@@ -2,6 +2,12 @@
 # $Id$
 #
 
+# When the list of configured devices is loaded from a database file,
+# these are the common default settings that are are used if they are
+# not specified by a given instance (and smilarly with the templates
+# specified below for each type).
+set devices(defaultoptions) {export 0 csvarchive 1 displaystatus 1};
+
 # novra_s75
 set devices(param,novra_s75) [list \
 	time \
@@ -13,8 +19,9 @@ set devices(param,novra_s75) [list \
 	vber_max \
 	errors];	
 set devices(poller,novra_s75) "novrapoll";
+set devices(defaulttemplate,novra_s75) "novra_s75.tml";
 set devices(dbtable,novra_s75) "novra_s75";
-set devices(dbcols,novra_s75) [concat "device_id" $devices(param,novra_s75)];
+set devices(dbcols,novra_s75) [concat "deviceid" $devices(param,novra_s75)];
 
 # nbsp server
 set devices(param,nbsp) [list \
@@ -26,8 +33,9 @@ set devices(param,nbsp) [list \
 	products_missed \
 	products_retransmitted];
 set devices(poller,nbsp) "nbsppoll";
+set devices(defaulttemplate,nbsp) "nbsp.tml";
 set devices(dbtable,nbsp) "nbsp";
-set devices(dbcols,nbsp) [concat "device_id" $devices(param,nbsp)];
+set devices(dbcols,nbsp) [concat "deviceid" $devices(param,nbsp)];
 
 # npemwin server
 set devices(param,npemwin) [list \
@@ -39,8 +47,9 @@ set devices(param,npemwin) [list \
 	products_missed \
 	products_retransmitted];
 set devices(poller,npemwin) "npemwinpoll";
+set devices(displaytemplate,npemwin) "npemwin.tml";
 set devices(dbtable,npemwin) "npemwin";
-set devices(dbcols,npemwin) [concat "device_id" $devices(param,npemwin)];
+set devices(dbcols,npemwin) [concat "deviceid" $devices(param,npemwin)];
 
 # load averages
 set devices(param,load) [list \
@@ -49,8 +58,9 @@ set devices(param,load) [list \
 	load5 \
 	load15];
 set devices(poller,load) "syspoll -t load";
+set devices(defaulttemplate,load) "load.tml";
 set devices(dbtable,load) "load";
-set devices(dbcols,load) [concat "device_id" $devices(param,load)];
+set devices(dbcols,load) [concat "deviceid" $devices(param,load)];
 
 # disk (fs)
 set devices(param,fs) [list \
@@ -61,6 +71,7 @@ set devices(param,fs) [list \
 	usedfr \
 	free];
 set devices(poller,fs) "";  # each instance must define its poller
+set devices(fs,load) "fs.tml";
 #
 # For example
 #
@@ -68,7 +79,7 @@ set devices(poller,fs) "";  # each instance must define its poller
 #           "syspoll -t fs /var/noaaport/data";
 #
 set devices(dbtable,fs) "fs";
-set devices(dbcols,fs) [concat "device_id" $devices(param,fs)];
+set devices(dbcols,fs) [concat "deviceid" $devices(param,fs)];
 
 # memory - freebsd
 set devices(param,mem_freebsd) [list \
@@ -86,9 +97,10 @@ set devices(param,mem_freebsd) [list \
 	vmstat_po];
 
 set devices(poller,mem_freebsd) "syspoll -t mem_freebsd";
+set devices(defaulttemplate,mem_freebsd) "mem_freebsd.tml";
 set devices(dbtable,mem_freebsd) "mem_freebsd";
 set devices(dbcols,mem_freebsd) \
-	[concat "device_id" $devices(param,mem_freebsd)];
+	[concat "deviceid" $devices(param,mem_freebsd)];
 
 # memory - linux
 set devices(param,mem_linux) [list \
@@ -104,8 +116,9 @@ set devices(param,mem_linux) [list \
 	vmstat_si \
 	vmstat_so];
 set devices(poller,mem_linux) "syspoll -t mem_linux";
+set devices(defaulttemplate,mem_linux) "mem_linux.tml";
 set devices(dbtable,mem_linux) "mem_linux";
-set devices(dbcols,mem_linux) [concat "device_id" $devices(param,mem_linux)];
+set devices(dbcols,mem_linux) [concat "deviceid" $devices(param,mem_linux)];
 
 set devices(param,qdbstats) [list \
 	time \
@@ -117,8 +130,9 @@ set devices(param,qdbstats) [list \
 	cache_pages_read \
 	cache_pages_written];
 set devices(poller,qdbstats) "nbspqstatspoll -t qdb";
+set devices(defaulttemplate,qdbstats) "qdbstats.tml";
 set devices(dbtable,qdbstats) "qdbstats";
-set devices(dbcols,qdbstats) [concat "device_id" $devices(param,qdbstats)];
+set devices(dbcols,qdbstats) [concat "deviceid" $devices(param,qdbstats)];
 
 set devices(param,mdbstats) [list \
 	time \
@@ -128,8 +142,9 @@ set devices(param,mdbstats) [list \
 	cache_pages_foundfr \
 	cache_pages_created];
 set devices(poller,mdbstats) "nbspqstatspoll -t mdb";
+set devices(defaulttemplate,mdbstats) "mdbstats.tml";
 set devices(dbtable,mdbstats) "mdbstats";
-set devices(dbcols,mdbstats) [concat "device_id" $devices(param,mdbstats)];
+set devices(dbcols,mdbstats) [concat "deviceid" $devices(param,mdbstats)];
 
 set devices(param,qstate) [list \
 	time \
@@ -137,8 +152,9 @@ set devices(param,qstate) [list \
 	filter \
 	server];
 set devices(poller,qstate) "nbspqstatspoll -t qstate";
+set devices(defaulttemplate,qstate) "qstate.tml";
 set devices(dbtable,qstate) "qstate";
-set devices(dbcols,qstate) [concat "device_id" $devices(param,qstate)];
+set devices(dbcols,qstate) [concat "deviceid" $devices(param,qstate)];
 
 #
 # Read the local overrides from the files

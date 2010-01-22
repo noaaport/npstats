@@ -1,15 +1,11 @@
 $Id$
 
 - This is the 1st release of the Noaaport Statistics Tracking System (npstats).
-Sources and documentation are available from
-
-    http://code.google.com/p/npstats
-
-and native binary packages for some OS's are available from
+Documentation and binary packages for some OS's are available from
 
     http://www.noaaport.net
 
-- What is it
+- What it is
 
 Npstats is a system designed to collect data from a number of devices
 from a number of sites, and send the data to a remote central

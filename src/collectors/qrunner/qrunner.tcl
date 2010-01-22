@@ -125,7 +125,7 @@ source ${_uploader};
 unset _uploader;
 
 #
-# The devices definitions, configuration and lib files are required
+# The devices definitions, configuration files are required
 #
 foreach _f [list $qrunner(devicesdef) $qrunner(devicesconf)] {
     if {[file exists ${_f}] == 0} {
@@ -133,6 +133,16 @@ foreach _f [list $qrunner(devicesdef) $qrunner(devicesconf)] {
 	return 1;
     }
     source ${_f};
+}
+
+# Verify the device list (in case it was manually constructed rather
+# than loading it from a tdb file.
+set status [catch {
+    ::devices::verify_devicelist $devices(devicelist);
+} errmsg];
+if {$status != 0} {
+    ::syslog::err $errmsg;
+    return 1;
 }
 
 # Copy all the devices(..) entries for easy reference in the functions
@@ -194,18 +204,18 @@ proc qrunner_unlock {} {
 # Given a deviceid (<site>.<name>), these functions retrieve the various
 # properties of each device as specified in the devices table
 #
+proc qrunner_get_number_fromid {deviceid} {
+
+    global qrunner;
+
+    return [::devices::get_number_fromid $qrunner(dev,devicelist) $deviceid];
+}
+
 proc qrunner_get_type_fromid {deviceid} {
 
     global qrunner;
 
     return [::devices::get_type_fromid $qrunner(dev,devicelist) $deviceid];
-}
-
-proc qrunner_get_tid_fromid {deviceid} {
-
-    global qrunner;
-
-    return [::devices::get_tid_fromid $qrunner(dev,devicelist) $deviceid];
 }
 
 proc qrunner_get_options_fromid {deviceid} {

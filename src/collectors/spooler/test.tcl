@@ -1,7 +1,7 @@
-#!/usr/local/bin/tclsh8.5
+#!/usr/local/bin/tclsh8.6
 
 set pdata \
-    "noaaportnet.linda|novra_s75|1001|1248924150,1,1,67,4.42e-03,4.98e-03,6"
+    "noaaportnet.linda|1001|novra_s75|1248924150,1,1,67,4.42e-03,4.98e-03,6"
 
 set f [open "|/usr/local/libexec/npstats/spooler" w];
 set i 0;

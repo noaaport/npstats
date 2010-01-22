@@ -30,7 +30,6 @@ set spooler(localconfdirs) $common(localconfdirs);
 set spooler(verbose) 0;
 set spooler(export_enable) 0;
 set spooler(csvarchive_enable) 1;
-set spooler(deviceoptions) {export 1 csvarchive 1};
 
 # variables
 set spooler(spooldir) $common(spooldir);
@@ -60,6 +59,16 @@ foreach _f [list $spooler(devicesdef) $spooler(devicesconf)] {
 	return 1;
     }
     source ${_f};
+}
+
+# Verify the device list (in case it was manually constructed rather
+# than loading it from a tdb file.
+set status [catch {
+    ::devices::verify_devicelist $devices(devicelist);
+} errmsg];
+if {$status != 0} {
+    ::syslog::err $errmsg;
+    return 1;
 }
 
 # Copy all the devices(..) entries for easy reference in the functions
@@ -108,7 +117,7 @@ proc spooler_process {pdata} {
 #
 # <pdata> is a string of the form
 #
-# <deviceid>|<devivetype>|<devicetid>|<output>
+# <deviceid>|<devicenumber>|<devicetype>|<output>
 #
 # where <output> is the csv separated string of values as emitted by the
 # pollers.
@@ -117,23 +126,10 @@ proc spooler_process {pdata} {
 
     set pdataparts [::devices::data_unpack $pdata];
     set deviceid [::devices::data_unpack_deviceid $pdataparts];
+    set devicenumber [::devices::data_unpack_devicenumber $pdataparts];
     set devicetype [::devices::data_unpack_devicetype $pdataparts];
-    set devicetid [::devices::data_unpack_devicetid $pdataparts];
     set output [::devices::data_unpack_output $pdataparts];
 
-    # First set the default options, then as specified in spooler-devices.conf.
-    #
-    # This will first set
-    #
-    # option(export)
-    # option(csvarchive)
-    # ...
-    #
-    array set option $spooler(deviceoptions);
-
-    #
-    # and this will override those that are specified in each device list.
-    #
     array set option [spooler_get_device_options_fromid $deviceid];
 
     if {($spooler(export_enable) == 1) && ($option(export) == 1)} {

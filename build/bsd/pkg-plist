@@ -32,6 +32,7 @@ etc/npstats/dist/devices.conf-sample
 etc/npstats/dist/devices.def-sample
 etc/npstats/dist/devices.conf-defaults
 etc/npstats/dist/devices.conf-examples
+etc/npstats/dist/devices.tdb-examples
 libexec/npstats/qrunner
 libexec/npstats/uploaders/ftp.tcl
 libexec/npstats/uploaders/sftp.tcl

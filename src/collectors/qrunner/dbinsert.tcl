@@ -109,14 +109,14 @@ proc dbinsert_datafile_to_values {fpath} {
     global qrunner;
 
     set deviceid [::devices::get_deviceid_fromfpath $fpath];
-    set devicetid [qrunner_get_tid_fromid $deviceid];
-    if {$devicetid eq ""} {
+    set devicenumber [qrunner_get_number_fromid $deviceid];
+    if {$devicenumber eq ""} {
 	return -code error "Device unconfigured: $deviceid";
     }
 
     set pnames [join [qrunner_get_dbcols_fromid $deviceid] ","];
 
-    set pvalues $devicetid;
+    set pvalues $devicenumber;
 
     # The contents of the file is a "pdata" (from devices.tcl)
     set pdata [string trim [::fileutil::cat $fpath]];

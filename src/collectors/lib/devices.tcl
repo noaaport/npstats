@@ -2,6 +2,7 @@
 # $Id$
 #
 package provide devices 1.0;
+package require textutil::split;
 
 #
 # These functions retrieve the various properties of each device,
@@ -14,37 +15,55 @@ namespace eval devices {
 
 proc ::devices::get_id {device} {
 
-    set device_id [lindex $device 0];
+    set i [lsearch -exact $device "deviceid"];
+    incr i;
+    set deviceid [lindex $device $i];
 
-    return $device_id;
+    return $deviceid;
+}
+
+proc ::devices::get_number {device} {
+
+    set i [lsearch -exact $device "devicenumber"];
+    incr i;
+    set devicenumber [lindex $device $i];
+
+    return $devicenumber;
 }
 
 proc ::devices::get_type {device} {
 
-    set device_type [lindex $device 1];
+    set i [lsearch -exact $device "devicetype"];
+    incr i;
+    set devicetype [lindex $device $i];
 
-    return $device_type;
-}
-
-proc ::devices::get_tid {device} {
-
-    set device_tid [lindex $device 2];
-
-    return $device_tid;
+    return $devicetype;
 }
 
 proc ::devices::get_options {device} {
 
-    set device_options [lindex $device 3];
+    set i [lsearch -exact $device "export"];
+    incr i;
+    set v1 [lindex $device $i];
 
-    return $device_options;
+    set i [lsearch -exact $device "csvarchive"];
+    incr i;
+    set v2 [lindex $device $i];
+
+    set i [lsearch -exact $device "displaystatus"];
+    incr i;
+    set v3 [lindex $device $i];
+
+    return [list export $v1 csvarchive $v2 displaystatus $v3];
 }
 
 proc ::devices::get_tml {device} {
 
-    set device_tml [lindex $device 4];
+    set i [lsearch -exact $device "displaytemplate"];
+    incr i;
+    set displaytemplate [lindex $device $i];
 
-    return $device_tml;
+    return $displaytemplate;
 }
 
 #
@@ -54,7 +73,7 @@ proc ::devices::get_tml {device} {
 proc ::devices::get_device_fromid {devicelist deviceid} {
 
     foreach d $devicelist {
-	if {[get_id $d] == $deviceid} {
+	if {[get_id $d] eq $deviceid} {
 	    return $d;
 	}
     }
@@ -72,14 +91,14 @@ proc ::devices::get_type_fromid {devicelist deviceid} {
     return [get_type $device];
 }
 
-proc ::devices::get_tid_fromid {devicelist deviceid} {
+proc ::devices::get_number_fromid {devicelist deviceid} {
 
     set device [get_device_fromid $devicelist $deviceid];
     if {[llength $device] == 0} {
 	return "";
     }
 
-    return [get_tid $device];
+    return [get_number $device];
 }
 
 proc ::devices::get_options_fromid {devicelist deviceid} {
@@ -111,28 +130,29 @@ proc ::devices::get_tml_fromid {devicelist deviceid} {
 # function here) and that is the string that is exchanged from program
 # to program. So, every program receives a <pdata> string:
 #
-# <deviceid>|<devicetype>|<devicetid>|<output>
+# <deviceid>|<devicenumber>|<devicetype>|<output>
 
 proc ::devices::data_pack {device output} {
 #
 # <output> should be the csv string of the device output.
 # This function returns the string
 #
-# <deviceid>|<devicetype>|<devicetid>|<output>
+# <deviceid>|<devicenumber>|<devicetype>|<output>
 #
 # which we call a "pdata".
 
-    set pdatalist [lrange $device 0 2]
-    lappend pdatalist $output;
+    lappend pdatalist [::devices::get_id $device] \
+	[::devices::get_number $device] \
+	[::devices::get_type $device] \
+	$output;
 
     return [join $pdatalist "|"];
 }
 
 proc ::devices::data_unpack {pdata} {
 #
-# Takes as input the result obtained from ::devices::data_pack, and
-# returns a list of 4 elements: <deviceid>|<devicetype>|<devicetid>|<output>
-# 
+# Takes as input the result obtained from ::devices::data_pack, and returns
+# a list of 4 elements: <deviceid>|<devicenumber>|<devicetype>|<output>
 #
     return [split $pdata "|"];
 }
@@ -146,12 +166,12 @@ proc ::devices::data_unpack_deviceid {pdatalist} {
     return [lindex $pdatalist 0];
 }
 
-proc ::devices::data_unpack_devicetype {pdatalist} {
+proc ::devices::data_unpack_devicenumber {pdatalist} {
 
     return [lindex $pdatalist 1];
 }
 
-proc ::devices::data_unpack_devicetid {pdatalist} {
+proc ::devices::data_unpack_devicetype {pdatalist} {
 
     return [lindex $pdatalist 2];
 }
@@ -227,4 +247,126 @@ proc ::devices::get_deviceid_fromfpath {fpath} {
     set deviceid [get_deviceid_fromfname $fname];
 
     return $deviceid;
+}
+
+#
+# Each time a script sources devices.conf, this function should be called
+# to verify that the devices(devicelist) is properly constructed oin case
+# the list is constructed by hand rather than being loaded from the text
+# dbfile.
+#
+proc ::devices::verify_devicelist {devicelist} {
+
+    set paramnames [list deviceid devicenumber devicetype \
+			export csvarchive displaystatus \
+			displaytemplate];
+
+    foreach device $devicelist {
+	# Each device must contain the {key val} pair for each of the above
+	# keywords.
+	if {[llength $device] != 14} {
+	    return -code error "Invalid device list: $device";
+	}
+	foreach key $paramnames {
+	    if {[lsearch -exact $device $key] == -1} {
+		return -code error "Invalid device list: $device";
+	    }
+	}
+    }
+}
+
+#
+# This function loads a devices "flat dbfile" and constructs
+# the devices(devicelist) in the format of devices.conf.
+#
+proc ::devices::load_devices_dbfile {dbfile devices_array} {
+
+    upvar $devices_array devices;
+
+    # Make the default options array
+    array set defaultoptions $devices(defaultoptions);
+
+    # The parameters, in the order in which they must appear in the
+    # (flat) dbfile. Only the first three are mandatory. The others are
+    # optional, and get set to the default values if they are not given
+    # or are empty.
+
+    set paramnames [list deviceid devicenumber devicetype \
+			export csvarchive displaystatus \
+			displaytemplate];
+
+    set body [split [string trim [exec cat $dbfile]] "\n"];
+
+    foreach line $body {
+	if {[regexp {^\#|^\s*$} $line]} {
+	    continue;
+	}
+	# puts $line;
+
+	set paramlist [textutil::split::splitx [string trim $line] {\s*,\s*}];
+
+	set status [catch {
+	    ::devices::_verify_device_paramlist $paramlist;
+	} errmsg];
+	if {$status != 0} {
+	    return -code error "Error processing line: $line: $errmsg";
+	}
+
+	if {[lindex $paramlist 3] eq ""} {
+	    lset paramlist 3 $defaultoptions(export);
+	}
+
+	if {[lindex $paramlist 4] eq ""} {
+	    lset paramlist 4 $defaultoptions(csvarchive);
+	}
+
+	if {[lindex $paramlist 5] eq ""} {
+	    lset paramlist 5 $defaultoptions(displaystatus);
+	}
+
+	if {[lindex $paramlist 6] eq ""} {
+	    set devicetype [lindex $paramlist 2];
+	    lset paramlist 6 $devices(defaulttemplate,$devicetype);
+	}
+
+	# Now construct the list of key value pairs and lappend it to
+	# devices(devicelist).
+	set _device [list];
+	set i 0;
+	foreach name $paramnames {
+	    lappend _device $name [lindex $paramlist $i];
+	    incr i;
+	}
+	lappend devices(devicelist) ${_device};
+    }
+}
+
+#
+# This is a helper function for ::devices::load_devices_dbfile.
+#
+proc ::devices::_verify_device_paramlist {paramlist} {
+
+    set r "";
+    if {[llength $paramlist] < 3} {
+	set r "Invalid number of parameters.";
+    }
+
+    set id [lindex $paramlist 0];
+    if {$id eq ""} {
+	set r "Invalid deviceid";
+    }
+
+    set number [lindex $paramlist 1];
+    if {$number eq ""} {
+	set r "Invalid devicenumber";
+    }
+
+    set type [lindex $paramlist 2];
+    if {$type eq ""} {
+	set r "Invalid devicetype";
+    }
+
+    if {$r ne ""} {
+	return -code error $r;
+    }
 }

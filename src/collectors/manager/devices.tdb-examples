@@ -1,0 +1,16 @@
+#
+# $Id$
+#
+# Sample device configuration flat (text) dbfile.
+#
+# <deviceid>,<devicenumber>,<devicetype>,<deviceoptions>
+#
+# where
+#
+# <deviceoptions> = <export>,<csvarchive>,<displaystatus>,<displaytemplate>
+#
+# The first three elements are mandatory. The others are optional, and they
+# are set to default values if they are missing or empty.
+
+noaaportnet.novra,1001,novra_s75
+noaaportnet.atom,1002,nbsp,,,1,nbsp.tml
