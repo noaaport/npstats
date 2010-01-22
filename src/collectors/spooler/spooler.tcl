@@ -137,7 +137,7 @@ proc spooler_process {pdata} {
     }
 
     if {($spooler(csvarchive_enable) == 1) && ($option(csvarchive) == 1)} {
-	spooler_csvarchive_device_data $deviceid $devicetid $output;
+	spooler_csvarchive_device_data $deviceid $devicenumber $output;
     }
 }
 
@@ -178,7 +178,7 @@ proc spooler_spool_device_report {deviceid output pdata} {
     }
 }
 
-proc spooler_csvarchive_device_data {deviceid devicetid output} {
+proc spooler_csvarchive_device_data {deviceid devicenumber output} {
 
     global spooler;
 
@@ -203,12 +203,12 @@ proc spooler_csvarchive_device_data {deviceid devicetid output} {
 
     # The <data> will be the
     #
-    # <devicetid>,<output>
+    # <devicenumber>,<output>
     #
-    # We add the <devicetid> because it would be easier later to
+    # We add the <devicenumber> because it is easier later to
     # transfer the csv files to/from a db.
 
-    set data $devicetid;
+    set data $devicenumber;
     append data "," $output "\n";
     set status [catch {
 	::fileutil::appendToFile $csvfpath $data;

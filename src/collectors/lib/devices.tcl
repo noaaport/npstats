@@ -141,9 +141,9 @@ proc ::devices::data_pack {device output} {
 #
 # which we call a "pdata".
 
-    lappend pdatalist [::devices::get_id $device] \
-	[::devices::get_number $device] \
-	[::devices::get_type $device] \
+    lappend pdatalist [get_id $device] \
+	[get_number $device] \
+	[get_type $device] \
 	$output;
 
     return [join $pdatalist "|"];
@@ -306,7 +306,7 @@ proc ::devices::load_devices_dbfile {dbfile devices_array} {
 	set paramlist [textutil::split::splitx [string trim $line] {\s*,\s*}];
 
 	set status [catch {
-	    ::devices::_verify_device_paramlist $paramlist;
+	    _verify_device_paramlist $paramlist;
 	} errmsg];
 	if {$status != 0} {
 	    return -code error "Error processing line: $line: $errmsg";
