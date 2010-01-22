@@ -5,9 +5,9 @@
 # Functions to send the data to the spooler program (used by the manager,
 # http, and any other collector).
 #
-package provide spooler 1.0;
+package provide npstats::spooler 1.0;
 
-namespace eval spooler {
+namespace eval npstats::spooler {
 
     variable spooler;
 
@@ -17,14 +17,14 @@ namespace eval spooler {
     set spooler(program) "";
 }
 
-proc ::spooler::init {program} {
+proc ::npstats::spooler::init {program} {
     
     variable spooler;
 
     set spooler(program) $program;
 }
 
-proc ::spooler::connect {} {
+proc ::npstats::spooler::connect {} {
 
     variable spooler;
 
@@ -41,7 +41,7 @@ proc ::spooler::connect {} {
     return "";
 }
 
-proc ::spooler::disconnect {} {
+proc ::npstats::spooler::disconnect {} {
 
     variable spooler;
 
@@ -62,7 +62,7 @@ proc ::spooler::disconnect {} {
     return "";
 }
 
-proc ::spooler::send_output {pdata} {
+proc ::npstats::spooler::send_output {pdata} {
 
     variable spooler;
 
@@ -72,8 +72,8 @@ proc ::spooler::send_output {pdata} {
     } errmsg];
 
     if {$status != 0} {
-	::spooler::disconnect;
-	::spooler::connect;
+	::npstats::spooler::disconnect;
+	::npstats::spooler::connect;
 	return $errmsg;
     }
 

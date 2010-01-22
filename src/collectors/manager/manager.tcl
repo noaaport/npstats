@@ -18,18 +18,18 @@ package require textutil;
 
 # Local packages - 
 ## The errx library, with syslog enabled
-package require errx;
-::syslog::usesyslog;
+package require npstats::errx;
+::npstats::syslog::usesyslog;
 
 ## The pollers library
-package require poll;
+package require npstats::poll;
 
 ## The devices library
-package require devices;
+package require npstats::devices;
 
 ## The interface to the spooler and monitor
-package require spooler;
-package require monitor;
+package require npstats::spooler;
+package require npstats::monitor;
 
 # Initialization
 set manager(conf) [file join $common(confdir) "manager.conf"];
@@ -65,7 +65,7 @@ if {[file exists $manager(conf)] == 1} {
 #
 foreach _f [list $manager(devicesdef) $manager(devicesconf)] {
     if {[file exists ${_f}] == 0} {
-	::syslog::err "${_f} is required.";
+	::npstats::syslog::err "${_f} is required.";
 	return 1;
     }
     source ${_f};
@@ -74,10 +74,10 @@ foreach _f [list $manager(devicesdef) $manager(devicesconf)] {
 # Verify the device list (in case it was manually constructed rather
 # than loading it from a tdb file.
 set status [catch {
-    ::devices::verify_devicelist $devices(devicelist);
+    ::npstats::devices::verify_devicelist $devices(devicelist);
 } errmsg];
 if {$status != 0} {
-    ::syslog::err $errmsg;
+    ::npstats::syslog::err $errmsg;
     return 1;
 }
 
@@ -87,7 +87,7 @@ foreach key [array names devices *] {
 }
 
 if {[llength $manager(dev,devicelist)] == 0} {
-    ::syslog::err "No devices configured.";
+    ::npstats::syslog::err "No devices configured.";
     return 1;
 }
 
@@ -118,16 +118,16 @@ proc manager_fileevent_handler_stdin {} {
 	set manager(f_quit) 1;
 	return;
     } elseif {$cmd eq ""} {
-	::syslog::msg "Received request to quit.";
+	::npstats::syslog::msg "Received request to quit.";
 	set manager(f_quit) 1;
 	return;
     }
 
     set status [catch {manager_process $cmd} errmsg];
     if {$status == 1} {
-	::syslog::warn "Error processing $cmd";
-	::syslog::warn $errmsg;
-	::syslog::warn $errorInfo;
+	::npstats::syslog::warn "Error processing $cmd";
+	::npstats::syslog::warn $errmsg;
+	::npstats::syslog::warn $errorInfo;
     }
 }
 
@@ -136,7 +136,7 @@ proc manager_process {cmd} {
     global manager;
 
     if {$manager(verbose) > 0} {
-	::syslog::msg "Sending $cmd to pollers.";
+	::npstats::syslog::msg "Sending $cmd to pollers.";
     }
 
     if {$cmd eq "POLL"} {
@@ -144,7 +144,7 @@ proc manager_process {cmd} {
     } elseif {$cmd eq "REPORT"} {
 	manager_report_devices;
     } else {
-	::syslog::warn "Unrecognized comand: $cmd";
+	::npstats::syslog::warn "Unrecognized comand: $cmd";
     }
 }
 
@@ -198,15 +198,15 @@ proc manager_open_one_device {device} {
     set device_poller [manager_get_device_poller $device];
 	
     set status [catch {
-	::poll::connect $device_id $device_poller;
+	::npstats::poll::connect $device_id $device_poller;
     } errmsg];
     
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
 	return;
     }
 
-    fileevent [::poll::get_filehandle $device_id] readable \
+    fileevent [::npstats::poll::get_filehandle $device_id] readable \
 	[list manager_fileevent_handler_device $device];
 }
 
@@ -215,7 +215,7 @@ proc manager_close_one_device {device} {
     global manager;
 
     set device_id [manager_get_device_id $device];
-    catch {::poll::disconnect $device_id};
+    catch {::npstats::poll::disconnect $device_id};
 }
 
 proc manager_send_one_device {device cmd} {
@@ -225,23 +225,23 @@ proc manager_send_one_device {device cmd} {
     set device_id [manager_get_device_id $device];
 
     set status [catch {
-	::poll::send $device_id $cmd;
+	::npstats::poll::send $device_id $cmd;
     } errmsg];
     
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
     }
 
     # If there is an error, close the device and try to reopen it.
     if {$status != 0} {
-	::syslog::msg "Trying again.";
+	::npstats::syslog::msg "Trying again.";
 	manager_close_one_device $device;
 	manager_open_one_device $device;
 	set status [catch {
-	    ::poll::send $device_id $cmd;
+	    ::npstats::poll::send $device_id $cmd;
 	} errmsg];
 	if {$status == 0} {
-	    ::syslog::msg "OK";
+	    ::npstats::syslog::msg "OK";
 	}
     }
 
@@ -256,31 +256,31 @@ proc manager_fileevent_handler_device {device} {
 
     set codeoutput "";
     set status [catch {
-	set r [::poll::pop-line $device_id codeoutput];
+	set r [::npstats::poll::pop_line $device_id codeoutput];
     } errmsg];
     
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
 	manager_close_one_device $device;
 	manager_open_one_device $device;
 	return;
     }
     
     if {$r == -1} {
-	::syslog::warn "Device $device_id closed.";
+	::npstats::syslog::warn "Device $device_id closed.";
 	manager_close_one_device $device;
 	manager_open_one_device $device;
 	set status 1;
     } elseif {$r == 0} {
-	::syslog::warn "No output from device $device_id.";
+	::npstats::syslog::warn "No output from device $device_id.";
 	set status 1;
     } else {
 	if {[regexp {([^:]+):(.+)} $codeoutput match code output] == 0} {
-	    ::syslog::warn "Device $device_id: Invalid output $output";
+	    ::npstats::syslog::warn "Device $device_id: Invalid output $output";
 	    set status 1;
 	} else {
 	    if {$code ne "OK"} {
-		::syslog::warn "Device $device_id: $codeoutput";
+		::npstats::syslog::warn "Device $device_id: $codeoutput";
 		set status 1;
 	    }
 	}
@@ -299,28 +299,28 @@ proc manager_fileevent_handler_device {device} {
 #
 proc manager_get_device_id {device} {
 
-    set device_id [::devices::get_id $device];
+    set device_id [::npstats::devices::get_id $device];
 
     return $device_id;
 }
 
 proc manager_get_device_type {device} {
 
-    set device_type [::devices::get_type $device];
+    set device_type [::npstats::devices::get_type $device];
 
     return $device_type;
 }
 
 proc manager_get_device_number {device} {
 
-    set device_number [::devices::get_number $device];
+    set device_number [::npstats::devices::get_number $device];
 
     return $device_number;
 }
 
 proc manager_get_device_options {device} {
 
-    set device_options [::devices::get_options $device];
+    set device_options [::npstats::devices::get_options $device];
 
     return $device_options;
 }
@@ -361,11 +361,11 @@ proc manager_send_monitor {device output} {
 	return;
     }
 
-    set pdata [::devices::data_pack $device $output];
+    set pdata [::npstats::devices::data_pack $device $output];
 
-    set r [::monitor::send_output $pdata];
+    set r [::npstats::monitor::send_output $pdata];
     if {$r ne ""} {
-	::syslog::warn $r;
+	::npstats::syslog::warn $r;
     }
 }
 
@@ -384,16 +384,16 @@ proc manager_open_monitor {} {
 	    ([llength $manager(dev,alertlist)] == 0)} {
 
 	# disable it
-	::syslog::warn "No alerts defined. Disabling the monitor.";
+	::npstats::syslog::warn "No alerts defined. Disabling the monitor.";
 	set manager(monitor_enable) 0;
 
 	return;
     }
 
-    ::monitor::init $manager(monitor);
-    set r [::monitor::connect];
+    ::npstats::monitor::init $manager(monitor);
+    set r [::npstats::monitor::connect];
     if {$r ne ""} {
-	::syslog::warn $r;
+	::npstats::syslog::warn $r;
     }
 }
 
@@ -405,9 +405,9 @@ proc manager_close_monitor {} {
 	return;
     }
 
-    set r [::monitor::disconnect];
+    set r [::npstats::monitor::disconnect];
     if {$r ne ""} {
-	::syslog::warn $r;
+	::npstats::syslog::warn $r;
     }
 }
 
@@ -422,11 +422,11 @@ proc manager_send_spooler {device output} {
 	return;
     }
 
-    set pdata [::devices::data_pack $device $output];
+    set pdata [::npstats::devices::data_pack $device $output];
 
-    set r [::spooler::send_output $pdata];
+    set r [::npstats::spooler::send_output $pdata];
     if {$r ne ""} {
-	::syslog::warn $r;
+	::npstats::syslog::warn $r;
     }
 }
 
@@ -438,10 +438,10 @@ proc manager_open_spooler {} {
 	return;
     }
 
-    ::spooler::init $manager(spooler);
-    set r [::spooler::connect];
+    ::npstats::spooler::init $manager(spooler);
+    set r [::npstats::spooler::connect];
     if {$r ne ""} {
-	::syslog::warn $r;
+	::npstats::syslog::warn $r;
     }
 }
 
@@ -453,9 +453,9 @@ proc manager_close_spooler {} {
 	return;
     }
 
-    set r [::spooler::disconnect];
+    set r [::npstats::spooler::disconnect];
     if {$r ne ""} {
-	::syslog::warn $r;
+	::npstats::syslog::warn $r;
     }
 }
 

@@ -16,8 +16,8 @@ source $defaultsfile;
 
 # Local packages - 
 ## The errx library, with syslog enabled
-package require errx;
-::syslog::usesyslog;
+package require npstats::errx;
+::npstats::syslog::usesyslog;
 
 #
 # Default schedule
@@ -36,7 +36,7 @@ if {$argc == 1} {
     set startstop(stage) [lindex $argv 0];
 }
 if {($startstop(stage) ne "start") && ($startstop(stage) ne "stop")} {
-    ::syslog::err $usage;
+    ::npstats::syslog::err $usage;
     return;
 }
 
@@ -48,7 +48,7 @@ foreach _d $startstop(confdirs) {
     }
 }
 if {$conffile == ""} {
-    ::syslog::err "$startstop(rc) not found.";
+    ::npstats::syslog::err "$startstop(rc) not found.";
     return;
 }
 
@@ -68,6 +68,6 @@ foreach script $script_list {
     } errmsg];
 
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
     }     
 }

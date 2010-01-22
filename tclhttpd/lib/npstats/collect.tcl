@@ -14,25 +14,25 @@ package require textutil::split;
 #
 # The (local) spooler and monitor packages
 #
-package require spooler;
-package require monitor;
-package require devices;	# get_devicesite function
+package require npstats::spooler;
+package require npstats::monitor;
+package require npstats::devices;	# get_devicesite function
 #
 if {$Config(collect,spooler_enable) != 0} {
-    ::spooler::init $Config(collect,spooler);
-    Httpd_RegisterShutdown ::spooler::disconnect;
+    ::npstats::spooler::init $Config(collect,spooler);
+    Httpd_RegisterShutdown ::npstats::spooler::disconnect;
 
-    set r [::spooler::connect];
+    set r [::npstats::spooler::connect];
     if {$r ne ""} {
         Stderr $r;
     }
 }
 
 if {$Config(collect,monitor_enable) != 0} {
-    ::monitor::init $Config(collect,monitor);
-    Httpd_RegisterShutdown ::monitor::disconnect;
+    ::npstats::monitor::init $Config(collect,monitor);
+    Httpd_RegisterShutdown ::npstats::monitor::disconnect;
 
-    set r [::monitor::connect];
+    set r [::npstats::monitor::connect];
     if {$r ne ""} {
 	Stderr $r;
     }
@@ -90,7 +90,7 @@ proc npstats/collect {args} {
     #
     # Do authentication based on site and sitekey.
     # 
-    set site [::devices::get_devicesite $deviceid];
+    set site [::npstats::devices::get_devicesite $deviceid];
     if {[info exists npstats_collect(sitekeys,$site)] == 0} {
 	Httpd_Error [Httpd_CurrentSocket] 401 "Unauthorized";
     }
@@ -132,7 +132,7 @@ proc npstats/collect {args} {
 
 proc _npstats_collect_send_spooler {pdata} {
 
-    set r [::spooler::send_output $pdata];
+    set r [::npstats::spooler::send_output $pdata];
     if {$r ne ""} {
         Stderr $r;
     }
@@ -142,7 +142,7 @@ proc _npstats_collect_send_spooler {pdata} {
 
 proc _npstats_collect_send_monitor {pdata} {
 
-    set r [::monitor::send_output $pdata];
+    set r [::npstats::monitor::send_output $pdata];
 
     if {$r ne ""} {
         Stderr $r;

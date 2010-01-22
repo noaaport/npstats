@@ -19,11 +19,11 @@ package require fileutil;
 # Local packages
 
 ## The errx library, with syslog enabled
-package require errx;
-::syslog::usesyslog;
+package require npstats::errx;
+::npstats::syslog::usesyslog;
 
 # the devices library
-package require devices;
+package require npstats::devices;
 
 # Initialization
 set qrunner(conf) [file join $common(confdir) "qrunner.conf"];
@@ -106,19 +106,19 @@ if {[file exists $qrunner(conf)] == 1} {
 # Check the upload method
 if {$qrunner(configured) eq ""} {
     if {$$qrunner(verbose) != 0} {
-	::syslog::msg "qrunner.conf unconfigured.";
+	::npstats::syslog::msg "qrunner.conf unconfigured.";
     }
     return 0;
 }
 if {[regexp {^(http|ftp|sftp|dbinsert)$} $qrunner(configured)] == 0} {
-    ::syslog::err "Invalid qrunner(configured) setting.";
+    ::npstats::syslog::err "Invalid qrunner(configured) setting.";
     return 1;
 }
 
 # Load the uploader that is configured
 set _uploader [file join $qrunner(uploadersdir) $qrunner(configured).tcl];
 if {[file exists ${_uploader}] == 0} {
-    ::syslog::err "${_uploader} not found.";
+    ::npstats::syslog::err "${_uploader} not found.";
     return 1;
 }
 source ${_uploader};
@@ -129,7 +129,7 @@ unset _uploader;
 #
 foreach _f [list $qrunner(devicesdef) $qrunner(devicesconf)] {
     if {[file exists ${_f}] == 0} {
-	::syslog::err "${_f} is required.";
+	::npstats::syslog::err "${_f} is required.";
 	return 1;
     }
     source ${_f};
@@ -138,10 +138,10 @@ foreach _f [list $qrunner(devicesdef) $qrunner(devicesconf)] {
 # Verify the device list (in case it was manually constructed rather
 # than loading it from a tdb file.
 set status [catch {
-    ::devices::verify_devicelist $devices(devicelist);
+    ::npstats::devices::verify_devicelist $devices(devicelist);
 } errmsg];
 if {$status != 0} {
-    ::syslog::err $errmsg;
+    ::npstats::syslog::err $errmsg;
     return 1;
 }
 
@@ -151,7 +151,7 @@ foreach key [array names devices *] {
 }
 
 if {[llength $qrunner(dev,devicelist)] == 0} {
-    ::syslog::err "No devices configured.";
+    ::npstats::syslog::err "No devices configured.";
     return 1;
 }
 
@@ -167,7 +167,7 @@ proc qrunner_log_qfilelist {qfilelist} {
 	lappend namelist $name;
     }
     
-    ::syslog::msg "Starting to upload [join $namelist " "]";
+    ::npstats::syslog::msg "Starting to upload [join $namelist " "]";
 }
 
 proc qrunner_lock {} {
@@ -179,7 +179,7 @@ proc qrunner_lock {} {
     } errmsg];
 
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
     }
 
     return $status;
@@ -196,7 +196,7 @@ proc qrunner_unlock {} {
     set qrunner(LOCK) "";
 
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
     }
 }
 
@@ -208,21 +208,21 @@ proc qrunner_get_number_fromid {deviceid} {
 
     global qrunner;
 
-    return [::devices::get_number_fromid $qrunner(dev,devicelist) $deviceid];
+    return [::npstats::devices::get_number_fromid $qrunner(dev,devicelist) $deviceid];
 }
 
 proc qrunner_get_type_fromid {deviceid} {
 
     global qrunner;
 
-    return [::devices::get_type_fromid $qrunner(dev,devicelist) $deviceid];
+    return [::npstats::devices::get_type_fromid $qrunner(dev,devicelist) $deviceid];
 }
 
 proc qrunner_get_options_fromid {deviceid} {
 
     global qrunner;
 
-    return [::devices::get_options_fromid $qrunner(dev,devicelist) $deviceid];
+    return [::npstats::devices::get_options_fromid $qrunner(dev,devicelist) $deviceid];
 }
 
 proc qrunner_get_dbtable_fromid {deviceid} {
@@ -258,10 +258,10 @@ proc qrunner_get_dbcols_fromid {deviceid} {
 #
 
 if {[qrunner_lock] == 1} {
-    ::syslog::warn "Queue may be locked by another qrunner.";
+    ::npstats::syslog::warn "Queue may be locked by another qrunner.";
     return;
 }
-::syslog::msg "Started qrunner.";
+::npstats::syslog::msg "Started qrunner.";
 
 set status [catch {
     cd $qrunner(workdir);
@@ -283,7 +283,7 @@ set status [catch {
 qrunner_unlock;
 
 if {$status != 0} {
-    ::syslog::warn $errmsg;
+    ::npstats::syslog::warn $errmsg;
 }
 
-::syslog::msg "Finished qrunner.";
+::npstats::syslog::msg "Finished qrunner.";

@@ -15,48 +15,48 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-package provide sftp 1.0;
+package provide npstats::sftp 1.0;
 
-namespace eval sftp {
+namespace eval npstats::sftp {
 
     variable sftp;
 
     array set sftp {};
 }
 
-proc ::sftp::init {user host} {
+proc ::npstats::sftp::init {user host} {
 
     variable sftp;
 
-    set usage {::sftp::init <user> <host>};
+    set usage {::npstats::sftp::init <user> <host>};
 
     # These are the only internal variables
     set sftp(user_host) "${user}@${host}";
     set sftp(output) "";
 }
 
-proc ::sftp::send {cmd file} {
+proc ::npstats::sftp::send {cmd file} {
 
     set script {
 	$cmd $file
 	quit
     };
 
-    set r [::sftp::_batch $script];
+    set r [::npstats::sftp::_batch $script];
 
     return $r;
 }
 
-proc ::sftp::put {file} {
+proc ::npstats::sftp::put {file} {
 
-    set r [::sftp::send "put" $file];
+    set r [::npstats::sftp::send "put" $file];
 
     return $r;
 }
 
-proc ::sftp::rm {file} {
+proc ::npstats::sftp::rm {file} {
 
-    set r [::sftp::send "rm" $file];
+    set r [::npstats::sftp::send "rm" $file];
 
     return $r;
 }
@@ -64,7 +64,7 @@ proc ::sftp::rm {file} {
 #
 # Utility
 #
-proc ::sftp::get_output {} {
+proc ::npstats::sftp::get_output {} {
 
     variable sftp;
 
@@ -74,7 +74,7 @@ proc ::sftp::get_output {} {
 #
 # private
 #
-proc ::sftp::_verify_init {} {
+proc ::npstats::sftp::_verify_init {} {
 
     variable sftp;
 
@@ -85,13 +85,13 @@ proc ::sftp::_verify_init {} {
     return -code error "No user@host defined.";
 }
 
-proc ::sftp::_batch {script} {
+proc ::npstats::sftp::_batch {script} {
 
     variable sftp;
 
     set sftp_options "-b -";
 
-    ::sftp::_verify_init;
+    ::npstats::sftp::_verify_init;
 
     set f [open "|sftp $sftp_options $sftp(user_host)" r+];
 

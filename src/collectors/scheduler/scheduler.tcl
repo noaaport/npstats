@@ -14,11 +14,11 @@ source $defaultsfile;
 unset defaultsfile;
 
 # The errx library, with syslog enabled
-package require errx;
-::syslog::usesyslog;
+package require npstats::errx;
+::npstats::syslog::usesyslog;
 
 ## The scheduler library
-package require mscheduler;
+package require npstats::mscheduler;
 
 #
 # Default schedule
@@ -33,11 +33,11 @@ proc schedule {code args} {
     global g;
     
     set status [catch {
-	set match [::mscheduler::match_timespec $code];
+	set match [::npstats::mscheduler::match_timespec $code];
     } errmsg];
 
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
     } elseif {$match == 1} {
 	lappend g(cmdlist) $args;
     }
@@ -58,7 +58,7 @@ proc exec_cmd {cmd} {
     } errmsg];
 
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
     }
 }
 
@@ -74,7 +74,7 @@ foreach _d $scheduler(confdirs) {
     }
 }
 if {$rcfile eq ""} {
-    ::syslog::warn "$scheduler(rc) not found.";
+    ::npstats::syslog::warn "$scheduler(rc) not found.";
     return 1;
 }
 

@@ -20,10 +20,10 @@ package require smtp;
 
 # Local packages - 
 ## The errx library, with syslog enabled
-package require errx;
-::syslog::usesyslog;
+package require npstats::errx;
+::npstats::syslog::usesyslog;
 ## devices
-package require devices;
+package require npstats::devices;
 
 # Initialization
 set monitor(conf) [file join $common(confdir) "monitor.conf"];
@@ -55,7 +55,7 @@ if {[file exists $monitor(conf)] == 1} {
 # The main rc file is required. The rc file is read at the end
 # after the rcfile list is constructed (which uses a function defined below).
 if {[file exists $monitor(rc)] == 0} {
-    ::syslog::err "monitor disabled: $monitor(rc) not found.";
+    ::npstats::syslog::err "monitor disabled: $monitor(rc) not found.";
     return 1;
 }
 
@@ -64,7 +64,7 @@ if {[file exists $monitor(rc)] == 0} {
 #
 foreach _f [list $monitor(devicesconf) $monitor(devicesdef)] {
     if {[file exists ${_f}] == 0} {
-	::syslog::err "${_f} is required.";
+	::npstats::syslog::err "${_f} is required.";
 	return 1;
     }
     source ${_f};
@@ -232,7 +232,7 @@ proc monitor_smtp_send {recipients subject body} {
     } else {
         set status 1;
         foreach r $result {
-	    ::syslog::warn [join $r ":"];
+	    ::npstats::syslog::warn [join $r ":"];
         }
     }
 
@@ -258,16 +258,16 @@ proc monitor_fileevent_handler_stdin {} {
 	set monitor(f_quit) 1;
 	return;
     } elseif {$pdata eq ""} {
-	::syslog::msg "Received request to quit.";
+	::npstats::syslog::msg "Received request to quit.";
 	set monitor(f_quit) 1;
 	return;
     }
 
     set status [catch {monitor_process $pdata} errmsg];
     if {$status == 1} {
-	::syslog::warn "Error processing $pdata";
-	::syslog::warn $errmsg;
-	::syslog::warn $errorInfo;
+	::npstats::syslog::warn "Error processing $pdata";
+	::npstats::syslog::warn $errmsg;
+	::npstats::syslog::warn $errorInfo;
     }
 }
 
@@ -292,11 +292,11 @@ proc monitor_process {pdata} {
     set rc(devicetid) "";
     set rc(devicedata) "";
 
-    set pdataparts [::devices::data_unpack $pdata];
-    set rc(deviceid) [::devices::data_unpack_deviceid $pdataparts];
-    set rc(devicetype) [::devices::data_unpack_devicetype $pdataparts];
-    set rc(devicetid) [::devices::data_unpack_devicetid $pdataparts];
-    set rc(devicedata) [::devices::data_unpack_output $pdataparts];
+    set pdataparts [::npstats::devices::data_unpack $pdata];
+    set rc(deviceid) [::npstats::devices::data_unpack_deviceid $pdataparts];
+    set rc(devicetype) [::npstats::devices::data_unpack_devicetype $pdataparts];
+    set rc(devicetid) [::npstats::devices::data_unpack_devicetid $pdataparts];
+    set rc(devicedata) [::npstats::devices::data_unpack_output $pdataparts];
 
     set datalist [split $rc(devicedata) ","];
     set i 0;

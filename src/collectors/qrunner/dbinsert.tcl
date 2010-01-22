@@ -1,10 +1,10 @@
 #
 # $Id$
 #
-package require db;	# local package
+package require npstats::db;	# local package
 
 # Initialize the db package
-::db::init $qrunner(dbinsert,cmd) $qrunner(dbinsert,cmdoptions);
+::npstats::db::init $qrunner(dbinsert,cmd) $qrunner(dbinsert,cmdoptions);
 
 #
 # upload functions
@@ -14,22 +14,22 @@ proc qrunner_dbinsert_upload {qfilelist} {
     global qrunner;
 
     if {$qrunner(dbinsert,enable) == 0} {
-	::syslog::warn "dbinsert method not enabled.";
+	::npstats::syslog::warn "dbinsert method not enabled.";
 	return;
     }
 
     if {[llength $qfilelist] == 0} {
 	if {$qrunner(verbose) == 1} {
-	    ::syslog::warn "Nothing to transfer.";
+	    ::npstats::syslog::warn "Nothing to transfer.";
 	}
 	return;
     }
 
     set status [catch {
-	::db::connect;
+	::npstats::db::connect;
     } errmsg];
     if {$status != 0} {
-	::syslog::warn "Cannot connect to db: $errmsg";
+	::npstats::syslog::warn "Cannot connect to db: $errmsg";
 	return;
     }
 
@@ -47,8 +47,8 @@ proc qrunner_dbinsert_upload {qfilelist} {
 	}
     }
 
-    if {[catch {::db::disconnect} errmsg]} {
-	::syslog::warn $errmsg;
+    if {[catch {::npstats::db::disconnect} errmsg]} {
+	::npstats::syslog::warn $errmsg;
 	set dbinsert_status 1;
     }
 
@@ -58,7 +58,7 @@ proc qrunner_dbinsert_upload {qfilelist} {
 	append file $qrunner(datafext);
 
 	if {$dbinsert_status != 0} {
-	    ::syslog::warn "Rescheduling $file and $qfile for uploading.";
+	    ::npstats::syslog::warn "Rescheduling $file and $qfile for uploading.";
 	    continue;
 	}
 	
@@ -69,7 +69,7 @@ proc qrunner_dbinsert_upload {qfilelist} {
 	    if {[catch {
 		file rename -force $file $qfile $qrunner(sentdir);
 	    } errmsg] != 0} {
-		::syslog::warn $errmsg;
+		::npstats::syslog::warn $errmsg;
 	    }
 	}
     }
@@ -86,15 +86,15 @@ proc qrunner_dbinsert_upload_one {fpath} {
 	    break;
 	}
 	set dbtable [qrunner_get_dbtable_fromid $id];
-	::db::send_insert $dbtable $pnames $pvalues;
+	::npstats::db::send_insert $dbtable $pnames $pvalues;
     } errmsg];
 
     if {$status == 0} {
 	if {$qrunner(verbose) == 1} {
-	    ::syslog::msg "Uploading $fpath.";
+	    ::npstats::syslog::msg "Uploading $fpath.";
 	}
     } else {
-	::syslog::warn "Could not upload $fpath: $errmsg";
+	::npstats::syslog::warn "Could not upload $fpath: $errmsg";
     }
 
     return $status;
@@ -108,7 +108,7 @@ proc dbinsert_datafile_to_values {fpath} {
 #
     global qrunner;
 
-    set deviceid [::devices::get_deviceid_fromfpath $fpath];
+    set deviceid [::npstats::devices::get_deviceid_fromfpath $fpath];
     set devicenumber [qrunner_get_number_fromid $deviceid];
     if {$devicenumber eq ""} {
 	return -code error "Device unconfigured: $deviceid";
@@ -120,8 +120,8 @@ proc dbinsert_datafile_to_values {fpath} {
 
     # The contents of the file is a "pdata" (from devices.tcl)
     set pdata [string trim [::fileutil::cat $fpath]];
-    set pdatalist [::devices::data_unpack $pdata];
-    set output [::devices::data_unpack_output $pdatalist];
+    set pdatalist [::npstats::devices::data_unpack $pdata];
+    set output [::npstats::devices::data_unpack_output $pdatalist];
 
     append pvalues "," $output;
 

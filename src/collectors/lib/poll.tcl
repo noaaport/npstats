@@ -15,22 +15,22 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-package provide poll 1.0;
+package provide npstats::poll 1.0;
 
 package require cmdline;
 
-namespace eval poll {
+namespace eval npstats::poll {
 
     variable poll;
 
     array set poll {};
 }
 
-proc ::poll::connect {device poller args} {
+proc ::npstats::poll::connect {device poller args} {
 
     variable poll;
 
-    set usage {::poll::connect <device> <poller> [<poller_options>]}
+    set usage {::npstats::poll::connect <device> <poller> [<poller_options>]}
     
     set F [open "|$poller $args" r+];
 
@@ -38,7 +38,7 @@ proc ::poll::connect {device poller args} {
     set poll($device,F) $F;
 }
 
-proc ::poll::disconnect {device} {
+proc ::npstats::poll::disconnect {device} {
 
     variable poll;
 
@@ -48,7 +48,7 @@ proc ::poll::disconnect {device} {
     unset poll($device,F);
 }
 
-proc ::poll::send {device cmd} {
+proc ::npstats::poll::send {device cmd} {
 
     variable poll;
 
@@ -64,17 +64,17 @@ proc ::poll::send {device cmd} {
     }
 }
 
-proc ::poll::send-poll {device} {
+proc ::npstats::poll::send_poll {device} {
 
-    ::poll::send $device "POLL";
+    ::npstats::poll::send $device "POLL";
 }
 
-proc ::poll::send-report {device} {
+proc ::npstats::poll::send_report {device} {
 
-    ::poll::send $device "REPORT";
+    ::npstats::poll::send $device "REPORT";
 }
 
-proc ::poll::pop-line {device line_varname} {
+proc ::npstats::poll::pop_line {device line_varname} {
 #
 # Returns the same code as "gets <fh> line".
 #
@@ -87,7 +87,7 @@ proc ::poll::pop-line {device line_varname} {
     return $r;
 }
 
-proc ::poll::dfconfigure {device args} {
+proc ::npstats::poll::dfconfigure {device args} {
     
     variable poll;
 
@@ -98,7 +98,7 @@ proc ::poll::dfconfigure {device args} {
 #
 # Utility
 #
-proc ::poll::set_var {device var val} {
+proc ::npstats::poll::set_var {device var val} {
     
     variable poll;
 
@@ -106,7 +106,7 @@ proc ::poll::set_var {device var val} {
     set poll($device,user,$var) $val;
 }
 
-proc ::poll::get_var {device var} {
+proc ::npstats::poll::get_var {device var} {
     
     variable poll;
 
@@ -122,7 +122,7 @@ proc ::poll::get_var {device var} {
 #
 # low level
 #
-proc ::poll::get_filehandle {device} {
+proc ::npstats::poll::get_filehandle {device} {
 
     variable poll;
 
@@ -134,7 +134,7 @@ proc ::poll::get_filehandle {device} {
 #
 # private
 #
-proc ::poll::_verify_connection {device} {
+proc ::npstats::poll::_verify_connection {device} {
 
     variable poll;
 

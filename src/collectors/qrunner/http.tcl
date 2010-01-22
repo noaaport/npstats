@@ -19,13 +19,13 @@ proc qrunner_http_upload {qfilelist} {
     global qrunner;
 
     if {$qrunner(http,enable) == 0} {
-	::syslog::warn "http not enabled.";
+	::npstats::syslog::warn "http not enabled.";
 	return;
     }
 
     if {[llength $qfilelist] == 0} {
 	if {$qrunner(verbose) == 1} {
-	    ::syslog::warn "Nothing to transfer.";
+	    ::npstats::syslog::warn "Nothing to transfer.";
 	}
 	return;
     }
@@ -41,7 +41,7 @@ proc qrunner_http_upload {qfilelist} {
 	set status [qrunner_http_upload_one $file];
 
 	if {$status != 0} {
-	    ::syslog::warn "$file and $qfile scheduled for retransmission.";
+	    ::npstats::syslog::warn "$file and $qfile scheduled for retransmission.";
 	    break;
 	}
 	
@@ -53,7 +53,7 @@ proc qrunner_http_upload {qfilelist} {
 		file rename -force $file $qfile $qrunner(sentdir);
 	    } errmsg];
 	    if {$status != 0} {
-		::syslog::warn $errmsg;
+		::npstats::syslog::warn $errmsg;
 	    }
 	}
     }
@@ -77,7 +77,7 @@ proc qrunner_http_upload_one {fpath} {
 
     if {$status != 0} {
 	# Should not call "::http::cleanup $ht" here.
-	::syslog::warn "Could not upload $fpath: $errmsg";
+	::npstats::syslog::warn "Could not upload $fpath: $errmsg";
 	return 1;
     }
 
@@ -100,14 +100,14 @@ proc qrunner_http_upload_one {fpath} {
 	
     if {$status == 0} {
 	if {$qrunner(verbose) == 1} {
-	    ::syslog::msg "Uploaded $fpath.";
+	    ::npstats::syslog::msg "Uploaded $fpath.";
 	}
     } else {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
     }
 
     if {[catch {::http::cleanup $ht} errmsg]} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
     }
 
     return $status;
@@ -115,7 +115,7 @@ proc qrunner_http_upload_one {fpath} {
 
 proc http_datafile_to_query {fpath sitekey} {
 
-    set deviceid [::devices::get_deviceid_fromfpath $fpath];
+    set deviceid [::npstats::devices::get_deviceid_fromfpath $fpath];
     set data [string trim [::fileutil::cat $fpath]];
 
     #

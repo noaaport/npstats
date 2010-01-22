@@ -10,7 +10,7 @@
 #                               kakameni
 #
 package require http;
-package require devices;
+package require npstats::devices;
 
 #
 # tcllib has two md5 packages. We would prefer to use version 2.
@@ -23,7 +23,7 @@ set usage {npstatshttpsend <url> <fpath> <sitekey>};
 
 proc http_datafile_to_query {fpath sitekey} {
 
-    set deviceid [::devices::get_deviceid_fromfpath $fpath];
+    set deviceid [::npstats::devices::get_deviceid_fromfpath $fpath];
     set data  [string trim [exec cat $fpath]];
 
     #set md5 [::md5::hmac -hex -key $sitekey $data]; # version 2

@@ -1,19 +1,19 @@
 #
 # $Id$
 #
-package provide devices 1.0;
+package provide npstats::devices 1.0;
 package require textutil::split;
 
 #
 # These functions retrieve the various properties of each device,
 # as defined in devices.conf.
 #
-namespace eval devices {
+namespace eval npstats::devices {
 
     variable devices;
 }
 
-proc ::devices::get_id {device} {
+proc ::npstats::devices::get_id {device} {
 
     set i [lsearch -exact $device "deviceid"];
     incr i;
@@ -22,7 +22,7 @@ proc ::devices::get_id {device} {
     return $deviceid;
 }
 
-proc ::devices::get_number {device} {
+proc ::npstats::devices::get_number {device} {
 
     set i [lsearch -exact $device "devicenumber"];
     incr i;
@@ -31,7 +31,7 @@ proc ::devices::get_number {device} {
     return $devicenumber;
 }
 
-proc ::devices::get_type {device} {
+proc ::npstats::devices::get_type {device} {
 
     set i [lsearch -exact $device "devicetype"];
     incr i;
@@ -40,7 +40,7 @@ proc ::devices::get_type {device} {
     return $devicetype;
 }
 
-proc ::devices::get_options {device} {
+proc ::npstats::devices::get_options {device} {
 
     set i [lsearch -exact $device "export"];
     incr i;
@@ -57,7 +57,7 @@ proc ::devices::get_options {device} {
     return [list export $v1 csvarchive $v2 displaystatus $v3];
 }
 
-proc ::devices::get_tml {device} {
+proc ::npstats::devices::get_tml {device} {
 
     set i [lsearch -exact $device "displaytemplate"];
     incr i;
@@ -70,7 +70,7 @@ proc ::devices::get_tml {device} {
 # Given a device id (<site>.<name>) and a device list, these functions
 # retrieve the properties of the device.
 #
-proc ::devices::get_device_fromid {devicelist deviceid} {
+proc ::npstats::devices::get_device_fromid {devicelist deviceid} {
 
     foreach d $devicelist {
 	if {[get_id $d] eq $deviceid} {
@@ -81,7 +81,7 @@ proc ::devices::get_device_fromid {devicelist deviceid} {
     return [list];
 }
 
-proc ::devices::get_type_fromid {devicelist deviceid} {
+proc ::npstats::devices::get_type_fromid {devicelist deviceid} {
 
     set device [get_device_fromid $devicelist $deviceid];
     if {[llength $device] == 0} {
@@ -91,7 +91,7 @@ proc ::devices::get_type_fromid {devicelist deviceid} {
     return [get_type $device];
 }
 
-proc ::devices::get_number_fromid {devicelist deviceid} {
+proc ::npstats::devices::get_number_fromid {devicelist deviceid} {
 
     set device [get_device_fromid $devicelist $deviceid];
     if {[llength $device] == 0} {
@@ -101,7 +101,7 @@ proc ::devices::get_number_fromid {devicelist deviceid} {
     return [get_number $device];
 }
 
-proc ::devices::get_options_fromid {devicelist deviceid} {
+proc ::npstats::devices::get_options_fromid {devicelist deviceid} {
 
     set device [get_device_fromid $devicelist $deviceid];
     if {[llength $device] == 0} {
@@ -111,7 +111,7 @@ proc ::devices::get_options_fromid {devicelist deviceid} {
     return [get_options $device];
 }
 
-proc ::devices::get_tml_fromid {devicelist deviceid} {
+proc ::npstats::devices::get_tml_fromid {devicelist deviceid} {
 
     set device [get_device_fromid $devicelist $deviceid];
     if {[llength $device] == 0} {
@@ -132,7 +132,7 @@ proc ::devices::get_tml_fromid {devicelist deviceid} {
 #
 # <deviceid>|<devicenumber>|<devicetype>|<output>
 
-proc ::devices::data_pack {device output} {
+proc ::npstats::devices::data_pack {device output} {
 #
 # <output> should be the csv string of the device output.
 # This function returns the string
@@ -141,17 +141,17 @@ proc ::devices::data_pack {device output} {
 #
 # which we call a "pdata".
 
-    lappend pdatalist [::devices::get_id $device] \
-	[::devices::get_number $device] \
-	[::devices::get_type $device] \
+    lappend pdatalist [::npstats::devices::get_id $device] \
+	[::npstats::devices::get_number $device] \
+	[::npstats::devices::get_type $device] \
 	$output;
 
     return [join $pdatalist "|"];
 }
 
-proc ::devices::data_unpack {pdata} {
+proc ::npstats::devices::data_unpack {pdata} {
 #
-# Takes as input the result obtained from ::devices::data_pack, and returns
+# Takes as input the result obtained from ::npstats::devices::data_pack, and returns
 # a list of 4 elements: <deviceid>|<devicenumber>|<devicetype>|<output>
 #
     return [split $pdata "|"];
@@ -159,24 +159,24 @@ proc ::devices::data_unpack {pdata} {
 
 #
 # These functions return each of the four the indivicual elements mentioned
-# above. The argument must be the output of ::devices::data_unpack.
+# above. The argument must be the output of ::npstats::devices::data_unpack.
 #
-proc ::devices::data_unpack_deviceid {pdatalist} {
+proc ::npstats::devices::data_unpack_deviceid {pdatalist} {
 
     return [lindex $pdatalist 0];
 }
 
-proc ::devices::data_unpack_devicenumber {pdatalist} {
+proc ::npstats::devices::data_unpack_devicenumber {pdatalist} {
 
     return [lindex $pdatalist 1];
 }
 
-proc ::devices::data_unpack_devicetype {pdatalist} {
+proc ::npstats::devices::data_unpack_devicetype {pdatalist} {
 
     return [lindex $pdatalist 2];
 }
 
-proc ::devices::data_unpack_output {datalist} {
+proc ::npstats::devices::data_unpack_output {datalist} {
 
     return [lindex $datalist 3];
 }
@@ -186,7 +186,7 @@ proc ::devices::data_unpack_output {datalist} {
 # two parts: <site> and <devicename> in such a way that the <devicename>
 # can contain periods (.e.g., noaaportnet.atom.qdbstats)
 #
-proc ::devices::get_deviceid_parts {deviceid} {
+proc ::npstats::devices::get_deviceid_parts {deviceid} {
 
     if {[regexp {([^\.]+)\.(.+)} $deviceid match site name] == 0} {
 	return -code error "Invalid device id $deviceid.";
@@ -195,17 +195,17 @@ proc ::devices::get_deviceid_parts {deviceid} {
     return [list $site $name];
 }
 
-proc ::devices::get_devicesite {deviceid} {
+proc ::npstats::devices::get_devicesite {deviceid} {
 
     return [lindex [get_deviceid_parts $deviceid] 0];
 }
 
-proc ::devices::get_devicename {deviceid} {
+proc ::npstats::devices::get_devicename {deviceid} {
 
     return [lindex [get_deviceid_parts $deviceid] 1];
 }
 
-proc ::devices::get_devicefname_parts {devicefname} {
+proc ::npstats::devices::get_devicefname_parts {devicefname} {
 #
 # By <devicefname> we understand the rootname of a device data file
 # such as
@@ -227,21 +227,21 @@ proc ::devices::get_devicefname_parts {devicefname} {
     return [list $deviceid $time];
 }
 
-proc ::devices::get_deviceid_fromfname {devicefname} {
+proc ::npstats::devices::get_deviceid_fromfname {devicefname} {
 
     set deviceid [lindex [get_devicefname_parts $devicefname] 0];
     
     return $deviceid;
 }
 
-proc ::devices::get_devicesite_fromfname {devicefname} {
+proc ::npstats::devices::get_devicesite_fromfname {devicefname} {
 
     set deviceid [get_deviceid_fromfname $devicefname];
     
     return [get_devicesite $deviceid];
 }
 
-proc ::devices::get_deviceid_fromfpath {fpath} {
+proc ::npstats::devices::get_deviceid_fromfpath {fpath} {
 
     set fname [file rootname [file tail $fpath]];
     set deviceid [get_deviceid_fromfname $fname];
@@ -255,7 +255,7 @@ proc ::devices::get_deviceid_fromfpath {fpath} {
 # the list is constructed by hand rather than being loaded from the text
 # dbfile.
 #
-proc ::devices::verify_devicelist {devicelist} {
+proc ::npstats::devices::verify_devicelist {devicelist} {
 
     set paramnames [list deviceid devicenumber devicetype \
 			export csvarchive displaystatus \
@@ -279,7 +279,7 @@ proc ::devices::verify_devicelist {devicelist} {
 # This function loads a devices "flat dbfile" and constructs
 # the devices(devicelist) in the format of devices.conf.
 #
-proc ::devices::load_devices_dbfile {dbfile devices_array} {
+proc ::npstats::devices::load_devices_dbfile {dbfile devices_array} {
 
     upvar $devices_array devices;
 
@@ -306,7 +306,7 @@ proc ::devices::load_devices_dbfile {dbfile devices_array} {
 	set paramlist [textutil::split::splitx [string trim $line] {\s*,\s*}];
 
 	set status [catch {
-	    ::devices::_verify_device_paramlist $paramlist;
+	    ::npstats::devices::_verify_device_paramlist $paramlist;
 	} errmsg];
 	if {$status != 0} {
 	    return -code error "Error processing line: $line: $errmsg";
@@ -342,9 +342,9 @@ proc ::devices::load_devices_dbfile {dbfile devices_array} {
 }
 
 #
-# This is a helper function for ::devices::load_devices_dbfile.
+# This is a helper function for ::npstats::devices::load_devices_dbfile.
 #
-proc ::devices::_verify_device_paramlist {paramlist} {
+proc ::npstats::devices::_verify_device_paramlist {paramlist} {
 
     set r "";
     if {[llength $paramlist] < 3} {

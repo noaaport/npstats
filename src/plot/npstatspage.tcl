@@ -58,7 +58,7 @@ proc npstatsplot_get_archive_data_csv {} {
     set datafile [npstatsplot_get_archive_current_datafile];
 
     if {[file exists $datafile] == 0} {
-	::syslog::warn "$datafile not found.";
+	::npstats::syslog::warn "$datafile not found.";
 	return "";
     }
 
@@ -67,7 +67,7 @@ proc npstatsplot_get_archive_data_csv {} {
     } errmsg];
 
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
 	return "";
     }
 
@@ -107,7 +107,7 @@ unset defaultsfile;
 
 # Local packages - 
 ## The errx library. syslog enabled below if -b is given.
-package require errx;
+package require npstats::errx;
 
 # Configuration
 set npstatsplot(conf) [file join $common(confdir) "npstatsplot.conf"];
@@ -133,7 +133,7 @@ if {$argc != 2} {
     return 1;
 }
 if {$option(b) == 1} {
-    ::syslog::usesyslog;
+    ::npstats::syslog::usesyslog;
 }
 set option(deviceid) [lindex $argv 0];
 set option(template) [lindex $argv 1];
@@ -172,7 +172,7 @@ while {$i <= $n} {
 
 set template [npstatsplot_find_tml_template $option(template)];
 if {($template eq "") || ([file exists $template] == 0)} {
-    ::syslog::warn "$option(template) not found.";
+    ::npstats::syslog::warn "$option(template) not found.";
     return 1;
 }
 source $template;

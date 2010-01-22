@@ -15,20 +15,20 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-package provide db 1.0;
+package provide npstats::db 1.0;
 
-namespace eval db {
+namespace eval npstats::db {
 
     variable db;
 
     array set db {};
 }
 
-proc ::db::init {cmd options} {
+proc ::npstats::db::init {cmd options} {
 
     variable db;
 
-    set usage {::db::init <cmd> <options>};
+    set usage {::npstats::db::init <cmd> <options>};
 
     # These are the only internal variables
     set db(cmd) [concat $cmd $options];
@@ -36,14 +36,14 @@ proc ::db::init {cmd options} {
     ## unset db(F);
 }
 
-proc ::db::connect {} {
+proc ::npstats::db::connect {} {
 
     variable db;
 
     set db(F) [open "|$db(cmd)" "r+"];
 }
 
-proc ::db::disconnect {} {
+proc ::npstats::db::disconnect {} {
 
     variable db;
 
@@ -53,7 +53,7 @@ proc ::db::disconnect {} {
     unset db(F);
 }
 
-proc ::db::send {sqlscript} {
+proc ::npstats::db::send {sqlscript} {
 
     variable db;
 
@@ -63,7 +63,7 @@ proc ::db::send {sqlscript} {
     flush $db(F);
 }
 
-proc ::db::send_insert {table pnames pvalues} {
+proc ::npstats::db::send_insert {table pnames pvalues} {
 
     variable db;
 
@@ -80,7 +80,7 @@ proc ::db::send_insert {table pnames pvalues} {
 #
 # Utility
 #
-proc ::db::get_output {} {
+proc ::npstats::db::get_output {} {
 
     variable db;
 
@@ -92,7 +92,7 @@ proc ::db::get_output {} {
 #
 # private
 #
-proc ::db::_verify_connection {} {
+proc ::npstats::db::_verify_connection {} {
 
     variable db;
 

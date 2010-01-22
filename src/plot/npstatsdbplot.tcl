@@ -66,7 +66,7 @@ proc npstatsdbplot_get_data_mysql {devicetable devicetid} {
     catch {close $f};
 
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
 	return "";
     }
 
@@ -100,7 +100,7 @@ proc npstatsdbplot_gnuplot {} {
     } errmsg];
 
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
     }
 
     if {[info exists f]} {
@@ -110,7 +110,7 @@ proc npstatsdbplot_gnuplot {} {
     # gnuplot sometimes throws a warning. We try to catch it and _not_
     # flag it as an error.
     if {($status != 0) && ([regexp -nocase {warning} $errmsg] == 0)} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
 	return 1;
     }
 }
@@ -131,7 +131,7 @@ unset defaultsfile;
 
 # Local packages - 
 ## The errx library. syslog enabled below if -b is given.
-package require errx;
+package require npstats::errx;
 
 # Configuration
 set npstatsdbplot(conf) [file join $common(confdir) "npstatsdbplot.conf"];
@@ -153,12 +153,12 @@ array set option [::cmdline::getoptions argv $optlist $usage];
 set argc [llength $argv];
 
 if {$option(b) == 1} {
-    ::syslog::usesyslog;
+    ::npstats::syslog::usesyslog;
 }
 
 if {($argc < 2) || ($argc > 3)} {
-    ::syslog::warn "Invalid number of arguments";
-    ::syslog::warn $usage;
+    ::npstats::syslog::warn "Invalid number of arguments";
+    ::npstats::syslog::warn $usage;
     return 1;
 }
 
@@ -171,7 +171,7 @@ if {$argc == 3} {
 }
 
 if {$option(n) < 0} {    
-    ::syslog::warn "-n argument cannot be negative.";
+    ::npstats::syslog::warn "-n argument cannot be negative.";
     return 1;
 }
 
@@ -186,7 +186,7 @@ if {$option(template) eq ""} {
 
 # If a template was specified and there is no data return an error.
 if {$gplot(data) eq ""} {
-    ::syslog::warn "No data.";
+    ::npstats::syslog::warn "No data.";
     return 1;
 }
 
@@ -216,7 +216,7 @@ if {$option(F) == 1} {
     set gnuplottemplate [npstatsdbplot_find_template $option(template)];
 }
 if {($gnuplottemplate eq "") || ([file exists $gnuplottemplate] == 0)} {
-    ::syslog::warn "$option(template) not found.";
+    ::npstats::syslog::warn "$option(template) not found.";
     return 1;
 }
 source $gnuplottemplate;

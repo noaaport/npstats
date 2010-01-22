@@ -1,17 +1,17 @@
 #
 # $Id$
 #
-package provide errx 1.0;
+package provide npstats::errx 1.0;
 
-namespace eval errx {}
-namespace eval syslog {
+namespace eval npstats::errx {}
+namespace eval npstats::syslog {
 
     variable syslog;
 
     set syslog(usesyslog) 0;
 }
 
-proc ::errx::warn s {
+proc ::npstats::errx::warn s {
 
     global argv0;
 
@@ -19,7 +19,7 @@ proc ::errx::warn s {
     puts stderr "$name: $s";
 }
 
-proc ::errx::err s {
+proc ::npstats::errx::err s {
 
     warn $s;
     exit 1;
@@ -28,14 +28,14 @@ proc ::errx::err s {
 #
 # syslog
 #
-proc ::syslog::usesyslog {{flag 1}} {
+proc ::npstats::syslog::usesyslog {{flag 1}} {
 
     variable syslog;
 
     set syslog(usesyslog) $flag;
 }
 
-proc ::syslog::_log_msg s {
+proc ::npstats::syslog::_log_msg s {
 
     global argv0;
 
@@ -43,7 +43,7 @@ proc ::syslog::_log_msg s {
     exec logger -t $name -- $s;
 }
 
-proc ::syslog::msg s {
+proc ::npstats::syslog::msg s {
 
     variable syslog;
 
@@ -54,18 +54,18 @@ proc ::syslog::msg s {
     }
 }
 
-proc ::syslog::warn s {
+proc ::npstats::syslog::warn s {
 
     variable syslog;
 
     if {$syslog(usesyslog) == 1} {
 	_log_msg $s;
     } else {
-	::errx::warn $s;
+	::npstats::errx::warn $s;
     }
 }
 
-proc ::syslog::err s {
+proc ::npstats::syslog::err s {
 
     variable syslog;
 
@@ -73,6 +73,6 @@ proc ::syslog::err s {
 	_log_msg $s;
 	exit 1;
     } else {
-	::errx::err $s;
+	::npstats::errx::err $s;
     }
 }

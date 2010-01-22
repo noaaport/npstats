@@ -6,7 +6,7 @@ Direct_Url /npstats/status npstats/status;
 #
 # The (local) spooler and monitor packages
 #
-package require devices;	# the devices properties
+package require npstats::devices;	# the devices properties
 
 proc npstats/status/display_device_list {} {
 
@@ -19,14 +19,14 @@ proc npstats/status/display_device_list {} {
     set result "<h1>Configured devices</h1>\n";
     array set result_by_type {};
     foreach device $Config(devicelist) {
-	array set option [::devices::get_options $device];
+	array set option [::npstats::devices::get_options $device];
 	if {([info exists option(displaystatus)] == 0) || \
 		($option(displaystatus) == 0)} {
 	    continue;
 	}
-	set deviceid [::devices::get_id $device];
-	set devicetype [::devices::get_type $device];
-	set template [::devices::get_tml $device];
+	set deviceid [::npstats::devices::get_id $device];
+	set devicetype [::npstats::devices::get_type $device];
+	set template [::npstats::devices::get_tml $device];
 	set q "deviceid=$deviceid&template=$template";
 	set url "/npstats/status/display_device_status";
 	append url "?" $q;
@@ -72,13 +72,13 @@ proc npstats/status/display_main_device {} {
     }
 
     foreach device $Config(devicelist) {
-	array set option [::devices::get_options $device];
+	array set option [::npstats::devices::get_options $device];
 	if {([info exists option(displaystatus)] == 0) || \
 		($option(displaystatus) == 0)} {
 	    continue;
 	}
-	set deviceid [::devices::get_id $device];
-	set template [::devices::get_tml $device];
+	set deviceid [::npstats::devices::get_id $device];
+	set template [::npstats::devices::get_tml $device];
 	set r [npstats/status/display_device_status $deviceid $template];
 
 	break;

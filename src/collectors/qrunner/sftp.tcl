@@ -2,10 +2,10 @@
 # $Id$
 #
 
-package require sftp;
+package require npstats::sftp;
 
 # Initialize the sftp package
-::sftp::init $qrunner(sftp,user) $qrunner(sftp,host);
+::npstats::sftp::init $qrunner(sftp,user) $qrunner(sftp,host);
 
 #
 # sftp upload functions
@@ -15,13 +15,13 @@ proc qrunner_sftp_upload {qfilelist} {
     global qrunner;
 
     if {$qrunner(sftp,enable) == 0} {
-	::syslog::warn "sftp not enabled.";
+	::npstats::syslog::warn "sftp not enabled.";
 	return;
     }
 
     if {[llength $qfilelist] == 0} {
 	if {$qrunner(verbose) == 1} {
-	    ::syslog::warn "Nothing to transfer.";
+	    ::npstats::syslog::warn "Nothing to transfer.";
 	}
 	return;
     }
@@ -39,12 +39,12 @@ proc qrunner_sftp_upload {qfilelist} {
 	    set status [qrunner_sftp_upload_one $qfile];
 	    if {$status != 0} {
 		# Ignore any error here
-		catch {::sftp:rm $file};
+		catch {::npstats::sftp:rm $file};
 	    }
 	}
 
 	if {$status != 0} {
-	    ::syslog::warn "$file and $qfile scheduled for retransmission.";
+	    ::npstats::syslog::warn "$file and $qfile scheduled for retransmission.";
 	    break;
 	}
 	
@@ -56,7 +56,7 @@ proc qrunner_sftp_upload {qfilelist} {
 		file rename -force $file $qfile $qrunner(sentdir);
 	    } errmsg];
 	    if {$status != 0} {
-		::syslog::warn $errmsg;
+		::npstats::syslog::warn $errmsg;
 	    }
 	}
     }
@@ -69,15 +69,15 @@ proc qrunner_sftp_upload_one {fpath} {
     global qrunner;
 
     set status [catch {
-	::sftp::put $fpath;
+	::npstats::sftp::put $fpath;
     } errmsg];
     
     if {$status == 0} {
 	if {$qrunner(verbose) == 1} {
-	    ::syslog::msg "Uploaded $fpath.";
+	    ::npstats::syslog::msg "Uploaded $fpath.";
 	}
     } else {
-	::syslog::warn "Could not upload $fpath: $errmsg";
+	::npstats::syslog::warn "Could not upload $fpath: $errmsg";
     }
 
     return $status;

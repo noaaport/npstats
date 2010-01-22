@@ -5,9 +5,9 @@
 # Functions to send the data to the monitor program (used by the manager,
 # http, and any other collector).
 #
-package provide monitor 1.0;
+package provide npstats::monitor 1.0;
 
-namespace eval monitor {
+namespace eval npstats::monitor {
 
     variable monitor;
 
@@ -17,14 +17,14 @@ namespace eval monitor {
     set monitor(program) "";
 }
 
-proc ::monitor::init {program} {
+proc ::npstats::monitor::init {program} {
     
     variable monitor;
 
     set monitor(program) $program;
 }
 
-proc ::monitor::connect {} {
+proc ::npstats::monitor::connect {} {
 
     variable monitor;
 
@@ -41,7 +41,7 @@ proc ::monitor::connect {} {
     return "";
 }
 
-proc ::monitor::disconnect {} {
+proc ::npstats::monitor::disconnect {} {
 
     variable monitor;
 
@@ -62,7 +62,7 @@ proc ::monitor::disconnect {} {
     return "";
 }
 
-proc ::monitor::send_output {pdata} {
+proc ::npstats::monitor::send_output {pdata} {
 
     variable monitor;
 
@@ -72,8 +72,8 @@ proc ::monitor::send_output {pdata} {
     } errmsg];
 
     if {$status != 0} {
-	::monitor::disconnect;
-	::monitor::connect;
+	::npstats::monitor::disconnect;
+	::npstats::monitor::connect;
 	return $errmsg;
     }
 

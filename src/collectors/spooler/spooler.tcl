@@ -18,11 +18,11 @@ package require textutil;
 
 # Local packages - 
 ## The errx library, with syslog enabled
-package require errx;
-::syslog::usesyslog;
+package require npstats::errx;
+::npstats::syslog::usesyslog;
 
 ## The devices library
-package require devices;
+package require npstats::devices;
 
 # Initialization
 set spooler(conf) [file join $common(confdir) "spooler.conf"];
@@ -55,7 +55,7 @@ if {[file exists $spooler(conf)] == 1} {
 #
 foreach _f [list $spooler(devicesdef) $spooler(devicesconf)] {
     if {[file exists ${_f}] == 0} {
-	::syslog::err "${_f} is required.";
+	::npstats::syslog::err "${_f} is required.";
 	return 1;
     }
     source ${_f};
@@ -64,10 +64,10 @@ foreach _f [list $spooler(devicesdef) $spooler(devicesconf)] {
 # Verify the device list (in case it was manually constructed rather
 # than loading it from a tdb file.
 set status [catch {
-    ::devices::verify_devicelist $devices(devicelist);
+    ::npstats::devices::verify_devicelist $devices(devicelist);
 } errmsg];
 if {$status != 0} {
-    ::syslog::err $errmsg;
+    ::npstats::syslog::err $errmsg;
     return 1;
 }
 
@@ -77,7 +77,7 @@ foreach key [array names devices *] {
 }
 
 if {[llength $spooler(dev,devicelist)] == 0} {
-    ::syslog::err "No devices configured.";
+    ::npstats::syslog::err "No devices configured.";
     return 1;
 }
 
@@ -100,16 +100,16 @@ proc spooler_fileevent_handler_stdin {} {
 	set spooler(f_quit) 1;
 	return;
     } elseif {$pdata eq ""} {
-	::syslog::msg "Received request to quit.";
+	::npstats::syslog::msg "Received request to quit.";
 	set spooler(f_quit) 1;
 	return;
     }
 
     set status [catch {spooler_process $pdata} errmsg];
     if {$status == 1} {
-	::syslog::warn "Error processing $pdata";
-	::syslog::warn $errmsg;
-	::syslog::warn $errorInfo;
+	::npstats::syslog::warn "Error processing $pdata";
+	::npstats::syslog::warn $errmsg;
+	::npstats::syslog::warn $errorInfo;
     }
 }
 
@@ -124,11 +124,11 @@ proc spooler_process {pdata} {
 #
     global spooler;
 
-    set pdataparts [::devices::data_unpack $pdata];
-    set deviceid [::devices::data_unpack_deviceid $pdataparts];
-    set devicenumber [::devices::data_unpack_devicenumber $pdataparts];
-    set devicetype [::devices::data_unpack_devicetype $pdataparts];
-    set output [::devices::data_unpack_output $pdataparts];
+    set pdataparts [::npstats::devices::data_unpack $pdata];
+    set deviceid [::npstats::devices::data_unpack_deviceid $pdataparts];
+    set devicenumber [::npstats::devices::data_unpack_devicenumber $pdataparts];
+    set devicetype [::npstats::devices::data_unpack_devicetype $pdataparts];
+    set output [::npstats::devices::data_unpack_output $pdataparts];
 
     array set option [spooler_get_device_options_fromid $deviceid];
 
@@ -149,8 +149,8 @@ proc spooler_spool_device_report {deviceid output pdata} {
     set vlist [split $output ","];
     
     if {[llength $vlist] != [llength $paramlist]} {
-	::syslog::warn "Number of data items and parameters do not match.";
-	::syslog::warn "$deviceid: $output.";
+	::npstats::syslog::warn "Number of data items and parameters do not match.";
+	::npstats::syslog::warn "$deviceid: $output.";
 	return;
     }
 
@@ -172,7 +172,7 @@ proc spooler_spool_device_report {deviceid output pdata} {
     } errmsg]; 
 
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
 	file delete $dfpath;
 	file delete $qfpath;
     }
@@ -215,7 +215,7 @@ proc spooler_csvarchive_device_data {deviceid devicenumber output} {
     } errmsg]; 
 
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
     }
 }
 
@@ -226,7 +226,7 @@ proc spooler_get_device_options_fromid {deviceid} {
 
     global spooler;
 
-    set device_options [::devices::get_options_fromid \
+    set device_options [::npstats::devices::get_options_fromid \
 			    $spooler(dev,devicelist) $deviceid];
 
     return $device_options;
@@ -236,7 +236,7 @@ proc spooler_get_device_param_fromid {deviceid} {
 
     global spooler;
 
-    set device_type [::devices::get_type_fromid \
+    set device_type [::npstats::devices::get_type_fromid \
 			 $spooler(dev,devicelist) $deviceid];
 
     return $spooler(dev,param,$device_type);

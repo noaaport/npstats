@@ -55,12 +55,12 @@ proc npstatsplot_verify_option_conflicts {} {
     }
 
     if {$conflict_ny > 1} {
-	::syslog::warn "Options -n,-y conflict.";
+	::npstats::syslog::warn "Options -n,-y conflict.";
 	return 1;
     }
 
     if {$option(n) < 0} {    
-	::syslog::warn "-n argument must be positive.";
+	::npstats::syslog::warn "-n argument must be positive.";
 	return 1;
     }
 
@@ -75,7 +75,7 @@ proc npstatsplot_get_archive_datafile {} {
     if {$option(y) ne ""} {
 	if {[regsub {(\d{4})(\d{2})(\d{2})} $option(y) \
 		 match yyyy mm dd] == 0} {
-	    ::syslog::warn "Invalid yyyymmdd.";
+	    ::npstats::syslog::warn "Invalid yyyymmdd.";
 	    return "";
 	}
     } else {
@@ -110,7 +110,7 @@ proc npstatsplot_get_data_csv {} {
     }
 
     if {[file exists $datafile] == 0} {
-	::syslog::warn "$datafile not found.";
+	::npstats::syslog::warn "$datafile not found.";
 	return "";
     }
 
@@ -119,7 +119,7 @@ proc npstatsplot_get_data_csv {} {
     } errmsg];
 
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
 	return "";
     }
 
@@ -184,7 +184,7 @@ unset defaultsfile;
 
 # Local packages - 
 ## The errx library. syslog enabled below if -b is given.
-package require errx;
+package require npstats::errx;
 
 # Configuration
 set npstatsplot(confdir) $common(confdir);
@@ -209,12 +209,12 @@ if {[npstatsplot_verify_option_conflicts] != 0} {
 }
 
 if {$option(b) == 1} {
-    ::syslog::usesyslog;
+    ::npstats::syslog::usesyslog;
 }
 
 if {($argc == 0) || ($argc > 2)} {
-    ::syslog::warn "Invalid number of arguments.";
-    ::syslog::warn $usage;
+    ::npstats::syslog::warn "Invalid number of arguments.";
+    ::npstats::syslog::warn $usage;
     return 1;
 }
 set option(deviceid) [lindex $argv 0];
@@ -233,7 +233,7 @@ if {$option(template) eq ""} {
 
 # If a template was specified and there is no data return an error.
 if {$gplot(data) eq ""} {
-    ::syslog::warn "No data.";
+    ::npstats::syslog::warn "No data.";
     return 1;
 }
 
@@ -259,7 +259,7 @@ if {$option(F) == 1} {
     set gnuplottemplate [npstatsplot_find_template $option(template)];
 }
 if {($gnuplottemplate eq "") || ([file exists $gnuplottemplate] == 0)} {
-    ::syslog::warn "$option(template) not found.";
+    ::npstats::syslog::warn "$option(template) not found.";
     return 1;
 }
 source $gnuplottemplate;

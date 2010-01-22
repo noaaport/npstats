@@ -21,7 +21,7 @@ rename ::ftp::DisplayMsg ::ftp::DisplayMsg.orig;
 proc ::ftp::DisplayMsg {handle {msg ""} {state ""}} {
 
     if {$msg ne ""} {
-	::syslog::warn $msg;
+	::npstats::syslog::warn $msg;
     }
 }
 
@@ -33,13 +33,13 @@ proc qrunner_ftp_upload {qfilelist} {
     global qrunner;
 
     if {$qrunner(ftp,enable) == 0} {
-	::syslog::warn "ftp not enabled.";
+	::npstats::syslog::warn "ftp not enabled.";
 	return;
     }
 
     if {[llength $qfilelist] == 0} {
 	if {$qrunner(verbose) == 1} {
-	    ::syslog::warn "Nothing to transfer.";
+	    ::npstats::syslog::warn "Nothing to transfer.";
 	}
 	return;
     }
@@ -57,12 +57,12 @@ proc qrunner_ftp_upload {qfilelist} {
 	      -mode $qrunner(ftp,mode) -timeout $qrunner(ftp,timeout)];
 
     if {$f == -1} {
-	::syslog::warn "Cannot connect to $qrunner(ftp,server).";
+	::npstats::syslog::warn "Cannot connect to $qrunner(ftp,server).";
 	return;
     }
 
     if {[::ftp::Cd $f $qrunner(ftp,uploaddir)] == 0} {
-	::syslog::warn "Cannot cd to remote dir $qrunner(ftp,uploaddir)";
+	::npstats::syslog::warn "Cannot cd to remote dir $qrunner(ftp,uploaddir)";
 	catch {::ftp::Close $f};
 	return;
     }
@@ -81,7 +81,7 @@ proc qrunner_ftp_upload {qfilelist} {
 	}
 
 	if {$status != 0} {
-	    ::syslog::warn "$file and $qfile scheduled for retransmission.";
+	    ::npstats::syslog::warn "$file and $qfile scheduled for retransmission.";
 	    break;
 	}
 	
@@ -93,7 +93,7 @@ proc qrunner_ftp_upload {qfilelist} {
 		file rename -force $file $qfile $qrunner(sentdir);
 	    } errmsg];
 	    if {$status != 0} {
-		::syslog::warn $errmsg;
+		::npstats::syslog::warn $errmsg;
 	    }
 	}
     }
@@ -113,7 +113,7 @@ proc qrunner_ftp_upload_one {f fpath} {
 	set file_size [file size $fpath];
     } errmsg];
     if {$status != 0} {
-	::syslog::warn $errmsg;
+	::npstats::syslog::warn $errmsg;
 	return 1;
     }
 
@@ -134,10 +134,10 @@ proc qrunner_ftp_upload_one {f fpath} {
 
     if {$status == 0} {
 	if {$qrunner(verbose) == 1} {
-	    ::syslog::msg "Uploaded $fpath.";
+	    ::npstats::syslog::msg "Uploaded $fpath.";
 	}
     } else {
-	::syslog::warn "Could not upload $fpath.";
+	::npstats::syslog::warn "Could not upload $fpath.";
     }
 
     return $status;
