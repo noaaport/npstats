@@ -7,15 +7,16 @@
 #
 @include@ @q@../../../Makefile.inc@q@
 
-TCLLIBS =	errx.tcl \
+TCLLIBS =	pkgIndex.tcl \
+		db.tcl \
+		devices.tcl \
+		errx.tcl \
+		monitor.tcl \
 		mscheduler.tcl \
 		poll.tcl \
 		sftp.tcl \
-		db.tcl \
-		devices.tcl \
-		monitor.tcl \
 		spooler.tcl \
-		pkgIndex.tcl
+		syslog.tcl
 
 SAMPLES =	collectors.conf-sample
 TARGET =	${SAMPLES}

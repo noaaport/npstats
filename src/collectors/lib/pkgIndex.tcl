@@ -19,8 +19,11 @@ package ifneeded npstats::mscheduler 1.0 \
 package ifneeded npstats::poll 1.0 \
     [list source [file join $dir poll.tcl]]
 
+package ifneeded npstats::sftp 1.0 \
+    [list source [file join $dir sftp.tcl]]
+
 package ifneeded npstats::spooler 1.0 \
     [list source [file join $dir spooler.tcl]]
 
-package ifneeded npstats::sftp 1.0 \
-    [list source [file join $dir sftp.tcl]]
+package ifneeded npstats::syslog 1.0 \
+    [list source [file join $dir syslog.tcl]]

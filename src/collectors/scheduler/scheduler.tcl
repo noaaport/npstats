@@ -5,17 +5,10 @@
 # This is the "system scheduler", called by the npstatsd daemon.
 
 ## The common defaults
-set defaultsfile "/usr/local/etc/npstats/collectors.conf";
-if {[file exists $defaultsfile] == 0} {
-    puts "$argv0: $defaultsfile not found.";
-    return 1;
-}
-source $defaultsfile;
-unset defaultsfile;
+source "/usr/local/etc/npstats/collectors.conf";
 
 # The errx library, with syslog enabled
-package require npstats::errx;
-::npstats::syslog::usesyslog;
+package require npstats::syslog;
 
 ## The scheduler library
 package require npstats::mscheduler;

@@ -4,13 +4,7 @@
 #
 
 ## The common defaults
-set defaultsfile "/usr/local/etc/npstats/collectors.conf";
-if {[file exists $defaultsfile] == 0} {
-    puts "$argv0: $defaultsfile not found.";
-    return 1;
-}
-source $defaultsfile;
-unset defaultsfile;
+source "/usr/local/etc/npstats/collectors.conf";
 
 # Packages from tcllib
 package require fileutil;
@@ -18,8 +12,7 @@ package require textutil;
 
 # Local packages - 
 ## The errx library, with syslog enabled
-package require npstats::errx;
-::npstats::syslog::usesyslog;
+package require npstats::syslog;
 
 ## The pollers library
 package require npstats::poll;
