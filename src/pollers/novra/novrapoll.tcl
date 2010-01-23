@@ -7,7 +7,7 @@ package require "novramon";
 proc novrapoll_get_data {} {
 
     set status [catch {
-	::novramon::npstats::poll;
+	::novramon::poll;
     } errmsg];
 }
 
