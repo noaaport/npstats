@@ -12,7 +12,7 @@ set gplot(script) {
     set output "$gplot(output)"
 
     set ylabel "Errors"
-    set xlabel "Time"
+    set xlabel "Time gmt"
     set title "Uncorrectable Errors $gplot(deviceid)"
 
     # set size 0.6,0.6

@@ -13,7 +13,7 @@ set gplot(script) {
     set output "$gplot(output)"
 
     set ylabel "Bytes"
-    set xlabel "Time"
+    set xlabel "Time gmt"
     set title "Bytes processed $gplot(deviceid)"
 
     # set size 0.6,0.6

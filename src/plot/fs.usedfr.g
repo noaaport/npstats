@@ -13,7 +13,7 @@ set gplot(script) {
     set output "$gplot(output)"
 
     set ylabel "Percent"
-    set xlabel "Time"
+    set xlabel "Time gmt"
     set title "Percent used $gplot(deviceid)"
 
     # set size 0.6,0.6

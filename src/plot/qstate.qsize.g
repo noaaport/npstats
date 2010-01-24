@@ -12,7 +12,7 @@ set gplot(script) {
     set output "$gplot(output)"
 
     set ylabel "Queue size"
-    set xlabel "Time"
+    set xlabel "Time gmt"
     set title "Nbsp queue sizes $gplot(deviceid)"
 
     # set size 0.6,0.6

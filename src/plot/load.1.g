@@ -13,7 +13,7 @@ set gplot(script) {
     set output "$gplot(output)"
 
     set ylabel "Load Ave 1m"
-    set xlabel "Time"
+    set xlabel "Time gmt"
     set title "Load Ave 1m $gplot(deviceid)"
 
     # set size 0.6,0.6

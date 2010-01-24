@@ -12,7 +12,7 @@ set gplot(script) {
     set output "$gplot(output)"
 
     set ylabel "New Signal strength"
-    set xlabel "Time HERE"
+    set xlabel "Time gmt"
     set title "Signal strength $gplot(deviceid)"
 
     # set size 0.6,0.6

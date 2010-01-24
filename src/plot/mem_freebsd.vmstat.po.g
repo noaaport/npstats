@@ -13,7 +13,7 @@ set gplot(script) {
     set output "$gplot(output)"
 
     set ylabel "Pages/s"
-    set xlabel "Time"
+    set xlabel "Time gmt"
     set title "Vmstat pages paged out"
 
     # set size 0.6,0.6

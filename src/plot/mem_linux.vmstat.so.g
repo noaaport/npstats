@@ -13,7 +13,7 @@ set gplot(script) {
     set output "$gplot(output)"
 
     set ylabel "Bytes/s"
-    set xlabel "Time"
+    set xlabel "Time gmt"
     set title "Vmstat memory swaped out"
 
     # set size 0.6,0.6

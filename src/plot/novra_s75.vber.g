@@ -12,7 +12,7 @@ set gplot(script) {
     set output "$gplot(output)"
 
     set ylabel "Vber"
-    set xlabel "Time"
+    set xlabel "Time gmt"
     set title "Viterbi Bit Error Rate $gplot(deviceid)"
 
     # set size 0.6,0.6

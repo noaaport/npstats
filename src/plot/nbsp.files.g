@@ -13,7 +13,7 @@ set gplot(script) {
     set output "$gplot(output)"
 
     set ylabel "# of files"
-    set xlabel "Time"
+    set xlabel "Time gmt"
     set title "Files processed $gplot(deviceid)"
 
     # set size 0.6,0.6
