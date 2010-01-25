@@ -6,17 +6,29 @@ package require "novramon";
 
 proc novrapoll_get_data {} {
 
+    global g;
+
     set status [catch {
 	::novramon::poll;
     } errmsg];
+
+    set g(poll_status) $status;
+    set g(poll_errmsg) $errmsg;
 }
 
 proc novrapoll_report_data {} {
 
-    set status [catch {
-	::novramon::report data;
-    } errmsg];
-    
+    global g;
+
+    if {$g(poll_status) == 0} {
+	set status [catch {
+	    ::novramon::report data;
+	} errmsg];
+    } else {
+	set status $g(poll_status);
+	set errmsg $g(poll_errmsg);
+    }
+
     if {$status == 0} {
 	set output "OK:";
 	append output $data;
@@ -27,6 +39,12 @@ proc novrapoll_report_data {} {
 
     puts $output;
 }
+
+#
+# state variables
+#
+set g(poll_status) 0;
+set g(poll_errmsg) "";
 
 #
 # main
