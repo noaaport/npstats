@@ -52,6 +52,7 @@ etc/npstats/dist/monitor.rc-defaults
 libexec/npstats/spooler
 etc/npstats/dist/spooler.conf-sample
 libexec/npstats/pollers/novrapoll
+libexec/npstats/pollers/ipricotpoll
 libexec/npstats/pollers/nbsppoll
 libexec/npstats/pollers/nbspqstatspoll
 libexec/npstats/pollers/syspoll

@@ -1,7 +1,7 @@
 #
 # $Id$
 #
-# gnuplot template for novra_s75.vber
+# gnuplot template for ipricot_s500.vber
 #
 
 set gplot(script) {
@@ -33,8 +33,8 @@ set gplot(script) {
 
     set datafile separator ","
 
-    plot [][1.0e-10:1.0e-03] '-' using 2:8 with boxes title "Max", \
-    '-' using 2:7 with boxes title "Min"
+    plot [][1.0e-10:1.0e-03] '-' using 2:7 with boxes title "Max", \
+    '-' using 2:6 with boxes title "Min"
     $gplot(data)
     e
     $gplot(data)

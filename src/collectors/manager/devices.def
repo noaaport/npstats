@@ -23,6 +23,26 @@ set devices(defaulttemplate,novra_s75) "novra_s75.tml";
 set devices(dbtable,novra_s75) "novra_s75";
 set devices(dbcols,novra_s75) [concat "deviceid" $devices(param,novra_s75)];
 
+# ipricot_s500
+set devices(param,ipricot_s500) [list \
+	time \
+	demodulator_lock \
+	signal_noise_min \
+	signal_noise_max \
+	vber_min \
+	vber_max \
+	errors \
+	digital_signal_level_min \
+	digital_signal_level_max \
+	packets \
+	bytes \
+	temp];
+set devices(poller,ipricot_s500) "ipricotpoll";
+set devices(defaulttemplate,ipricot_s500) "ipricot_s500.tml";
+set devices(dbtable,ipricot_s500) "ipricot_s500";
+set devices(dbcols,ipricot_s500) [concat "deviceid" \
+	$devices(param,ipricot_s500)];
+
 # nbsp server
 set devices(param,nbsp) [list \
 	time \

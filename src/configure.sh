@@ -5,7 +5,8 @@ collectors
 plot
 pollers/nbsp
 pollers/sys
-pollers/novra"
+pollers/novra
+pollers/ipricot"
 
 for d in $subdirs
 do

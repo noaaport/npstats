@@ -9,7 +9,8 @@
 SUBDIRS = npstatsd collectors plot \
 	pollers/nbsp \
 	pollers/sys \
-	pollers/novra
+	pollers/novra \
+	pollers/ipricot
 
 all:
 	for dir in ${SUBDIRS}; do \

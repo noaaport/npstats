@@ -1,19 +1,19 @@
 #
 # $Id$
 #
-# gnuplot template for novra_s75.vber
+# gnuplot template for ipricot_s500.sn (Eb/No)
 #
 
 set gplot(script) {
 
     #set terminal png small xd0d0d0
-    #set output "vber.png"
+    #set output "sn.png"
     set terminal $gplot(fmt) $gplot(fmtoptions)
     set output "$gplot(output)"
 
-    set ylabel "Vber"
+    set ylabel "Eb/No"
     set xlabel "Time gmt"
-    set title "Viterbi Bit Error Rate $gplot(deviceid)"
+    set title "Signal strength $gplot(deviceid)"
 
     # set size 0.6,0.6
     set size $gplot(size)
@@ -26,15 +26,15 @@ set gplot(script) {
     # set timefmt "%Y%m%d%H%M%S"
     set timefmt "%s"
     set format x "%d\n%H"
-    set logscale y 
+    # set logscale y
 
     set style fill solid
     set boxwidth 0.5 relative
 
     set datafile separator ","
 
-    plot [][1.0e-10:1.0e-03] '-' using 2:8 with boxes title "Max", \
-    '-' using 2:7 with boxes title "Min"
+    plot [][5:12] '-' using 2:5 with boxes title "Max", \
+    '-' using 2:4 with boxes title "Min"
     $gplot(data)
     e
     $gplot(data)

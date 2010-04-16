@@ -1,7 +1,7 @@
 #
 # $Id$
 #
-# gnuplot template for dev_novra_s75.errors
+# gnuplot template for novra_s75.errors
 #
 
 set gplot(script) {

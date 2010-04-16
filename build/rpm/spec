@@ -78,6 +78,7 @@ make clean
 /usr/local/libexec/npstats/spooler
 /usr/local/etc/npstats/dist/spooler.conf-sample
 /usr/local/libexec/npstats/pollers/novrapoll
+/usr/local/libexec/npstats/pollers/ipricotpoll
 /usr/local/libexec/npstats/pollers/nbsppoll
 /usr/local/libexec/npstats/pollers/nbspqstatspoll
 /usr/local/libexec/npstats/pollers/syspoll

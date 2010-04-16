@@ -1,7 +1,7 @@
 #
 # $Id$
 #
-# gnuplot template for dev_novra_s75.signal_strength
+# gnuplot template for novra_s75.signal_strength
 #
 
 set gplot(script) {
@@ -33,8 +33,8 @@ set gplot(script) {
 
     set datafile separator ","
 
-    plot [][10:110]'-' using 2:5 with boxes title "Min", \
-    '-' using 2:6 with boxes title "Max"
+    plot [][10:110] '-' using 2:6 with boxes title "Max", \
+    '-' using 2:5 with boxes title "Min"
     $gplot(data)
     e
     $gplot(data)
