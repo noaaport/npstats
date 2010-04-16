@@ -1,0 +1,18 @@
+#
+# $Id$
+#
+
+#
+# Defaults for monitoring an ipricot (IprS500) box in standalone mode
+#
+set devices(devicelist) [list];    # to delete the default
+
+lappend devices(devicelist) {
+    deviceid "noaaportnet.ipricot"
+    devicenumber 1002
+    devicetype "ipricot_s500"
+    export 0
+    csvarchive 1
+    displaystatus 1
+    displaytemplate "ipricot_s500.tml"
+}

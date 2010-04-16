@@ -14,7 +14,7 @@ set tml(page) {
 <tr> <th>Vber Min</th> <td>$tml(4)</td></tr>
 <tr><th>Vber Max</th> <td>$tml(5)</td></tr>
 <tr><th>Uncorrectable errors</th> <td>$tml(6)</td></tr>
-<tr><th>Inside tuner temp</th> <td>$tml(11)</td></tr>
+<tr><th>Receiver temperature</th> <td>$tml(11)</td></tr>
 </tr>
 </table>
 </p>

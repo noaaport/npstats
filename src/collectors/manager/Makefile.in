@@ -13,7 +13,8 @@ SAMPLES =	manager.conf-sample \
 		devices.conf-sample \
 		devices.def-sample
 DEFAULTS =	devices.conf-defaults
-EXAMPLES =	devices.conf-examples devices.tdb-examples
+EXAMPLES =	devices.conf-examples devices.tdb-examples \
+		devices.conf-ipricot
 
 TARGET =	${LIBEXECTARGET} ${SAMPLES}
 
