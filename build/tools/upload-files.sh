@@ -4,9 +4,8 @@
 #
 . upload.conf
 
-cp ../../QUICK_START/* ../../RELEASE_NOTES ../../UPGRADING \
-    ../../conf/CONFIGURING ../../READMEs/*.README .
-upload_files="QUICK* RELEASE_NOTES UPGRADING CONFIGURING *.README"
+cp ../../RELEASE_NOTES ../../READMEs/*.README .
+upload_files="RELEASE_NOTES *.README"
 
 release_file=RELEASE_NOTES
 dt=`date +%d%b%G`
