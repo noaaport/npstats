@@ -6,14 +6,16 @@
 TCLSH =         @TCLSH@
 INSTALL =	@INSTALL@
 RCINIT =	@RCINIT@
+RCCONF =	@RCCONF@
 HOURLYCONF =    @HOURLYCONF@
 RCINIT_SAMPLE =	npstatsd.sh-sample
 
 SAMPLES =	startstop.rc-sample hourly-cleanup.conf-sample
-BINTOOLS =	npstatsversion npstatscleanup
+BINTOOLS =	npstatsversion npstatscleanup npstatsctl
 LIBFILES =      npstatsd-start.tcl npstatsd-stop.tcl
 LIBTOOLS =      startstop
 DOCS =		${RCINIT_SAMPLE}
+EXTRA_DOCS =	${RCCONF}
 
 TARGET = 	${RCINIT_SAMPLE} ${SAMPLES} ${BINTOOLS} ${LIBTOOLS}
 
@@ -34,12 +36,17 @@ hourly-cleanup.conf-sample: ${HOURLYCONF}
 npstatsversion: npstatsversion.tcl
 	sed -e /%TCLSH%/s##${TCLSH}# npstatsversion.tcl > npstatsversion
 
+npstatsctl: npstatsctl.tcl
+	sed -e /%TCLSH%/s##${TCLSH}# \
+	-e /%RCFPATH%/s##${RCFPATH}# \
+	npstatsctl.tcl > npstatsctl
+
 npstatscleanup: npstatscleanup.tcl
 	sed -e /%TCLSH%/s##${TCLSH}# npstatscleanup.tcl > npstatscleanup
 
 install:
 	${INSTALL} -m 0644 ${SAMPLES} ${MYCONFDIR}
-	${INSTALL} -m 0644 ${DOCS} ${MYDOCDIR}
+	${INSTALL} -m 0644 ${DOCS} ${EXTRA_DOCS} ${MYDOCDIR}
 	${INSTALL} -m 0755 ${BINTOOLS} ${BINDIR}
 	${INSTALL} -m 0755 ${LIBTOOLS} ${MYLIBEXECDIR}
 	${INSTALL} -m 0644 ${LIBFILES} ${MYLIBEXECDIR}

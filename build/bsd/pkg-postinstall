@@ -5,7 +5,15 @@ name=$1
 key=$2
 [ "$key" = "PRE-INSTALL" ] && exit 0
 
-dirs="/var/npstats
+#
+# npstats user/group, directories owned by user, and directories owned by root
+#
+user=noaaport
+#
+userdirs="/var/run/npstats
+/var/log/npstats
+/var/log/npstats/www
+/var/npstats
 /var/npstats/queue
 /var/npstats/queue/spool
 /var/npstats/queue/sent
@@ -14,10 +22,9 @@ dirs="/var/npstats
 /var/npstats/archive
 /var/npstats/archive/csv
 /var/npstats/archive/sqlite
-/var/npstats/www
-/var/log/npstats
-/var/run/npstats
-/usr/local/etc/npstats/defaults
+/var/npstats/www"
+#
+rootdirs="/usr/local/etc/npstats/defaults
 /usr/local/etc/npstats/site
 /usr/local/etc/npstats/private
 /usr/local/etc/npstats/rc.d/monitor
@@ -25,9 +32,32 @@ dirs="/var/npstats
 /usr/local/libexec/npstats/tclhttpd/site
 /usr/local/libexec/npstats/tclhttpd/importers"
 
-for d in $dirs
+# user/group
+pw groupadd $user -q
+status=$?
+if [ $status -ne 65 -a $status -ne 0 ]
+then
+    echo "Could not create group: $user"
+    exit 1
+fi
+#
+pw useradd $user -g $user -q
+status=$?
+if [ $status -ne 65 -a $status -ne 0 ]
+then
+    echo "Could not create user: $user"
+    exit 1
+fi
+
+# See note at the end of the file for usage of [-e] instead of [!-e]
+for d in $userdirs
 do
-  install -d -m 755 $d
+  [ -e $d ] || install -d -m 755 -o $user -g $user $d
+done
+
+for d in $rootdirs
+do
+  [ -e $d ] || install -d -m 755 $d
 done
 
 #
@@ -73,7 +103,7 @@ cp /usr/local/share/doc/npstats/www.tgz /var/npstats/www
 cd /var/npstats/www
 tar -xzf www.tgz
 rm www.tgz
-chown -R root:wheel *
+chown -R $user:$user *
 cd htdocs/pub
 #
 # Note: If we reverse the test [ ! -e ...] && ....

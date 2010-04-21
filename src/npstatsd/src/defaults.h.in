@@ -30,8 +30,8 @@
  * configuration file.
  */
 
-#define NPSTATS_USER		NULL
-#define NPSTATS_GROUP		NULL
+#define NPSTATS_USER		"noaaport"
+#define NPSTATS_GROUP		"noaaport"
 #define NPSTATS_UMASK		022
 
 /* pid file */

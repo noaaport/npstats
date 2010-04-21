@@ -4,6 +4,7 @@ sbin/npstatsd
 etc/npstats/dist/npstatsd.conf-sample
 share/doc/npstats/npstatsd.sh-sample
 bin/npstatsversion
+bin/npstatsctl
 bin/npstatscleanup
 libexec/npstats/startstop
 etc/npstats/dist/startstop.rc-sample

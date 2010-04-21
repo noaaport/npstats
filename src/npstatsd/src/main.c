@@ -93,6 +93,13 @@ int main(int argc, char **argv){
   if(status == 0)
     status = validate_configuration();
 
+  /*
+   * user and group are configurable so this must be done after reading
+   * configuration options.
+   */
+  if(status == 0)
+    status = drop_privs();
+
   if(status == 0)
     status = init_directories();
 
@@ -139,9 +146,6 @@ int main(int argc, char **argv){
    */
   if(status == 0)
     status = httpd_open();
-
-  if(status == 0)
-    status = drop_privs();
 
   /*
    * If there are initialization errors, ask all threads to quit.

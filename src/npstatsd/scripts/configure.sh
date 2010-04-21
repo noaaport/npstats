@@ -8,5 +8,6 @@ sed \
     -e "/@INSTALL@/ s||$INSTALL|" \
     -e "/@TCLSH@/ s||$TCLSH|" \
     -e "/@RCINIT@/s||$RCINIT|" \
+    -e "/@RCCONF@/s||$RCCONF|" \
     -e "/@HOURLYCONF@/s||$HOURLYCONF|" \
     Makefile.in > Makefile

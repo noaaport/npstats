@@ -1,0 +1,19 @@
+#
+# $Id$
+#
+
+# This file can be installed as
+#
+# /etc/default/npstats
+#
+# to change some of the default settings used in
+#
+# /etc/init.d/npstatsd
+
+#
+# Defaults
+#
+
+# RUNDIR=/var/run/npstats
+# OWNER=noaaport
+# GROUP=noaaport

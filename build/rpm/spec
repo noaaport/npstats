@@ -30,6 +30,7 @@ make clean
 /usr/local/etc/npstats/dist/npstatsd.conf-sample
 /usr/local/share/doc/npstats/npstatsd.sh-sample
 /usr/local/bin/npstatsversion
+/usr/local/bin/npstatsctl
 /usr/local/bin/npstatscleanup
 /usr/local/libexec/npstats/startstop
 /usr/local/etc/npstats/dist/startstop.rc-sample

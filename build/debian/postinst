@@ -4,9 +4,14 @@
 #
 
 #
-# create directories
+# npemwin user/group, directories owned by user, and directories owned by root
 #
-dirs="/var/npstats
+user=noaaport
+#
+userdirs="/var/run/npstats
+/var/log/npstats
+/var/log/npstats/www
+/var/npstats
 /var/npstats/queue
 /var/npstats/queue/spool
 /var/npstats/queue/sent
@@ -15,10 +20,9 @@ dirs="/var/npstats
 /var/npstats/archive
 /var/npstats/archive/csv
 /var/npstats/archive/sqlite
-/var/npstats/www
-/var/log/npstats
-/var/run/npstats
-/usr/local/etc/npstats/defaults
+/var/npstats/www"
+#
+rootdirs="/usr/local/etc/npstats/defaults
 /usr/local/etc/npstats/site
 /usr/local/etc/npstats/private
 /usr/local/etc/npstats/rc.d/monitor
@@ -26,9 +30,22 @@ dirs="/var/npstats
 /usr/local/libexec/npstats/tclhttpd/site
 /usr/local/libexec/npstats/tclhttpd/importers"
 
-for d in $dirs
+useradd $user > /dev/null 2>&1
+status=$?
+if [ $status -ne 9 -a $status -ne 0 ]
+then
+    echo "Error creating user $user."
+    exit 1
+fi
+
+for d in $userdirs
 do
-  install -d -m 755 $d
+  [ -e $d ] || install -d -m 755 -o $user -g $user $d
+done
+
+for d in $rootdirs
+do
+  [ -e $d ] || install -d -m 755 $d
 done
 
 #
@@ -81,7 +98,7 @@ cp /usr/local/share/doc/npstats/www.tgz /var/npstats/www
 cd /var/npstats/www
 tar -xzf www.tgz
 rm www.tgz
-chown -R root:root *
+chown -R $user:$user *
 cd htdocs/pub
 #
 # Note: If we reverse the test [ ! -e ...] && ....
@@ -93,21 +110,11 @@ cd htdocs/pub
 
 cat <<__EOF__
 -
-If the qrunner is configured to upload directly to a mysql database,
-then the mysql client command line tool is required; for example
-
-    yum install mysql
-
 The directory
 	
     /usr/local/share/doc/npstats
 
 contains documentation and examples to get started.
-
-In order to monitor a novra s75 device, the "novrapoll" application
-must be installed in the directory
-
-	/usr/local/libexec/npstats/pollers
 
 The web server is enabled by default, and can be accesed as
         
