@@ -100,7 +100,7 @@ cd htdocs/pub
 # the statement will return 1 if rst exists and pkg_add will
 # think that the script is returning an error.
 #
-[ -d "plots" ] || mkdir plots
+[ -d "plots" ] || install -d -m 755 -o $user -g $user plots
 # [ -e "plotdata" ] || ln -s /var/npstats/plotdata 
 
 cat <<__EOF__
