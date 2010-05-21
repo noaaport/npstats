@@ -17,11 +17,10 @@ proc Stderr {string} {
 
     global Config
 
+    Stderr.orig $string
+
     if {$Config(syslog) == 1} {
-	exec echo $string
 	exec logger -t $Config(syslogident) $string
-    } else {
-	Stderr.orig $string
     }
 }
 
