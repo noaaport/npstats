@@ -1,5 +1,6 @@
 <html>
-<head><title>Noaaport Statistics Tracking System</title>
+<head>
+<title>Npstats@[exec hostname -s]</title>
 
 <meta name="description" content="Software suite for monitoring the
 Noaaport signal level and quality,
@@ -7,7 +8,6 @@ as well as the performance characteristics of the receiver hardware and
 processing systems of the receiving stations.">
 
 <meta http-equiv="Refresh" content="60">
-
 </head>
 
 <frameset rows="100,*">
