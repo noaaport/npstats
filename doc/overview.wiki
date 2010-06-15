@@ -1,0 +1,238 @@
+=News - 4 Aug 2009==
+
+The 0.5 packages have been released.
+
+=Description=
+
+A system for monitoring the [http://www.nws.noaa.gov/noaaport/html/noaaport.shtml Noaaport] signal level and quality, as well as the performance characteristics of the receiver hardware and [http://www.noaaport.net processing systems] of the receiving stations.
+
+=Overview=
+
+Although Npstats' main purpose is to monitor the noaaport receivers and servers it can actually be used to monitor any kind of device that can transmit data to a computer. Npstats can monitor devices that are local to a site as well as devices in remote sites. In the latter role, Npstats acts as a central monitoring server to which clients can connect to compare the status of the noaaport signal in widely separated geographical areas.
+
+Npstats consists of a daemon _npstatsd_, which is responsible for running a data collector _manager_ and a _qrunner_. The _manager_, at certain periods, execute a set of device _pollers_ that retrieve the status data from the local devices that are being monitored.
+In addition, data from remote devices can be received by ftp, http or sftp. The data is accumulated in a spool directory until the npstatsd daemon is executed the _qrunner_, and then the data is archived locally or remotely, or both, depending on the configuration. The data can be archived in plain text files and/or in a database such as Postgres or Mysql.
+
+In short, Npstats can be configured to be used only as a local device monitor, as a centralized server, or both. Npstats comes with its own (tclhttpd-based) web server for monitoring Npstats itself. 
+
+
+=Installation=
+
+The following packages are required:
+
+  * tcl
+  * tcllib  (e.g., tcllib-1.10-1.fc8.noarch.rpm)
+  * gnuplot
+
+Then for FreeBSD, Debian and CentOS,
+
+  * pkg_add npstats-`<version>`.tbz
+  * dpkg -i npstats-`<version>`.deb
+  * rpm -i npstats-`<version>`.rpm
+
+The packages are available from the software section of the [http://www.noaaport.net noaaport.net] site. Download the appropriate npstats package from the software section.
+
+From the same site, download the appropriate version of the novrapoll program and install it as
+
+    /usr/local/libexec/npstats/pollers/novrapoll,
+
+making sure that it is executable. 
+
+=Quick Start Configuration Guide=
+
+==Device list==
+
+The default configuration has an entry for a novra box, in the file
+
+        defaults/devices.conf
+
+To override that entry and insert your own, create the file
+
+        site/devices.conf
+
+with the following lines
+
+{{{
+set devices(devicelist) [list];
+set devices(alertlist) [list];
+}}}
+
+This will ensure that the default device is deleted.
+
+To monitor your own novra device, add an entry like this,
+
+{{{
+lappend devices(devicelist) {
+    _devicename_
+    novra_s75
+    _devicenumber_
+    {export 0 csvarchive 1 displaystatus 1}
+    novra_s75.tml
+}
+}}}
+
+In a stand-alone configuration, in which the data will not be exported to a
+remote central server, the _devicename_ and _devicenumber_
+can be anything. Otherwise, to ensure a unique global name, the 
+_devicename_ should be constructed in the form
+_domain_._name_, for example *noaaportnet.linda*,
+and the _devicenumber_ should be the number assigned by the central
+server, such as 1001.
+
+Similarly, an Nbsp server, which is assumed to be running in the same
+computer where Npstats is running, is monitored by an entry such as
+
+{{{
+lappend devices(devicelist) {
+    noaaportnet.diablo
+    nbsp
+    1002
+    {export 0 csvarchive 1 displaystatus 0}
+    nbsp.tml
+}
+}}}
+
+where actually *noaaportnet.diablo* is the
+_devicename_ that should be chosen as
+explained above, and similarly with the _devicenumber_
+1002 in this example.
+
+==Alert list==
+
+For each configured device, alerts are raised based on certain
+conditions. The default alert conditions are defined in the file
+
+        defaults/monitor.rc
+
+and they can be modified if desired but this is not required. More important
+is to define the parameters for the alert notifications, and this is done
+also in the file
+
+        site/devices.conf
+
+that we already introduced.
+
+By convention, the alerts can have four levels, namely info,
+warn, error, crit. An alert notifications
+are defined by adding entries in the file site/devices.conf,
+of the form
+
+{{{
+lappend devices(alertlist) {
+    _devicename_regexp_
+    _level_regexp_
+    _skip_
+    _destination_
+}
+}}}
+
+such as the following
+
+{{{
+lappend devices(alertlist) {
+    noaaportnet\.
+    (warn|error|crit)
+    4
+    smtp://nieves@ltp.edu
+}
+}}}
+The first element is a tcl regular expression that will be matched
+against the device name that raised the alert. In the above example,
+the notification parameters apply to all the devices from
+noaaportnet. Likewise, the second element is a regular
+expression that is matched against the alert level, and thus in the
+above example the three levels indicated are covered by the notification
+while those with level info are ignored.
+
+==Client configuration==
+
+To configure a client such that it exports the data to a central server,
+the files
+
+  * site/spooler.conf
+  * site/qrunner.conf
+
+must be created.
+
+The file site/spooler.conf must contain the line
+
+{{{
+set spooler(export_enable) 1;
+}}}
+
+It can contain any other optional settings, but nothing else is required.
+
+The _site/qrunner.conf_ should contain the settings to specify
+the upload method. For the http method the appropriate
+settings should mimic the following
+
+{{{
+set qrunner(configured) "http";
+set qrunner(http,sitekey) "kakameni";
+set qrunner(http,url) "http://stats.noaaport.net:8025/npstats/collect";
+}}}
+
+where the _sitekey_ (kakameni) is assigned by (or set in coordination with)
+the central server, and *stats.noaaport.net* would be the
+central server.
+
+==Server configuration==
+
+The server must contain a devices.conf file that lists
+all the devices that it will monitor, using the same names that the
+remote (client) sites use for the devices. Then in addition the
+files
+
+        * site/npstatsd.conf
+        * site/httpd.conf
+        * site/monitor.conf
+        * private/sitekeys.auth
+
+must be created.
+
+The site/npstatsd.conf file should contain the settings
+
+{{{
+set collector_manager_enable 0
+set qrunner_enable 0
+}}}
+
+The first one indicates that the server is not collecting the data
+itself from the device pollers, and the second one disables the
+qrunner since the server will not export the data to another
+server.
+
+The _site/httpd.conf_ file should contain
+
+{{{
+set Config(collect,spooler_enable) 1;
+set Config(collect,monitor_enable) 1;
+}}}
+
+which indicate that the web server should spool the data so that it is
+archived, and should run the monitor in order to enable the alert
+notifications.
+
+The _site/monitor.conf_ file specifies some settings related to the notification
+mechanisms. At present only smtp is supported, and that
+requires the following entries in the site/monitor.conf file,
+
+{{{
+set monitor(alert,smtp,originator) "npstats@stats.noaaport.net";
+set monitor(alert,smtp,servers)    "smtp.noaaport.net";
+}}}
+
+The _servers_ should be a list of smtp servers to use,
+and _originator_ is the address that will appear in the header
+of the message.
+
+Finally, the server must create the file
+
+        private/sitekeys.auth
+
+that contains the _sitekeys_ for each site. For example
+
+{{{
+noaapornet      kakameni
+wxpronet        kakameno
+}}}

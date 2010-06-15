@@ -32,7 +32,9 @@
 
 #define NPSTATS_USER		"noaaport"
 #define NPSTATS_GROUP		"noaaport"
-#define NPSTATS_UMASK		022
+#define NPSTATS_HOME		"/var/npstats"
+
+#define DEFAULT_UMASK		022
 
 /* pid file */
 #define NPSTATS_PIDFILE		"/var/run/npstats/npstatsd.pid"

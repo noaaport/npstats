@@ -1,0 +1,10 @@
+create table novra_s75 (
+	id text,
+	time integer,
+	"data.lock" integer,
+	"signal.lock" integer,
+	signal_strength integer,
+	vber_min real,
+	vber_max real,
+	errors integer
+);

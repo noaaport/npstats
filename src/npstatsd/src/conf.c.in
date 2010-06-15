@@ -19,8 +19,11 @@
 #define CONFOPT_GROUP			@counter@
 #define DEFVAL_GROUP			NPSTATS_GROUP
 
+#define CONFOPT_HOME                    @counter@
+#define DEFVAL_HOME                     NPSTATS_HOME
+
 #define CONFOPT_UMASK			@counter@
-#define DEFVAL_UMASK			NPSTATS_UMASK
+#define DEFVAL_UMASK			DEFAULT_UMASK
 
 #define CONFOPT_PIDFILE			@counter@
 #define DEFVAL_PIDFILE			NPSTATS_PIDFILE
@@ -65,6 +68,7 @@
 static struct confoption_st confoptions[] = {
   {"user", CONFOPT_USER, TCL_LINK_STRING, NULL, 0},
   {"group", CONFOPT_GROUP, TCL_LINK_STRING, NULL, 0},
+  {"home", CONFOPT_HOME, TCL_LINK_STRING, NULL, 0},
   {"umask", CONFOPT_UMASK, TCL_LINK_INT, NULL, DEFVAL_UMASK},
   {"pidfile", CONFOPT_PIDFILE, TCL_LINK_STRING, NULL, 0},
   {"startscript", CONFOPT_STARTSCRIPT, TCL_LINK_STRING, NULL, 0},
@@ -106,6 +110,7 @@ int configure(void){
 
   setoptval(&g.user, confoptions, CONFOPT_USER);
   setoptval(&g.group, confoptions, CONFOPT_GROUP);
+  setoptval(&g.home, confoptions, CONFOPT_HOME);
   setoptval(&g.umask, confoptions, CONFOPT_UMASK);
   setoptval(&g.pidfile, confoptions, CONFOPT_PIDFILE);
   setoptval(&g.startscript, confoptions, CONFOPT_STARTSCRIPT);
@@ -138,6 +143,7 @@ void print_confoptions(void){
 
   fprintf_str(stdout, fmt, "user", g.user);
   fprintf_str(stdout, fmt, "group", g.group);
+  fprintf_str(stdout, fmt, "home", g.home);
   fprintf(stdout, "umask %o\n", g.umask);
 
   fprintf_str(stdout, fmt, "pidfile", g.pidfile);
@@ -178,7 +184,7 @@ int validate_configuration(void){
 
   char *varname = NULL;
 
-  /* char* user, group can be NULL or empty */
+  /* char* user, group, home can be NULL or empty */
   /* mode_t umask	type */
   VALIDATE_STR(g.pidfile, "pidfile");
   /* char* startscript, stopscript  can be NULL or empty. */

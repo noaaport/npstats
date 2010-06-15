@@ -1,0 +1,31 @@
+Data file format
+
+Every site is assigned a unique name and id number when it registers with the central server.
+For example, my site could be named
+
+    noaaportnet
+
+and given the id 1001. Every monitored device is assigned a name that is also unique for that site.
+For example, my site has the following devices monitored
+
+    noaaportnet.linda
+    noaaportnet.diablo
+
+and the central server would have in its tables the corresponding unique id;s for  each. Each device
+belongs to a type for which the central server keeps also a table of properties that includes
+among other things the parameters that the device reports. For example, "linda" above is the name
+that I give to the novra box, and "diablo" is one of my servers that runs Nbsp.
+
+The collector manager in my site saves the data from those two "devices" in files named
+like
+
+    noaaportnet.linda.8506131627.df
+    noaaportnet.diablo.8506131627.df
+
+where the last number is the time of the data in unix seconds. These are the files that are then transmitted to the central server. The contents of the files have the form shown in the example below (for linda):
+
+time,data_lock,signal_lock.signal_strength,vber_max,vber_min=8506131627,1,1,87,87,1.0e-06,1.0e-10
+
+and similarly for the nbsp server. The central server parses these files, extracts the data, and inserts it in the databse.
+
+Database schema

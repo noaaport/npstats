@@ -1,0 +1,21 @@
+Every reporting site runs one instance of the npstatsd daemon. The daemon runs two processes at certain intervals, namely the collector manager and queue runner, called here the "manager" and the "qrunner" for short.
+
+The manager collects the data from the devices that it monitors,
+which can be, for example, a novra device, one or more nbsp servers and/or npemwin servers, or actually any other device. There is one "polling agent" for each device type, for example "novrapoll" for the novra, "nbsppoll" for polling an Nbsp server and similarly for the others.
+
+The manager enters an event loop, and hsndles the  reports from the device pollers in an event-driven basis. When the a given device poller
+is ready to output the data for given sampling period, the manager
+colects the data and it writes the data to a set of (text) files
+that are spooled to disk for transmission to the central server.
+Each such file contains one data record for one device for one
+particular sampling period.
+
+The npstatsd daemon also executed the qrunner at some
+predetermined times, which examines the spool directory and
+transfers all the data files in the queue to the central server.
+
+From that point on it is the central server's responsibility to parse
+the text files, extract the data, and save to a database for further processing analysis, display and archiving.
+
+There are options  also to  save the files the devices' text data files
+locally for backup or consistency checks.

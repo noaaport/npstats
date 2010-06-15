@@ -20,6 +20,7 @@ struct npstatsd_globals {
    */
   char *user;
   char *group;
+  char *home;
   mode_t umask;
   char *pidfile;
   char *startscript;
