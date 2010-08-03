@@ -8,7 +8,7 @@ set inpemwin(pool_url_tmpl) \
     {http://$inpemwin(pool_server_id).pool.iemwin.net:8016/_iemwin/stats};
 set inpemwin(pool_url) "";   # defined in main
 #
-set inpemwin(connect_timeout) 5;
+set inpemwin(connect_timeout) 10;
 set inpemwin(curl_options) [list -s -S \
 				--connect-timeout $inpemwin(connect_timeout)];
 
@@ -57,9 +57,11 @@ proc inpemwin_get_data {} {
     global inpemwin;
 
     set status [catch {
-	set rawdata [exec curl $inpemwin(curl_options) $inpemwin(pool_url)];
+	set rawdata \
+	    [eval exec curl $inpemwin(curl_options) $inpemwin(pool_url)];
     } errmsg];
     if {$status != 0} {
+	puts $errmsg;
 	# Assume it is a temporary situation.
 	return;
     }
