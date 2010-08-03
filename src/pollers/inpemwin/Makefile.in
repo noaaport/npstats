@@ -1,0 +1,28 @@
+#
+# Copyright (c) 2006-2009 Jose F. Nieves <nieves@ltp.upr.clu.edu>
+#
+# See LICENSE
+#
+# $Id$
+#
+@include@ @q@../../../Makefile.inc@q@
+
+TCLTARGET = 	inpemwinpoll
+TCLSOURCES =	inpemwinpoll.tcl
+
+POLLERS =	${TCLTARGET}
+TARGET =	${TCLTARGET}
+
+TCLSH =		@TCLSH@
+INSTALL =	@INSTALL@
+
+all: ${TARGET}
+
+inpemwinpoll: inpemwinpoll.tcl
+	sed -e /%TCLSH%/s##${TCLSH}# inpemwinpoll.tcl > inpemwinpoll
+
+install: ${TARGET}
+	${INSTALL} -m 755 ${POLLERS} ${MYPOLLERSDIR}
+
+clean:
+	rm -f *~ ${TARGET} Makefile

@@ -2,11 +2,12 @@
 #
 # $Id$
 #
-# npstatspage [-b] [-d outputdir] [-h docroot] <deviceid> <template>
+# npstatspage [-b] [-d outputdir] [-h docroot] <deviceid> <template> [yyyymmdd]
 #
 # -h => gives the (physical) path of the document root of the web server
 # -d => gives the output directory relative to docroot. It will then become
 #       the url prefix in the web server (see the templates).
+# [yyyymmdd] use the given yyyymmdd file instead of the current date
 #
 # This script grabs the last two lines of the csv file for the device.
 # Using the last line it defines the variables
@@ -26,23 +27,34 @@
 #
 package require cmdline;
 
-set usage {npstatspage [-b] [-d outputdir] [-h docroot] <deviceid> <template>};
+set usage {npstatspage [-b] [-d outputdir] [-h docroot]
+    <deviceid> <template> [yyyymmdd]};
 set optlist {b {d.arg ""} {h.arg ""}};
 
 #
 # Functions
 #
-proc npstatsplot_get_archive_current_datafile {} {
+proc npstatsplot_get_archive_datafile {} {
 
     global option;
     global npstatsplot;
 
-    set now [clock seconds];
-    set time $now;
-    set yyyy [clock format $time -format "%Y" -gmt 1];
-    set mm [clock format $time -format "%m" -gmt 1];
-    set dd [clock format $time -format "%d" -gmt 1];
-    set yyyymmdd ${yyyy}${mm}${dd};
+    set yyyymmdd $option(date);
+
+    if {$yyyymmdd eq ""} {
+	set now [clock seconds];
+	set time $now;
+	set yyyy [clock format $time -format "%Y" -gmt 1];
+	set mm [clock format $time -format "%m" -gmt 1];
+	set dd [clock format $time -format "%d" -gmt 1];
+	set yyyymmdd ${yyyy}${mm}${dd};
+    } else {
+	if {[regexp {(\d{4})(\d{2})(\d{2})} $yyyymmdd match yyyy mm dd] \
+		== 0} {
+	    ::npstats::syslog::err "Invalid date argument $yyyymmdd.";
+	    return "";
+	}
+    }
 
     set datafile [file join $npstatsplot(csvarchivedir) $option(deviceid) \
 		      $yyyy $mm $option(deviceid).${yyyymmdd}];
@@ -56,7 +68,7 @@ proc npstatsplot_get_archive_data_csv {} {
     global option;
     global npstatsplot;
 
-    set datafile [npstatsplot_get_archive_current_datafile];
+    set datafile [npstatsplot_get_archive_datafile];
 
     if {[file exists $datafile] == 0} {
 	::npstats::syslog::warn "$datafile not found.";
@@ -126,18 +138,26 @@ if {[file exists $npstatsplot(conf)]} {
 # main
 #
 array set option [::cmdline::getoptions argv $optlist $usage];
-
 set argc [llength $argv];
-if {$argc != 2} {
+if {$argc < 2} {
     puts "device name and template are required.";
     puts $usage;
     return 1;
+} elseif {$argc > 3} {
+    puts "Too many arguments.";
+    puts $usage;
+    return 1;
 }
+
 if {$option(b) == 1} {
     ::npstats::syslog::usesyslog;
 }
 set option(deviceid) [lindex $argv 0];
 set option(template) [lindex $argv 1];
+set option(date) "";
+if {$argc == 3} {
+    set option(date) [lindex $argv 2];
+}
 
 # Variables
 set tml(deviceid) $option(deviceid);

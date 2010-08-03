@@ -83,6 +83,7 @@ make clean
 /usr/local/libexec/npstats/pollers/ipricotpoll
 /usr/local/libexec/npstats/pollers/nbsppoll
 /usr/local/libexec/npstats/pollers/nbspqstatspoll
+/usr/local/libexec/npstats/pollers/inpemwinpoll
 /usr/local/libexec/npstats/pollers/syspoll
 /usr/local/etc/npstats/dist/httpd.conf-sample
 /usr/local/etc/npstats/dist/sitekeys.auth-sample-private

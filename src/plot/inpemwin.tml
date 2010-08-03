@@ -1,0 +1,30 @@
+#
+# $Id$
+#
+set tml(page) {
+<h1>$tml(deviceid)</h1>
+
+<p>
+<table border>
+<tr><th>Report start time</th> <td>$tml(starttime)</td></tr>
+<tr><th>Report end time</th> <td>$tml(endtime)</td></tr>
+<tr><th>Npemwin start time</th> <td>$tml(1)</td></tr>
+<tr><th>Number of clients</th> <td>$tml(2)</td></tr>
+<tr><th>Upstream server ip</th> <td>$tml(3)</td></tr>
+<tr><th>Upstream server port</th> <td>$tml(4)</td></tr>
+<tr><th>Upstream connect time</th> <td>$tml(5)</td></tr>
+<tr><th>Upstream disconnect time</th> <td>$tml(6)</td></tr>
+<tr><th>Consecutive packets</th> <td>$tml(7)</td></tr>
+</tr>
+</table>
+</p>
+}
+
+#
+# Generate the plot(s) used by the tml(script) above
+#
+#foreach p [list files bytes] {
+#    set tml(plot.${p}) [file join $tml(outputdir) $tml(deviceid).${p}.png];
+#    exec npstatsplot -o [file join $tml(docroot) $tml(plot.${p})] \
+#	$tml(deviceid) inpemwin.${p}.g;
+#}

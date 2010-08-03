@@ -57,6 +57,7 @@ libexec/npstats/pollers/novrapoll
 libexec/npstats/pollers/ipricotpoll
 libexec/npstats/pollers/nbsppoll
 libexec/npstats/pollers/nbspqstatspoll
+libexec/npstats/pollers/inpemwinpoll
 libexec/npstats/pollers/syspoll
 @comment - tclhttpd
 etc/npstats/dist/httpd.conf-sample
