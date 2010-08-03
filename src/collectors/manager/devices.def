@@ -71,6 +71,21 @@ set devices(displaytemplate,npemwin) "npemwin.tml";
 set devices(dbtable,npemwin) "npemwin";
 set devices(dbcols,npemwin) [concat "deviceid" $devices(param,npemwin)];
 
+# iemwin pool npemwin server
+set devices(param,inpemwin) [list \
+	time \
+	start_time \
+	num_clients \
+	upstream_ip \
+	upstream_port \
+	upstream_connect_time \
+	upstream_disconnect_time \
+	upstream_consecutive_packets];
+set devices(poller,inpemwin) "inpemwinpoll";
+set devices(displaytemplate,npemwin) "inpemwin.tml";
+set devices(dbtable,inpemwin) "inpemwin";
+set devices(dbcols,inpemwin) [concat "deviceid" $devices(param,inpemwin)];
+
 # load averages
 set devices(param,load) [list \
 	time \
@@ -91,7 +106,7 @@ set devices(param,fs) [list \
 	usedfr \
 	free];
 set devices(poller,fs) "";  # each instance must define its poller
-set devices(fs,load) "fs.tml";
+set devices(defaulttemplate,fs) "fs.tml";
 #
 # For example
 #
