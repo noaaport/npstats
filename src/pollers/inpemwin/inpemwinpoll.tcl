@@ -7,6 +7,10 @@
 set inpemwin(pool_url_tmpl) \
     {http://$inpemwin(pool_server_id).pool.iemwin.net:8016/_iemwin/stats};
 set inpemwin(pool_url) "";   # defined in main
+#
+set inpemwin(connect_timeout) 5;
+set inpemwin(curl_options) [list -s -S \
+				--connect-timeout $inpemwin(connect_timeout)];
 
 # This is the order of the fields
 set inpemwin(numfields) 19;
@@ -52,7 +56,14 @@ proc inpemwin_get_data {} {
 
     global inpemwin;
 
-    set rawdata [exec wget -q -O - $inpemwin(pool_url)];
+    set status [catch {
+	set rawdata [exec curl $inpemwin(curl_options) $inpemwin(pool_url)];
+    } errmsg];
+    if {$status != 0} {
+	# Assume it is a temporary situation.
+	return;
+    }
+
     set rawdata_parts [split $rawdata ";"];
 
     foreach part $rawdata_parts {
