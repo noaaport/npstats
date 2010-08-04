@@ -1,6 +1,10 @@
 #!/bin/sh
 
-requires="tcl-8.6 tcllib gnuplot"
+#
+# curl required by inpemwin
+# novramon required by novrapoll 
+#
+requires="tcl-8.6 tcllib gnuplot novramon curl"
 
 # so that FreeBSD runs it only once 
 name=$1
