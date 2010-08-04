@@ -79,7 +79,6 @@ set devices(param,inpemwin) [list \
 	upstream_ip \
 	upstream_port \
 	upstream_connect_time \
-	upstream_disconnect_time \
 	upstream_consecutive_packets];
 # each instance must redefine its poller with the correct id:
 # inpemwinpoll <server_pool_id>

@@ -9,15 +9,6 @@ if {$tml(status_code) != 0} {
     }
     return;
 }
-	
-# If the disconnect time is zero, output "" instead of
-# Wed Dec 31 20:00:00 AST 1969
-#
-if {$tml(6) == 0} {
-    set tml(_6) "";
-} else {
-    set tml(_6) [clock format $tml(6) -gmt 1];
-}
 
 set tml(page) {
 <h1>$tml(deviceid)</h1>
@@ -31,8 +22,7 @@ set tml(page) {
 <tr><th>Upstream server ip</th> <td>$tml(3)</td></tr>
 <tr><th>Upstream server port</th> <td>$tml(4)</td></tr>
 <tr><th>Upstream connect time</th> <td>[clock format $tml(5) -gmt 1]</td></tr>
-<tr><th>Upstream disconnect time</th> <td>$tml(_6)</td></tr>
-<tr><th>Consecutive packets</th> <td>$tml(7)</td></tr>
+<tr><th>Consecutive packets</th> <td>$tml(6)</td></tr>
 </tr>
 </table>
 </p>
