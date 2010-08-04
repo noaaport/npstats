@@ -163,15 +163,24 @@ if {$argc == 3} {
 set tml(deviceid) $option(deviceid);
 set tml(outputdir) $option(d);
 set tml(docroot) $option(h);
+set tml(status_code) 0;
 
 set data [npstatsplot_get_archive_data_csv];
 if {$data eq ""} {
-    return 1;
+    set tml(status_code) 1;
+    set tml(status_msg) "No data";
+    puts "No data for $tml(deviceid)";
+
+    return;
 }
 set data [split $data "\n"];
 
 if {[llength $data] < 2} {
-    return 1;
+    set tml(status_code) 1;
+    set tml(status_msg) "Invalid data";
+    puts "Invalid data for $tml(deviceid)";
+
+    return;
 }
 set data0 [lindex $data end];
 set data1 [lindex $data end-1];
@@ -194,7 +203,8 @@ while {$i <= $n} {
 set template [npstatsplot_find_tml_template $option(template)];
 if {($template eq "") || ([file exists $template] == 0)} {
     ::npstats::syslog::warn "$option(template) not found.";
-    return 1;
+    puts "$option(template) not found.";
+    return;
 }
 source $template;
 

@@ -2,6 +2,14 @@
 # $Id$
 #
 
+if {$tml(status_code) != 0} {
+    set tml(page) {
+        <h1>$tml(deviceid)</h1>
+        <p>$tml(status_msg)</p>
+    }
+    return;
+}
+	
 # If the disconnect time is zero, output "" instead of
 # Wed Dec 31 20:00:00 AST 1969
 #
