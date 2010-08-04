@@ -10,9 +10,6 @@ if {$tml(status_code) != 0} {
     return;
 }
 
-# For the curent upstream server, the disconnec time (tml(6)) is zero,
-# and it is not used in this template.
-
 set tml(page) {
 <h1>$tml(deviceid)</h1>
 
@@ -25,7 +22,7 @@ set tml(page) {
 <tr><th>Upstream server ip</th> <td>$tml(3)</td></tr>
 <tr><th>Upstream server port</th> <td>$tml(4)</td></tr>
 <tr><th>Upstream connect time</th> <td>[clock format $tml(5) -gmt 1]</td></tr>
-<tr><th>Consecutive packets</th> <td>$tml(7)</td></tr>
+<tr><th>Consecutive packets</th> <td>$tml(6)</td></tr>
 </tr>
 </table>
 </p>

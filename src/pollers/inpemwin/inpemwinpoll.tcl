@@ -14,8 +14,8 @@ set inpemwin(curl_options) [list -s -S \
 
 # This is the order of the fields
 set inpemwin(numfields) 20;
-set inpemwin(index,time) 0;
-set inpemwin(index,data_format) 1;
+set inpemwin(index,data_format) 0;
+set inpemwin(index,time) 1;
 set inpemwin(index,npemwind_start_time) 2;
 set inpemwin(index,num_clients) 3;
 #
