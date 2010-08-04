@@ -13,28 +13,27 @@ set inpemwin(curl_options) [list -s -S \
 				--connect-timeout $inpemwin(connect_timeout)];
 
 # This is the order of the fields
-set inpemwin(numfields) 20;
-set inpemwin(index,data_format) 0;
-set inpemwin(index,time) 1;
-set inpemwin(index,npemwind_start_time) 2;
-set inpemwin(index,num_clients) 3;
+set inpemwin(numfields) 19;
+set inpemwin(index,time) 0;
+set inpemwin(index,npemwind_start_time) 1;
+set inpemwin(index,num_clients) 2;
 #
-set inpemwin(index,es_ip) 4;
-set inpemwin(index,es_port) 5;
-set inpemwin(index,es_stats_connect) 6;
-set inpemwin(index,es_stats_disconnect) 7;
-set inpemwin(index,es_stats_consecutive_packets) 8;
-set inpemwin(index,es_stats_max_packets) 9;
-set inpemwin(index,es_stats_total_packets) 10;
-set inpemwin(index,es_stats_bad_packet_count) 11; 
-set inpemwin(index,es_stats_connections) 12;
-set inpemwin(index,es_stats_error) 13;
-set inpemwin(index,es_stats_serverread_errors) 14;
-set inpemwin(index,es_stats_serverclosed_errors) 15;
-set inpemwin(index,es_stats_header_errors) 16;
-set inpemwin(index,es_stats_checksum_errors) 17;
-set inpemwin(index,es_stats_filename_errors) 18;
-set inpemwin(index,es_stats_unknown_errors) 19;
+set inpemwin(index,es_ip) 3;
+set inpemwin(index,es_port) 4;
+set inpemwin(index,es_stats_connect) 5;
+set inpemwin(index,es_stats_disconnect) 6;
+set inpemwin(index,es_stats_consecutive_packets) 7;
+set inpemwin(index,es_stats_max_packets) 8;
+set inpemwin(index,es_stats_total_packets) 9;
+set inpemwin(index,es_stats_bad_packet_count) 10; 
+set inpemwin(index,es_stats_connections) 11;
+set inpemwin(index,es_stats_error) 12;
+set inpemwin(index,es_stats_serverread_errors) 13;
+set inpemwin(index,es_stats_serverclosed_errors) 14;
+set inpemwin(index,es_stats_header_errors) 15;
+set inpemwin(index,es_stats_checksum_errors) 16;
+set inpemwin(index,es_stats_filename_errors) 17;
+set inpemwin(index,es_stats_unknown_errors) 18;
 
 # These are the output fields according to the devices.def file.
 set inpemwin(fields) [list time \
@@ -76,14 +75,15 @@ proc inpemwin_get_data {} {
 
     # The raw data contains
     #
-    # data_format,
-    # current_time,
-    # npemwind_start_time, num_clients,
-    # upstream_data
+    # data_format
+    # npemwind_start_time
+    # upstream_master_data
+    # num_clients
+    # client_table
     #
     # where (from npemwin/src/servers.c)
     #
-    # upstream_data = es->ip, es->port,
+    # upstream_master_data = es->ip, es->port,
     #		  (intmax_t)es->stats.connect, 
     #		  (intmax_t)es->stats.disconnect, 
     #		  es->stats.consecutive_packets, 
@@ -99,6 +99,10 @@ proc inpemwin_get_data {} {
     #		  es->stats.filename_errors,
     #		  es->stats.unknown_errors
     #
+    # In principle, we should use use the value of a(data_format) to
+    # interpret the data if there were various formats or versions.
+    # Whatever we do later, this is how we will normalize the data:
+
     set data [concat [list [clock seconds] $a(start_time) $a(num_clients)] \
 		  [split $a(upstream_master)]];
 
