@@ -58,7 +58,8 @@ proc qrunner_dbinsert_upload {qfilelist} {
 	append file $qrunner(datafext);
 
 	if {$dbinsert_status != 0} {
-	    ::npstats::syslog::warn "Rescheduling $file and $qfile for uploading.";
+	    ::npstats::syslog::warn \
+		"Rescheduling $file and $qfile for uploading.";
 	    continue;
 	}
 	
@@ -114,8 +115,10 @@ proc dbinsert_datafile_to_values {fpath} {
 	return -code error "Device unconfigured: $deviceid";
     }
 
+    #
+    # From devices.def, the first column in the table is the "devicenumber".
+    #
     set pnames [join [qrunner_get_dbcols_fromid $deviceid] ","];
-
     set pvalues $devicenumber;
 
     # The contents of the file is a "pdata" (from devices.tcl)

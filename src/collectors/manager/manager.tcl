@@ -269,7 +269,8 @@ proc manager_fileevent_handler_device {device} {
 	set status 1;
     } else {
 	if {[regexp {([^:]+):(.+)} $codeoutput match code output] == 0} {
-	    ::npstats::syslog::warn "Device $device_id: Invalid output $output";
+	    ::npstats::syslog::warn \
+		"Device $device_id: Invalid output $output";
 	    set status 1;
 	} else {
 	    if {$code ne "OK"} {
