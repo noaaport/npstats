@@ -4,6 +4,7 @@
 . ../../../configure.inc
 
 RCINIT=npstatsd.sh-freebsd
+RCFPATH=/usr/local/etc/rc.d/npstatsd
 RCCONF=
 HOURLYCONF=hourly-cleanup.conf-freebsd
 
@@ -18,6 +19,7 @@ case $os in
     	;;
     Linux)
 	RCINIT=npstatsd.sh-${flavor}
+	RCFPATH=/etc/init.d/npstatsd
 	HOURLYCONF=hourly-cleanup.conf-generic
 	[ $flavor = debian ] && RCCONF=npstatsd.sh.conf-debian
     	;;
