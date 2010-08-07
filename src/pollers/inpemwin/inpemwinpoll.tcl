@@ -78,19 +78,28 @@ proc inpemwin_get_data {} {
 	set key [lindex $part_list 0];
 	set a($key) [lindex $part_list 1];
     }
-    set a(client_table) [join [split $a(client_table)] "+"];
+    #
+    # We will transform the data in wto ways. First the cleints in the
+    # client table will be separated by a '+' rather than a space.
+    # Secondly, we will enclose the string valued elements within single
+    # quotes (as a conssesion to the sql insert methods later).
+    #
+    set client_table [join [split $a(client_table)] "+"];
+    set a(client_table) "'${client_table}'";
+    set es_ip "'[lindex $a(upstream_master) 0]'";
+    set a(upstream_master) [lreplace $a(upstream_master) 0 0 $es_ip];
 
     # The raw data contains
     #
     # data_format
     # npemwind_start_time
-    # upstream_master_data
+    # upstream_master
     # num_clients
     # client_table
     #
     # where (from npemwin/src/servers.c)
     #
-    # upstream_master_data = es->ip, es->port,
+    # upstream_master = es->ip, es->port,
     #		  (intmax_t)es->stats.connect, 
     #		  (intmax_t)es->stats.disconnect, 
     #		  es->stats.consecutive_packets, 
@@ -117,16 +126,6 @@ proc inpemwin_get_data {} {
 	# Partial record, maybe from file rotation. Assume it is a
 	# temporary situation.
 	return;
-    }
-
-    set data_time [lindex $data $inpemwin(index,time)];
-    if {$data_time == $inpemwin(data,last_time)} {
-	return;
-    }
-
-    # If there is unreported data, report it or we will loose it
-    if {$inpemwin(data,valid) == 1} {
-	inpemwin_report_data;
     }
 
     # Fill the array with the current values

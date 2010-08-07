@@ -151,8 +151,9 @@ proc ::npstats::devices::data_pack {device output} {
 
 proc ::npstats::devices::data_unpack {pdata} {
 #
-# Takes as input the result obtained from ::npstats::devices::data_pack, and returns
-# a list of 4 elements: <deviceid>|<devicenumber>|<devicetype>|<output>
+# Takes as input the result obtained from ::npstats::devices::data_pack,
+# and returns a list of 4 elements:
+# <deviceid>|<devicenumber>|<devicetype>|<output>
 #
     return [split $pdata "|"];
 }

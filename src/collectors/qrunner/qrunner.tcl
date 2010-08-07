@@ -200,21 +200,24 @@ proc qrunner_get_number_fromid {deviceid} {
 
     global qrunner;
 
-    return [::npstats::devices::get_number_fromid $qrunner(dev,devicelist) $deviceid];
+    return [::npstats::devices::get_number_fromid \
+		$qrunner(dev,devicelist) $deviceid];
 }
 
 proc qrunner_get_type_fromid {deviceid} {
 
     global qrunner;
 
-    return [::npstats::devices::get_type_fromid $qrunner(dev,devicelist) $deviceid];
+    return [::npstats::devices::get_type_fromid \
+		$qrunner(dev,devicelist) $deviceid];
 }
 
 proc qrunner_get_options_fromid {deviceid} {
 
     global qrunner;
 
-    return [::npstats::devices::get_options_fromid $qrunner(dev,devicelist) $deviceid];
+    return [::npstats::devices::get_options_fromid \
+		$qrunner(dev,devicelist) $deviceid];
 }
 
 proc qrunner_get_dbtable_fromid {deviceid} {
