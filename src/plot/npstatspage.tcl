@@ -185,7 +185,7 @@ if {[llength $data] < 2} {
 set data0 [lindex $data end];
 set data1 [lindex $data end-1];
 
-# The format of the csv archive is <devicetid>,<v1>,<v2>,...,
+# The format of the csv archive is <devicenumber>,<v1>,<v2>,...,
 # and <v1> is the time.
 set data0 [lreplace [split $data0 ","] 0 0];
 set data1 [lreplace [split $data1 ","] 0 0];
@@ -196,7 +196,8 @@ set tml(starttime) [clock format [lindex $data1 0] -gmt 1];
 set i 1;
 set n [llength $data0];
 while {$i <= $n} {
-    set tml($i) [lindex $data0 $i];
+    # strip the single quotes from the string data types
+    set tml($i) [string trim [lindex $data0 $i] "'"];
     incr i;
 }
 
