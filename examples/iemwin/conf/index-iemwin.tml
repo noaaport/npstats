@@ -1,0 +1,19 @@
+<html>
+<head>
+<title>iEmwinStats@[exec hostname -s]</title>
+
+<meta name="description" content="Software suite for monitoring the
+the iEmwin pool.">
+
+<meta http-equiv="Refresh" content="60">
+</head>
+
+<frameset rows="100,*">
+  <frame src="header-iemwin.html">
+  <frameset cols="25%,*">
+    <frame src="menu.html">
+    <frame src="npstats/status/display_device_list" name="mainwindow">
+  </frameset>
+</frameset>
+
+</html>
