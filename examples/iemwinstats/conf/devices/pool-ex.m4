@@ -4,6 +4,7 @@ dnl
 
 m4pool(1001,
 inpemwin,
+8016,
 1,
 dl380a.opennoaaport.net.,
 Jose F Nieves,
@@ -13,6 +14,7 @@ pr00931
 
 m4pool(1002,
 inpemwin,
+8016,
 2,
 genstor.opennoaaport.net.,
 Jose F Nieves,
@@ -22,6 +24,7 @@ pr00931
 
 m4pool_disable(1003,
 inpemwin,
+8016,
 3,
 nbsp.cccatx.org.,
 Bill Harris,
@@ -31,6 +34,7 @@ tx75080
 
 m4pool(1004,
 inpemwin,
+8016,
 4,
 mo.wxpro.net.,
 Bill Harris,
@@ -40,6 +44,7 @@ pa18501-0591
 
 m4pool(1005,
 inpemwin,
+8016,
 5,
 jo.wxpro.net.,
 Bill Harris,
@@ -49,6 +54,7 @@ pa18501-0591
 
 m4pool(1006,
 inpemwin,
+8080,
 6,
 www.ssbwx.info.,
 Scott Shoemaker,
@@ -58,6 +64,7 @@ sc29575
 
 m4pool_wxmesg(1007,
 iwxmesg,
+8016,
 7,
 wx.2y.net.,
 Phil Fantasia,

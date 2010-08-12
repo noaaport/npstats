@@ -2,14 +2,21 @@
 #
 # $Id$
 #
-# Usage {inpemwinpoll <server_poll_id>};
-
-# Configuration options
-set inpemwin(pool_url_domain) "pool.iemwin.net:8016/_iemwin/stats";
-set inpemwin(connect_timeout) 10;
+# Usage {inpemwinpoll [-p <port>] [-t <connect_timeout>] <server_poll_id>};
 #
-set inpemwin(pool_url_tmpl) \
-    {http://$inpemwin(pool_server_id).$inpemwin(pool_url_domain)};
+package require cmdline;
+set usage {inpemwinpoll [-p <port>] [-t <connect_timeout>] <server_poll_id>};
+set optlist {{p.arg ""} {t.arg ""}};
+
+# defaults
+set inpemwin(pool_server_port) 8016;
+set inpemwin(connect_timeout) 10;
+
+# variables
+append inpemwin(pool_url_tmpl) "http://" \
+    {$inpemwin(pool_server_id).pool.iemwin.net:$inpemwin(pool_server_port)} \
+    "/_iemwin/stats";
+
 set inpemwin(curl_options_tmpl) \
     [list -s -S --connect-timeout {$inpemwin(connect_timeout)}];
 #
@@ -180,13 +187,23 @@ proc inpemwin_verify_data {data} {
 #
 # main
 #
+array set option [::cmdline::getoptions argv $optlist $usage];
+set argc [llength $argv];
 if {$argc != 1} {
     puts $usage;
     exit 1;
 }
 set inpemwin(pool_server_id) [lindex $argv 0];
+
+if {$option(p) ne ""} {
+    set inpemwin(pool_server_port) $option(p);
+}
+
+if {$option(t) ne ""} {
+    set inpemwin(connect_timeout) $option(t);
+}
+
 set inpemwin(pool_url) [subst $inpemwin(pool_url_tmpl)];
-#
 set inpemwin(curl_options) [subst $inpemwin(curl_options_tmpl)];
 
 while {[gets stdin cmd] > 0} {

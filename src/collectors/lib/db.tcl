@@ -89,6 +89,33 @@ proc ::npstats::db::get_output {} {
     return [read $db(F)];
 }
 
+proc ::npstats::db::read_output_xml {} {
+#
+# In mysql, the appropriate command line options to use this fuction are
+# "-B -n -X"
+#
+    variable db;
+
+    _verify_connection;
+
+    set done 0;
+    set r [list];
+    while {$done == 0} {
+	set n [gets $db(F) line]; 
+	if {$n == -1} {
+	    set done 1;
+	} elseif {$n == 0} {
+	    continue;
+	} else {
+	    lappend r $line;
+	    if {[regexp {</resultset>} $line]} {
+		set done 1;
+	    }
+	}
+    }
+    return [join $r "\n"];
+}
+
 #
 # private
 #
