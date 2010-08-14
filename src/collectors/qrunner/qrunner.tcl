@@ -97,7 +97,7 @@ if {[file exists $qrunner(conf)] == 1} {
 
 # Check the upload method
 if {$qrunner(configured) eq ""} {
-    if {$$qrunner(verbose) != 0} {
+    if {$qrunner(verbose) != 0} {
 	::npstats::syslog::msg "qrunner.conf unconfigured.";
     }
     return 0;
