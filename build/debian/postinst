@@ -7,6 +7,7 @@
 # npemwin user/group, directories owned by user, and directories owned by root
 #
 user=noaaport
+home=/var/noaaport
 #
 userdirs="/var/run/npstats
 /var/log/npstats
@@ -30,7 +31,7 @@ rootdirs="/usr/local/etc/npstats/defaults
 /usr/local/libexec/npstats/tclhttpd/site
 /usr/local/libexec/npstats/tclhttpd/importers"
 
-useradd $user > /dev/null 2>&1
+useradd -d $home $user > /dev/null 2>&1
 status=$?
 if [ $status -ne 9 -a $status -ne 0 ]
 then
