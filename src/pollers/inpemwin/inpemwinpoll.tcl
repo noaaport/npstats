@@ -86,10 +86,10 @@ proc inpemwin_get_data {} {
 	set a($key) [lindex $part_list 1];
     }
     #
-    # We will transform the data in wto ways. First the cleints in the
+    # We will transform the data in two ways. First the clients in the
     # client table will be separated by a '+' rather than a space.
     # Secondly, we will enclose the string valued elements within single
-    # quotes (as a conssesion to the sql insert methods later).
+    # quotes (as a concesion to the sql insert methods later).
     #
     set client_table [join [split $a(client_table)] "+"];
     set a(client_table) "'${client_table}'";
