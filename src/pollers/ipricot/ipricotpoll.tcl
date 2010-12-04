@@ -158,8 +158,19 @@ proc ipricot_update_status {data} {
 	set ipricotpoll(vber_max) $vber;
     }
 
-    incr ipricotpoll(uncorrectables_period) \
-	[expr $uncorrectables - $ipricotpoll(uncorrectables)];
+    # When one of the global counters cycles through its maximum
+    # range, a calculation like this will give a a negative value.
+    #
+    # incr ipricotpoll(uncorrectables_period) \
+    #	[expr $uncorrectables - $ipricotpoll(uncorrectables)];
+    #
+    # unless we take special care to handle it. What we will do is
+    # not update the period counter when that happens.
+
+    if {$uncorrectables > $ipricotpoll(uncorrectables)} {
+	incr ipricotpoll(uncorrectables_period) \
+	    [expr $uncorrectables - $ipricotpoll(uncorrectables)];
+    }
     set ipricotpoll(uncorrectables) $uncorrectables;
 
     if {$digital_signal_level < $ipricotpoll(digital_signal_level_min)} {
@@ -169,12 +180,16 @@ proc ipricot_update_status {data} {
 	set ipricotpoll(digital_signal_level_max) $digital_signal_level;
     }
 
-    incr ipricotpoll(packets_period) \
-	[expr $packets - $ipricotpoll(packets)];
+    if {$packets > $ipricotpoll(packets)} {
+	incr ipricotpoll(packets_period) \
+	    [expr $packets - $ipricotpoll(packets)];
+    }
     set ipricotpoll(packets) $packets;
 
-    incr ipricotpoll(bytes_period) \
-	[expr $bytes - $ipricotpoll(bytes)];
+    if {$bytes > $ipricotpoll(bytes)} {
+	incr ipricotpoll(bytes_period) \
+	    [expr $bytes - $ipricotpoll(bytes)];
+    }
     set ipricotpoll(bytes) $bytes;
     
     set ipricotpoll(temp) $temp;
