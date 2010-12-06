@@ -15,6 +15,14 @@ set tml(page) {
 <tr> <th>Vber Min</th> <td>$tml(5)</td></tr>
 <tr><th>Vber Max</th> <td>$tml(6)</td></tr>
 <tr><th>Uncorrectable errors</th> <td>$tml(7)</td></tr>
+<tr><th>Carrier/Noise Min</th> <td>$tml(8)</td></tr>
+<tr><th>Carrier/Noise Max</th> <td>$tml(9)</td></tr>
+<tr><th>Signal strength Min (dbm)</th> <td>$tml(10)</td></tr>
+<tr><th>Signal strength Max (dbm)</th> <td>$tml(11)</td></tr>
+<tr><th>Data sync loss</th> <td>$tml(12)</td></tr>
+<tr><th>Frequency offset</th> <td>$tml(13)</td></tr>
+
+
 </tr>
 </table>
 </p>

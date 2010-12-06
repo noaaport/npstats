@@ -11,7 +11,7 @@ set gplot(script) {
     set terminal $gplot(fmt) $gplot(fmtoptions)
     set output "$gplot(output)"
 
-    set ylabel "New Signal strength"
+    set ylabel "Signal strength"
     set xlabel "Time gmt"
     set title "Signal strength $gplot(deviceid)"
 
