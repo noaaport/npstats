@@ -11,6 +11,7 @@ BINTARGET = npstatsplot npstatsdbplot npstatspage
 SAMPLES = npstatsplot.conf-sample npstatsdbplot.conf-sample
 
 GPLOTSOURCES =	novra_s75.vber.g novra_s75.errors.g novra_s75.ss.g \
+		novra_s200.vber.g novra_s200.errors.g novra_s200.ss.g \
 		ipricot_s500.vber.g ipricot_s500.errors.g ipricot_s500.sn.g \
 		ipricot_s500.temp.g \
 		nbsp.files.g nbsp.bytes.g \
@@ -23,6 +24,7 @@ GPLOTSOURCES =	novra_s75.vber.g novra_s75.errors.g novra_s75.ss.g \
 GPLOTDIR =	gnuplot
 
 TMLSOURCES =	novra_s75.tml \
+		novra_s200.tml \
 		ipricot_s500.tml \
 		nbsp.tml inpemwin.tml \
 		fs.tml load.tml mem_freebsd.tml mem_linux.tml \

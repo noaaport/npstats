@@ -1,5 +1,5 @@
-npstats (0.5.p1.21-1) stable; urgency=low
+npstats (0.5.p2.1-1) stable; urgency=low
 
   * Initial debian package release
 
- -- Jose F Nieves <nieves@ltp.upr.clu.edu>  Fri, 03 Dec 2010 21:15:10 -0400
+ -- Jose F Nieves <nieves@ltp.upr.clu.edu>  Mon, 06 Dec 2010 16:47:21 -0400

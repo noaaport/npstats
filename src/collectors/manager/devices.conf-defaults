@@ -3,14 +3,15 @@
 #
 
 #
-# Defaults for monitoring a novra box in standalone mode
+# Defaults for monitoring a novra s200 in standalone (no export to db).
+# Change "s200" to "s75" if the receiver is an S75 of S75+.
 #
 lappend devices(devicelist) {
     deviceid "mydomain.mynovra"
     devicenumber 1001
-    devicetype "novra_s75"
+    devicetype "novra_s200"
     export 0
     csvarchive 1
     displaystatus 1
-    displaytemplate "novra_s75.tml"
+    displaytemplate "novra_s200.tml"
 }

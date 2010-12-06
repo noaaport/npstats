@@ -1,0 +1,43 @@
+#
+# $Id: novra_s75.tml 8 2010-01-11 01:41:54Z nieves $
+#
+set tml(page) {
+<h1>$tml(deviceid)</h1>
+
+<p>
+<table border>
+<tr><th>Start time</th> <td>$tml(starttime)</td></tr>
+<tr><th>End time</th> <td>$tml(endtime)</td></tr>
+<tr><th>Data lock</th> <td>$tml(1)</td></tr>
+<tr><th>Signal lock</th> <td>$tml(2)</td></tr>
+<tr><th>Signal strength Min</th> <td>$tml(3)</td></tr>
+<tr><th>Signal strength Max</th> <td>$tml(4)</td></tr>
+<tr> <th>Vber Min</th> <td>$tml(5)</td></tr>
+<tr><th>Vber Max</th> <td>$tml(6)</td></tr>
+<tr><th>Uncorrectable errors</th> <td>$tml(7)</td></tr>
+</tr>
+</table>
+</p>
+
+<p>
+<img src="[file join / $tml(plot.vber)]">
+</p>
+
+<p>
+<img src="[file join / $tml(plot.ss)]">
+</p>
+
+<p>
+<img src="[file join / $tml(plot.errors)]">
+</p>
+
+}
+
+#
+# Generate the plot(s) used by the tml(script) above
+#
+foreach p [list vber ss errors] {
+    set tml(plot.${p}) [file join $tml(outputdir) $tml(deviceid).${p}.png];
+    exec npstatsplot -o [file join $tml(docroot) $tml(plot.${p})] \
+	$tml(deviceid) novra_s200.${p}.g;
+}
