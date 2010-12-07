@@ -3,7 +3,7 @@
 #
 
 #
-# Defaults for monitoring a novra s200 in standalone (no export to db).
+# Defaults for monitoring a novra s200 in standalone (no export to db) mode.
 # Change "s200" to "s75" if the receiver is an S75 of S75+.
 #
 lappend devices(devicelist) {

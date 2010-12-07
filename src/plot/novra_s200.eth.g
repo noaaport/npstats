@@ -1,7 +1,7 @@
 #
-# $Id: novra_s75.ss.g 19 2010-04-16 19:10:17Z nieves $
+# $Id$
 #
-# gnuplot template for novra_s75.signal_strength
+# gnuplot template for novra_s200.errors
 #
 
 set gplot(script) {
@@ -11,9 +11,9 @@ set gplot(script) {
     set terminal $gplot(fmt) $gplot(fmtoptions)
     set output "$gplot(output)"
 
-    set ylabel "Signal strength (dbm)"
+    set ylabel "Packets"
     set xlabel "Time gmt"
-    set title "Signal strength (dbm) $gplot(deviceid)"
+    set title "Ethernet Packets Transmitted $gplot(deviceid)"
 
     # set size 0.6,0.6
     set size $gplot(size)
@@ -33,10 +33,7 @@ set gplot(script) {
 
     set datafile separator ","
 
-    plot [][-60:-10] '-' using 2:12 with lines title "Min", \
-    '-' using 2:13 with lines title "Max"
-    $gplot(data)
-    e
+    plot '-' using 2:16 notitle with boxes
     $gplot(data)
 
     quit

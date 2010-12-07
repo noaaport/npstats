@@ -40,7 +40,9 @@ set devices(param,novra_s200) [list \
 	signal_strength_dbm_min \
 	signal_strength_dbm_max \
 	data_sync_loss \
-	frequency_offset];	
+	frequency_offset \
+	ethernet_transmit \
+	dvb_accepted];
 set devices(poller,novra_s200) "novrapoll";
 set devices(defaulttemplate,novra_s200) "novra_s200.tml";
 set devices(dbtable,novra_s200) "novra_s200";
