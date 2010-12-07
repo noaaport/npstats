@@ -21,8 +21,6 @@ set tml(page) {
 <tr><th>Signal strength Max (dbm)</th> <td>$tml(11)</td></tr>
 <tr><th>Data sync loss</th> <td>$tml(12)</td></tr>
 <tr><th>Frequency offset</th> <td>$tml(13)</td></tr>
-
-
 </tr>
 </table>
 </p>
@@ -32,11 +30,19 @@ set tml(page) {
 </p>
 
 <p>
+<img src="[file join / $tml(plot.errors)]">
+</p>
+
+<p>
+<img src="[file join / $tml(plot.cn)]">
+</p>
+
+<p>
 <img src="[file join / $tml(plot.ss)]">
 </p>
 
 <p>
-<img src="[file join / $tml(plot.errors)]">
+<img src="[file join / $tml(plot.ss_dbm)]">
 </p>
 
 }
@@ -44,7 +50,7 @@ set tml(page) {
 #
 # Generate the plot(s) used by the tml(script) above
 #
-foreach p [list vber ss errors] {
+foreach p [list vber ss errors ss_dbm cn] {
     set tml(plot.${p}) [file join $tml(outputdir) $tml(deviceid).${p}.png];
     exec npstatsplot -o [file join $tml(docroot) $tml(plot.${p})] \
 	$tml(deviceid) novra_s200.${p}.g;
