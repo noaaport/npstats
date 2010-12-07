@@ -11,9 +11,9 @@ set gplot(script) {
     set terminal $gplot(fmt) $gplot(fmtoptions)
     set output "$gplot(output)"
 
-    set ylabel "Signal strength"
+    set ylabel "Signal strength (%)"
     set xlabel "Time gmt"
-    set title "Signal strength $gplot(deviceid)"
+    set title "Signal strength (%) $gplot(deviceid)"
 
     # set size 0.6,0.6
     set size $gplot(size)
