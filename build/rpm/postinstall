@@ -126,5 +126,18 @@ and must installed separately:
 	novramon	(novra receivers)
 	net-snmp	(snmp capable receivers and devices)
 	curl		(iemwin pool servers)
+
+NOTE:
+====
+
+In this version, npstatsd runs as the "noaaport" user. If the previous
+version that you had installed ran as root (that was the default in
+previous versions) then there will be errors due to permissions.
+
+The following directories must be owned by the noaaport user:
+
+/var/log/npstats
+/var/run/npstats
+/var/npstats  (and all its subdirectories)
 -
 __EOF__
