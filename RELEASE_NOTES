@@ -1,9 +1,32 @@
 $Id$
 
-- This is the 1st release of the Noaaport Statistics Tracking System (npstats).
+- This is a pre-release version of the
+
+    Noaaport Statistics Tracking System (npstats)
+
 Documentation and binary packages for some OS's are available from
 
     http://www.noaaport.net
+
+This package is pre-configured to monitor the Novra receivers for
+Noaaport reception.
+
+NOTE:
+====
+
+In this version, npstatsd runs as the "noaaport" user. If a previous
+version that ran as root was installed (that was the default in
+previous versions) then there will be errors due to permissions.
+
+The following directories must be owned by the noaaport user:
+
+/var/log/npstats
+/var/run/npstats
+/var/npstats  (and all its subdirectories)
+
+If this is the first time that npstats is installed, then the package
+installer will take care of setting these permissions without any
+manual intervention.
 
 - What it is
 
