@@ -111,7 +111,11 @@ cd htdocs/pub
 
 cat <<__EOF__
 -
-The directory
+The configuration files are in
+
+        /usr/local/etc/npstats
+
+and the directory
 	
     /usr/local/share/doc/npstats
 

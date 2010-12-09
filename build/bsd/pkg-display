@@ -1,7 +1,11 @@
 -
-The directory
+The configuration files are in
+
+	/usr/local/etc/npstats
+
+and the directory
 	
-    /usr/local/share/doc/npstats
+	/usr/local/share/doc/npstats
 
 contains documentation and examples to get started.
 
