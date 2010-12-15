@@ -30,6 +30,7 @@ set gplot(script) {
 
     set style fill solid
     set boxwidth 0.5 relative
+    set key outside
 
     set datafile separator ","
 

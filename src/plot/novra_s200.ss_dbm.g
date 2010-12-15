@@ -30,10 +30,11 @@ set gplot(script) {
 
     set style fill solid
     set boxwidth 0.5 relative
+    set key outside
 
     set datafile separator ","
 
-    plot [][-50:-10] '-' using 2:12 with lines title "Min", \
+    plot '-' using 2:12 with lines title "Min", \
     '-' using 2:13 with lines title "Max"
     $gplot(data)
     e
