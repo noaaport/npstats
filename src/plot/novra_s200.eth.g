@@ -1,7 +1,7 @@
 #
 # $Id$
 #
-# gnuplot template for novra_s200.errors
+# gnuplot template for novra_s200.eth_packets
 #
 
 set gplot(script) {

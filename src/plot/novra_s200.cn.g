@@ -1,7 +1,7 @@
 #
 # $Id: novra_s75.ss.g 19 2010-04-16 19:10:17Z nieves $
 #
-# gnuplot template for novra_s75.signal_strength
+# gnuplot template for novra_s200.carrier_to_noise
 #
 
 set gplot(script) {

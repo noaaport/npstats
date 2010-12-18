@@ -1,7 +1,7 @@
 #
 # $Id: novra_s75.vber.g 19 2010-04-16 19:10:17Z nieves $
 #
-# gnuplot template for novra_s75.vber
+# gnuplot template for novra_s200.vber
 #
 
 set gplot(script) {

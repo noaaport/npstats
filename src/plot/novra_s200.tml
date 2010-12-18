@@ -1,5 +1,5 @@
 #
-# $Id: novra_s75.tml 8 2010-01-11 01:41:54Z nieves $
+# $Id$
 #
 set tml(page) {
 <h1>$tml(deviceid)</h1>
