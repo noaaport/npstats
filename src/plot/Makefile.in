@@ -15,7 +15,7 @@ GPLOTSOURCES =	novra_s75.vber.g novra_s75.errors.g novra_s75.ss.g \
 		novra_s200.ss_dbm.g novra_s200.cn.g novra_s200.eth.g \
 		novra_s200.dvb.g \
 		ipricot_s500.vber.g ipricot_s500.errors.g ipricot_s500.sn.g \
-		ipricot_s500.temp.g \
+		ipricot_s500.ss.g ipricot_s500.temp.g \
 		nbsp.files.g nbsp.bytes.g \
 		fs.usedfr.g load.1.g \
 		mem_freebsd.vmstat.pi.g mem_freebsd.vmstat.po.g \

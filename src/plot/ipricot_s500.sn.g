@@ -11,9 +11,9 @@ set gplot(script) {
     set terminal $gplot(fmt) $gplot(fmtoptions)
     set output "$gplot(output)"
 
-    set ylabel "Eb/No"
+    set ylabel "Eb/No (db)"
     set xlabel "Time gmt"
-    set title "Signal strength $gplot(deviceid)"
+    set title "Eb/No $gplot(deviceid)"
 
     # set size 0.6,0.6
     set size $gplot(size)

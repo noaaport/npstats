@@ -1,5 +1,5 @@
 #
-# $Id: novra_s75.ss.g 19 2010-04-16 19:10:17Z nieves $
+# $Id$
 #
 # gnuplot template for novra_s200.carrier_to_noise
 #

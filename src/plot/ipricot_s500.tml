@@ -9,34 +9,44 @@ set tml(page) {
 <tr><th>Start time</th> <td>$tml(starttime)</td></tr>
 <tr><th>End time</th> <td>$tml(endtime)</td></tr>
 <tr><th>Demodulator lock</th> <td>$tml(1)</td></tr>
-<tr><th>Eb/No Min</th> <td>$tml(2)</td></tr>
-<tr><th>Eb/No Max</th> <td>$tml(3)</td></tr>
-<tr> <th>Vber Min</th> <td>$tml(4)</td></tr>
+<tr><th>Vber Min</th> <td>$tml(4)</td></tr>
 <tr><th>Vber Max</th> <td>$tml(5)</td></tr>
 <tr><th>Uncorrectable errors</th> <td>$tml(6)</td></tr>
+<tr><th>Signal strength Min (%)</th> <td>$tml(7)</td></tr>
+<tr><th>Signal strength Max (%)</th> <td>$tml(8)</td></tr>
+<tr><th>Eb/No Min</th> <td>$tml(2)</td></tr>
+<tr><th>Eb/No Max</th> <td>$tml(3)</td></tr>
 <tr><th>Receiver temperature</th> <td>$tml(11)</td></tr>
 </tr>
 </table>
 </p>
 
 <p>
-<img src="[file join / $tml(plot.vber)]">
-</p>
+<table>
 
-<p>
-<img src="[file join / $tml(plot.sn)]">
-</p>
+<tr>
+  <img src="[file join / $tml(plot.vber)]">
+  <img src="[file join / $tml(plot.errors)]">
+</tr>
 
-<p>
-<img src="[file join / $tml(plot.errors)]">
-</p>
+<tr>
+  <img src="[file join / $tml(plot.sn)]">
+  <img src="[file join / $tml(plot.ss)]">
+</tr>
 
+<tr>
+   <td><img src="[file join / $tml(plot.temp)]"></td>
+   <td></td>
+</tr>
+
+</table>
+</p>
 }
 
 #
 # Generate the plot(s) used by the tml(script) above
 #
-foreach p [list vber sn errors temp] {
+foreach p [list vber errors sn ss temp] {
     set tml(plot.${p}) [file join $tml(outputdir) $tml(deviceid).${p}.png];
     exec npstatsplot -o [file join $tml(docroot) $tml(plot.${p})] \
 	$tml(deviceid) ipricot_s500.${p}.g;
