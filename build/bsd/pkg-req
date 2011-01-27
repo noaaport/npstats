@@ -5,8 +5,8 @@
 # net-snmp required by ipricot
 # curl required by inpemwin
 #
-requires="tcl86 tcllib gnuplot novramon"
-## requires="tcl86 tcllib gnuplot novramon net-snmp curl nbsp npemwin"
+requires="tcl-8.6 tcllib gnuplot novramon"
+## requires="tcl-8.6 tcllib gnuplot novramon net-snmp curl nbsp npemwin"
 
 # so that FreeBSD runs it only once 
 name=$1
