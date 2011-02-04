@@ -25,11 +25,4 @@ do
     fi
 done
 
-[ $exit_status -ne 0 ] && { echo "
-To install tcl-8.6, pkg_add must be invoked as pkg_add -r tcl86,
-the same with tk.
-
-There is no standard package for gnuplot because the default requires pdflib,
-which is not free. A suitable package is in the optional-packages directory.";}
-
 exit $exit_status
