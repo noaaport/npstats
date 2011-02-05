@@ -1,8 +1,6 @@
 #!/bin/sh
 
-. ../../VERSION
-
-project=$name
+project=npstats
 #
 #masterhost="http://svn.1-loop.net"
 masterhost="svn+ssh://jfnieves@svn.1-loop.net/home/jfnieves/svn"
