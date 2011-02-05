@@ -1,6 +1,8 @@
 #!/bin/sh
 
-project=npstats
+. ../../VERSION
+
+project=$name
 #
 #masterhost="http://svn.1-loop.net"
 masterhost="svn+ssh://jfnieves@svn.1-loop.net/home/jfnieves/svn"
@@ -10,7 +12,7 @@ tag=trunk
 #
 mastersite=${masterhost}/${masterrepo}
 
-# Override tag with the cmd line argument ("tags/nbsp-2.0.r1")
-[ $# -ne 0 ] && tag=$1
+# Override tag with the cmd line argument (e.g., "nbsp-2.1.1r")
+[ $# -ne 0 ] && tag=tags/$1
 
 svn co ${mastersite}/${project}/$tag ${project}
