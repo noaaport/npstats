@@ -64,7 +64,7 @@ proc ipricot_warnx {s} {
     if {$option(D) == 1} {
 	puts stderr $s;
     } else {
-	logger -t $progname $s;
+	exec logger -t $progname $s;
     }
 }
 
@@ -238,7 +238,7 @@ proc ipricot_init_status {} {
     } errmsg];
 
     if {$status != 0} {
-	ipricot_errxx $errmsg;
+	ipricot_errx $errmsg;
     }
 
     set uncorrectables [lindex $data 4];

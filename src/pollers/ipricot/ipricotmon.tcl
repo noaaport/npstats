@@ -43,7 +43,7 @@ proc ipricot_warnx {s} {
     if {$option(b) == 0} {
 	puts stderr $s;
     } else {
-	logger -t $progname $s;
+	exec logger -t $progname $s;
     }
 }
 
