@@ -4,7 +4,7 @@
 
 # This file can be installed as
 #
-# /etc/default/npstats
+# /etc/default/npstatsd
 #
 # to change some of the default settings used in
 #
