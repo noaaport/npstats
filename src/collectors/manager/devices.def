@@ -49,6 +49,30 @@ set devices(dbtable,novra_s200) "novra_s200";
 set devices(dbcols,novra_s200) \
 	[concat "devicenumber" $devices(param,novra_s200)];
 
+# novra_s300
+set devices(param,novra_s300) [list \
+	time \
+	data_lock \
+	signal_lock \
+	signal_strength_min \
+	signal_strength_max \
+	vber_min \
+	vber_max \
+	errors \
+	carrier_noise_min \
+	carrier_noise_max \
+	signal_strength_dbm_min \
+	signal_strength_dbm_max \
+	data_sync_loss \
+	frequency_offset \
+	ethernet_transmit \
+	dvb_accepted];
+set devices(poller,novra_s300) "novrapoll";
+set devices(defaulttemplate,novra_s300) "novra_s300.tml";
+set devices(dbtable,novra_s300) "novra_s300";
+set devices(dbcols,novra_s300) \
+	[concat "devicenumber" $devices(param,novra_s300)];
+
 # ipricot_s500
 set devices(param,ipricot_s500) [list \
 	time \

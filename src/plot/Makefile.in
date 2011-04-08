@@ -14,6 +14,9 @@ GPLOTSOURCES =	novra_s75.vber.g novra_s75.errors.g novra_s75.ss.g \
 		novra_s200.vber.g novra_s200.errors.g novra_s200.ss.g \
 		novra_s200.ss_dbm.g novra_s200.cn.g novra_s200.eth.g \
 		novra_s200.dvb.g \
+		novra_s300.vber.g novra_s300.errors.g novra_s300.ss.g \
+		novra_s300.ss_dbm.g novra_s300.cn.g novra_s300.eth.g \
+		novra_s300.dvb.g \
 		ipricot_s500.vber.g ipricot_s500.errors.g ipricot_s500.sn.g \
 		ipricot_s500.ss.g ipricot_s500.temp.g \
 		nbsp.files.g nbsp.bytes.g \
@@ -27,6 +30,7 @@ GPLOTDIR =	gnuplot
 
 TMLSOURCES =	novra_s75.tml \
 		novra_s200.tml \
+		novra_s300.tml \
 		ipricot_s500.tml \
 		nbsp.tml inpemwin.tml \
 		fs.tml load.tml mem_freebsd.tml mem_linux.tml \
