@@ -275,6 +275,8 @@ proc manager_fileevent_handler_device {device} {
 	} else {
 	    if {$code ne "OK"} {
 		::npstats::syslog::warn "Device $device_id: $codeoutput";
+		manager_close_one_device $device;
+		manager_open_one_device $device;
 		set status 1;
 	    }
 	}
