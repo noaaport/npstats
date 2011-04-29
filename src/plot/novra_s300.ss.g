@@ -34,7 +34,7 @@ set gplot(script) {
 
     set datafile separator ","
 
-    plot [][60:104] '-' using 2:5 with lines title "Min",\
+    plot [][50:104] '-' using 2:5 with lines title "Min",\
     '-' using 2:6 with lines title "Max"
     $gplot(data)
     e
