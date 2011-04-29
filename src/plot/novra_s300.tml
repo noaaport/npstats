@@ -60,5 +60,5 @@ set tml(page) {
 foreach p [list vber ss errors ss_dbm cn eth dvb] {
     set tml(plot.${p}) [file join $tml(outputdir) $tml(deviceid).${p}.png];
     exec npstatsplot -o [file join $tml(docroot) $tml(plot.${p})] \
-	$tml(deviceid) novra_s200.${p}.g;
+	$tml(deviceid) novra_s300.${p}.g;
 }
