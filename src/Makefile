@@ -8,6 +8,7 @@
 
 SUBDIRS = npstatsd collectors plot \
 	pollers/nbsp \
+	pollers/inbsp \
 	pollers/inpemwin \
 	pollers/sys \
 	pollers/novra \
