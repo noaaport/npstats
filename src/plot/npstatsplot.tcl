@@ -168,6 +168,42 @@ proc npstatsplot_gnuplot {} {
     }
 }
 
+#
+# Utility function to get the maximum and minimum values of any column
+# It can (is) used in the plot templates.
+#
+proc npstatsplot_minmax {data colnumber {separator ","}} {
+
+    set colindex $colnumber;
+    incr colindex -1;
+
+    set linenumber 0;
+    set lines [split $data "\n"];
+    foreach line $lines {
+	incr linenumber;
+	set parts [split $line $separator];
+	set val [lindex $parts $colindex];
+	if {$linenumber == 1} {
+	    set max $val;
+	    set min $val;
+	} else {
+	    if {$val > $max} {
+		set max $val;
+	    }
+
+	    if {$val < $min} {
+		set min $val;
+	    }
+	}
+    }
+
+    if {$linenumber  == 0} {
+	return -code error "No data";
+    }
+
+    return [list $min $max];
+}
+
 ## Initialization
 # The common defaults
 set defaultsfile "/usr/local/etc/npstats/collectors.conf";

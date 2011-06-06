@@ -4,6 +4,12 @@
 # gnuplot template for novra_s300.signal_strength
 #
 
+# Calculate the limits
+set gplot(_ymin) [lindex [npstatsplot_minmax $gplot(data) 5] 0];
+set gplot(_ymax) [lindex [npstatsplot_minmax $gplot(data) 6] 1];
+incr gplot(_ymin) -5;
+incr gplot(_ymax) 5;
+
 set gplot(script) {
 
     #set terminal png small xd0d0d0
@@ -34,7 +40,7 @@ set gplot(script) {
 
     set datafile separator ","
 
-    plot [][40:104] '-' using 2:5 with lines title "Min",\
+    plot [][$gplot(_ymin):$gplot(_ymax)] '-' using 2:5 with lines title "Min",\
     '-' using 2:6 with lines title "Max"
     $gplot(data)
     e
