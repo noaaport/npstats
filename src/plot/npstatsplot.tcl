@@ -21,10 +21,10 @@
 # -D => use the given datafile instead of the archive
 # -f => format  (default "png")
 # -F => the template is used as is (instead of looking in std dirs)
-# -g => options (default "small xd0d0d0")
+# -g => options (default "small size 320,240 xd0d0d0")
 # -n => default n = 0 (today); n = 1 is yesterday, etc.
 # -o => outputfile name (default "<devtype>_<devid>.<fmt>)
-# -s => size (default "0.6,0.6")
+# -s => plot size (default "1,1")
 # -y => the day yyyymmdd (conflicts with -n)
 #
 package require cmdline;
@@ -34,8 +34,9 @@ set usage {npstatsplot [-b] [-d outputdir] [-D datafile]
     [-o outputfile] [-s size] [-y yyyymmdd]
     <deviceid> [<template>]};
 
-set optlist {b {d.arg ""} {D.arg ""} {f.arg "png"} F {g.arg "small xd0d0d0"}
-    {n.arg 0} {o.arg ""} {s.arg "0.6,0.6"} {y.arg ""}}; 
+set optlist {b {d.arg ""} {D.arg ""} {f.arg "png"} F
+    {g.arg "small size 320,240 xd0d0d0"}
+    {n.arg 0} {o.arg ""} {s.arg "1,1"} {y.arg ""}}; 
 
 #
 # Functions

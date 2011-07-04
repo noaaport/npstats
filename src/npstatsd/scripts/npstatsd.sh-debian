@@ -30,7 +30,12 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
 # Include npstats defaults if available
 if [ -f $DEFAULTS ] ; then
-	. $DEFAULTS
+    . $DEFAULTS
+fi
+
+if [ "$ENABLE" = "0" ] ; then
+    echo "npstatsd disabled in $DEFAULTS"
+    exit 0
 fi
 
 case "$1" in
