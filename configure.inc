@@ -8,7 +8,7 @@ Q='"'
 PREFIX=usr/local
 
 TCL_INCDIR="-I /usr/local/include/tcl8.6"
-TCL_LIB="-ltcl86"
+TCL_LIB="tcl86"
 TCLSH=/usr/local/bin/tclsh8.6
 
 LOCAL_LIBDIR="-L /usr/local/lib"
@@ -20,7 +20,7 @@ INSTALL=install
 SUFFIXRULES=".c.o:"
 
 # excude options to tar
-EXCLUDE="-W exclude"
+EXCLUDE="--exclude "
 
 os=`uname`
 [ $os = Linux ] && flavor=unknown
@@ -54,15 +54,15 @@ case $os in
     Linux)
 	INCLUDE=include
 	Q=
-	TCL_LIB="-ltcl8.5"
-	TCL_INCDIR=
-	TCLSH=/usr/bin/tclsh
 
 	LOCAL_INCDIR=
 	LOCAL_LIBDIR=
 	SUFFIXRULES="%.o: %.c"
-
 	EXCLUDE="--exclude"
+
+	TCL_INCDIR=
+	TCL_LIB="tcl8.5"
+	TCLSH=/usr/bin/tclsh8.5
 
 	# Override the defaults for flavor != fedoracore
     	if [ $flavor = opensuse ]
@@ -70,10 +70,14 @@ case $os in
 	   continue
 	elif [ $flavor = centos ]
 	then
-	   TCL_LIB="-ltcl8.4"
+	   TCL_INCDIR=
+	   TCL_LIB="tcl8.5"
+	   TCLSH=/usr/bin/tclsh
 	elif [ $flavor = debian ]
 	then
 	   TCL_INCDIR="-I /usr/include/tcl8.5"
+	   TCL_LIB="tcl8.5"
+	   TCLSH=/usr/bin/tclsh8.5
     	fi
      	;;
 esac
