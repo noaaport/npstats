@@ -58,7 +58,7 @@ case $os in
 	LOCAL_INCDIR=
 	LOCAL_LIBDIR=
 	SUFFIXRULES="%.o: %.c"
-	EXCLUDE="--exclude"
+	EXCLUDE="--exclude "
 
 	TCL_INCDIR=
 	TCL_LIB="tcl8.5"
