@@ -1,18 +1,18 @@
 #!/bin/sh
 
-name=npstats
+branchname=npstats
 
-tgzfile=${name}.tgz
+rpmroot=$HOME/rpmbuild
 
-rm -rf $name
+tgzfile=${branchname}.tgz
+rm -rf $branchname
 tar -xzf $tgzfile
-. $name/VERSION
 
-rm -rf $name-$version
-cp -R $name $name-$version
-tar -czf $name-$version.tgz $name-$version
-mv $name-$version.tgz /usr/src/redhat/SOURCES
-rm -rf $name-$version
+. ./$branchname/VERSION
 
-cd $name/build/rpm
+rm -rf ${name}-${version}
+cp -r $branchname ${name}-${version}
+tar -czf ${name}-${version}.tgz ${name}-${version}
+cp ${name}-${version}.tgz $rpmroot/SOURCES
+cd ${name}-${version}/build/rpm
 make package
