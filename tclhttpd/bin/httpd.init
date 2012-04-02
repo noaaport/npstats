@@ -1,25 +1,230 @@
 #
 # $Id$
 #
-# Configure the auto_path so we can find the script library.
-#
-if {![info exist Config(lib)]} {
-    error "Cannot find TclHttpd library in auto_path:\n[join $auto_path \n]"
-}
-set auto_path [concat [list $Config(lib)] $auto_path]
 
-# Search around for the Standard Tcl Library
-#
-if {[catch {package require md5 1}]} {
-  error "Cannot find Standard Tcl Library in auto_path:\n[join $auto_path \n]"
-}
+set Config(prefix) /usr/local
+set Config(home) /var/npstats/www
+set Config(confdir) [file join $Config(prefix) etc npstats]
+set Config(localconfdirs) [list [file join $Config(confdir) defaults] \
+				[file join $Config(confdir) site]]
+set Config(config) [file join $Config(confdir) httpd.conf]
+set Config(libexecdir) [file join $Config(prefix) libexec/npstats/tclhttpd]
+set Config(init) [file join $Config(libexecdir) httpd.init]
+set Config(main) [file join $Config(libexecdir) httpdthread.tcl]
+set Config(lib) [file join $Config(libexecdir) dist]
+set Config(library) [file join $Config(libexecdir) npstats]
 
-package require httpd 1.6
-package require httpd::version		;# For Version proc
-package require httpd::utils		;# For Stderr
-package require httpd::counter		;# For Count
-package require httpd::compat
-package require httpd::url
+#
+# The next settings are not configurable in httpd.conf, but must be in sync
+# with those in collectors.conf.
+#
+interp create slave;
+#
+slave eval {
+    set _defaultsfile "/usr/local/etc/npstats/collectors.conf";
+    if {[file exists ${_defaultsfile}] == 0} {
+        puts "${_defaultsfile} not found.";
+        exit 1;
+    }
+    source ${_defaultsfile};
+
+    # The devices.conf is needed to display the status pages
+    if {[file exists $common(devicesconf)]} {
+        source $common(devicesconf);
+    }
+}
+#
+foreach k [list csvarchivedir csvfext sqlitearchivedir sqlitefext \
+	spooldir datafext queuefext \
+	spooler monitor libdir] {
+    set Config(collect,$k) [slave eval [list set common($k)]];
+}
+#
+# Initialize to empty, and put the copy inside a catch in case no
+# devices(devicelist) is defined.
+#
+set Config(devicelist) [list];
+catch {set Config(devicelist) [slave eval [list set devices(devicelist)]]};
+#
+interp delete slave;
+
+#
+# The rest can be redefined in the configuration file
+#
+
+#
+# local additions
+#
+set Config(syslog) 1
+set Config(syslogident) tclhttpd
+set Config(debugurl) 1
+#
+# Definitions for the site library functions
+#
+set Config(npstatswwwdir) $Config(home)
+set Config(npstatslibdir) $Config(library)
+set Config(npstatshtdocsdir) [file join $Config(npstatswwwdir) htdocs]
+set Config(npstatsextlibdirs) [list \
+    [file join $Config(libexecdir) extensions] \
+    [file join $Config(libexecdir) site]]
+#
+set Config(npstatsprivatedir) [file join $Config(confdir) private]
+#
+set Config(npstatsplothtdir) "plots";	# relative to Config(docRoot)
+
+#
+# http data collection
+#
+set Config(collect,sitekeys_file) \
+	[file join $Config(npstatsprivatedir) "sitekeys.auth"];
+set Config(collect,spooler_enable) 0;
+set Config(collect,monitor_enable) 0;
+
+#
+# Location of the external programs used by the server.
+#
+set env(PATH) "/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin";
+
+# The httpd monitor module uses the local packages: monitor, devices
+lappend auto_path $Config(collect,libdir);
+
+#
+# Common configuration of tclhttpd
+#
+set Config(http_enable) 1;
+
+set Config(threads)  0
+set Config(debug) 0
+set Config(compat) 3.3
+
+# docRoot - the name of the file system directory containing
+# the root of your document tree.
+#
+set Config(docRoot) [file join $Config(home) htdocs pub]
+set Config(indexFile) "index.{html,tml}"
+
+# host - the name of the server (i.e., www.yourcompany.com)
+#
+set Config(host)		[info hostname]
+
+# port - the listening port for the server for HTTP requests.
+# The standard web port is 80, but ports below 1023 must be opened by root.
+# Since npstatsd by default runs as the "noaaport" user the port must
+# be 1024 or greater.
+#
+set Config(port)		8025
+
+# ipaddr - the IP address of the server's end of the HTTP socket.
+# Only specify this if you have a machine with several IP addresses
+# and you want the server to only listen on one IP address.
+# If this is the empty string, then it will listen on all
+# network interfaces for connections.
+#
+set Config(ipaddr)	{}
+
+# webmaster - an email address for error mailings
+#
+set Config(webmaster)	webmaster@[info hostname]
+
+# secsPerMinute - The seconds-per-minute value used when creating the
+# time-based histograms on the /status page.  This should
+# be between 1 and 60, inclusive.
+#
+set Config(secsPerMinute)	60
+set Config(secs) $Config(secsPerMinute)
+
+# LogFile - the file used for standard logging information.
+# This is actually the prefix of the name.  The port and current date stamp
+# is append to this file, and it is rolled every night at midnight.
+#
+set Config(LogFile)	"/var/log/npstats/www/tclhttpd_"
+
+# LogFlushMinutes - how frequently the log file is flushed to disk.
+# Use 0 to have each URL request cause a log flush.
+#
+set Config(LogFlushMinutes) 0
+
+# LogDebug - set up a debug logfile - default: no
+#
+set Config(LogDebug) 0
+
+# Authentication Configuration
+
+# The auth config creates a default authentication array.
+# To create passwords for user $u and group $g, use
+# Config Auth {user,$u password group,$g group}
+#
+# Note: these passwords are plaintext, so it's not very secure.
+#
+# If Auth is undefined, a random password
+# is created and logged per invocation of the server
+# If Auth is defined (even if empty, it is considered authoritative and
+# no default passwords are generated.
+#
+### set Config(Auth) {}
+set Config(AuthDefaultFile) [file join $Config(home) auth tclhttpd.auth]
+
+# Default password file - used if .htaccess doesn't specify AuthUserFile.
+# This defaults to the authentication array authdefault().
+#
+### set Config(AuthUserFile) {}
+
+# Default group file - used if .htaccess doesn't specify AuthGroupFile.
+# This defaults to the authentication array authdefault().
+#
+### set Config(AuthGroupFile) {}
+
+# Default mail servers - the smtp servers to use when sending mail
+set Config(MailServer) {}
+
+#
+## ssl configuration
+#
+set Config(https_enable)	0
+set Config(https_host)		[info hostname]
+set Config(https_port)		8026;	# The standard SSL port is 443.
+set Config(https_ipaddr)	{}
+
+# SSL_REQUEST - should the server ask for certificates from clients?
+set Config(SSL_REQUEST)	0
+
+# SSL_REQUIRE - should the server require certificates?
+set Config(SSL_REQUIRE)	0
+
+# SSL_CADIR - the directory containing Certificate Authority
+# certificate files.  If you have only one such file, you can use
+# SSL_CAFILE described below.
+#
+set Config(SSL_CADIR)	[file join $Config(home) ssl/certs]
+
+# SSL_CAFILE - the file containing the Certificate Authority
+# certificate.  If this is empty, then the directory specified by
+# SSL_CADIR is scanned for certificate files.
+#
+set Config(SSL_CAFILE) [file join $Config(SSL_CADIR) cacert.pem]
+
+# SSL_CERTFILE - The server's certificate.
+set Config(SSL_CERTFILE) [file join $Config(SSL_CADIR) cert.pem]
+
+# SSL_KEYFILE - The server's key file.  If this is empty,
+# then just use the SSL_CERTFILE
+#
+set Config(SSL_KEYFILE)	[file join $Config(SSL_CADIR) key.pem]
+
+# USE_SSL2 - Allow the use of SSL version 2 
+#
+set Config(USE_SSL2)		1
+
+# USE_SSL3 - Allow the use of SSL version 3
+set Config(USE_SSL3)		1
+
+# USE_TLS1 - ??
+set Config(USE_TLS1)		0
+
+# SSL_CIPHERS - list of SSL ciphers to support.  If this is empty,
+# then all the ciphers supported by the SSL implementation are available.
+#
+set Config(SSL_CIPHERS)	{}
 
 # Config file (optional)
 #
@@ -27,94 +232,8 @@ if {[file exists $Config(config)]} {
     source $Config(config)
 }
 
-if {[string length $Config(library)]} {
-    lappend auto_path $Config(library)
-}
-
-# Stub out Thread_Respond so threadmgr isn't required
-proc Thread_Respond {args} {return 0}
-proc Thread_Enabled {} {return 0}
-
-# Start the server
-Httpd_Init
-
-# Open the listening sockets
-if {$Config(http_enable) != 0} {
-    Httpd_Server $Config(port) $Config(host) $Config(ipaddr)
-}
-
-# https
-if {$Config(https_enable) != 0} {
-
-    package require tls;
-
-    # Secure server startup, which depends on the TLS extension.
-    # Tls doesn't provide good error messages in these cases,
-    # so we check ourselves that we have the right certificates in place.
-
-    if {[file isdirectory $Config(SSL_CADIR)] == 0} {
-	error "Config(SSL_CADIR) is not a directory.";
-    }
-
-    if {$Config(SSL_CAFILE) eq ""} {
-	error "Config(SSL_CAFILE) not set."
-    }
-
-    if {[file exists $Config(SSL_CAFILE)] == 0} {
-	error "CA file $Config(SSL_CAFILE) not found.";
-    }
-
-    if {$Config(SSL_CERTFILE) eq ""} {
-	error "Config(SSL_CERTFILE) not set."
-    }
-
-    if {[file exists $Config(SSL_CERTFILE)] == 0} {
-	error "CERT file $Config(SSL_CERTFILE) not found.";
-    }
-
-    tls::init -request $Config(SSL_REQUEST) \
-	-require $Config(SSL_REQUIRE) \
-	-ssl2 $Config(USE_SSL2) \
-	-ssl3 $Config(USE_SSL3) \
-	-tls1 $Config(USE_TLS1) \
-	-cipher $Config(SSL_CIPHERS) \
-	-cadir $Config(SSL_CADIR) \
-	-cafile $Config(SSL_CAFILE) \
-	-certfile $Config(SSL_CERTFILE) \
-	-keyfile $Config(SSL_KEYFILE)
-
-    Httpd_SecureServer $Config(https_port) \
-	$Config(https_host) \
-	$Config(https_ipaddr);
-}
-
-##################################
-# Main application initialization
-##################################
-
-if {[catch {source $Config(main)} message]} {
-    global errorInfo
-    set error "Error processing main startup script $Config(main)."
-    append error "\n$errorInfo"
-    error $error
-}
-
-# The main thread owns the log
-Log_SetFile		$Config(LogFile)$Config(port)_
-Log_FlushMinutes	$Config(LogFlushMinutes)
-Log_Flush
-
 #
-# main loop
+# Variables - global variables go in the npstats() array, and they
+# are defined and used in each lib/npstats/<module>.tcl individually.
+# (e.g., npstats(collect,sitekeys,<site>).
 #
-set done 0
-while {$done == 0} {
-    fileevent stdin readable {set done 1}
-    vwait done
-    if {[gets stdin line] >= 0} {
-	set done 0
-    }
-}
-
-Httpd_ServerShutdown
-Httpd_SecureServerShutdown
