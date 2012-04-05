@@ -16,17 +16,17 @@ INOBJECTS =	conf.c defaults.h
 SOURCES =	main.c conf.c \
 		err.c efile.c exec.c file.c httpd.c init.c manager.c \
 		per.c pfilter.c pid.c pw.c readn.c \
-		signal.c tclevalfile.c util.c
+		signal.c strsplit.c tclevalfile.c util.c
 
 OBJECTS =	main.o conf.o \
 		err.o efile.o exec.o file.o httpd.o init.o manager.o \
 		per.o pfilter.o pid.o pw.o readn.o \
-		signal.o tclevalfile.o util.o
+		signal.o strsplit.o tclevalfile.o util.o
 
 HEADERS =	defaults.h globals.h conf.h \
 		err.h efile.h exec.h file.h httpd.h init.h manager.h \
 		per.h pfilter.h pid.h pw.h readn.h \
-		signal.h tclevalfile.h util.h
+		signal.h strsplit.h tclevalfile.h util.h
 
 ALLOBJECTS =	${OBJECTS} ${INOBJECTS}
 

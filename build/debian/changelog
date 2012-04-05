@@ -1,3 +1,9 @@
+npstats (0.5.3p6-1) stable; urgency=low
+
+  * Added ability to the noaaport user suplementary groups
+
+ -- Jose F Nieves <nieves@ltp.upr.clu.edu>  Thu, 05 Apr 2012 14:37:32 -0400
+
 npstats (0.5.3p5-1) stable; urgency=low
 
   * Initial debian package release

@@ -1,5 +1,6 @@
 0.5.3.p4
 ========
 - Implemented dynamic setting of the min/max values in the ss plots
- 
 
+0.5.3.p6
+- Added ability to set the supplementary groups of the noaaport user.

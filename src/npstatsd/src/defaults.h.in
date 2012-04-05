@@ -30,6 +30,11 @@
  * configuration file.
  */
 
+/*
+ * The supplementary groups can be set by making the "GROUP" a
+ * comma-separated list of groups (including the main group)
+ * "noaaport,news,ldm,..."
+ */
 #define NPSTATS_USER		"noaaport"
 #define NPSTATS_GROUP		"noaaport"
 #define NPSTATS_HOME		"/var/npstats"
