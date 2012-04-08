@@ -1,1 +1,0 @@
-http://www.debian-administration.org/article/Creating_and_Using_a_self_signed__SSL_Certificates_in_debian
