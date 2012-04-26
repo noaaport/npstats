@@ -12,5 +12,5 @@ name=npstats
 branch=0.5
 releasenumber=3
 releaselevel=p
-update=6
+update=7
 version=${branch}.${releasenumber}${releaselevel}${update}
