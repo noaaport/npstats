@@ -1,6 +1,6 @@
 #!/bin/sh
 
-branchname=nbsp
+branchname=npstats
 
 cd ../../..
 . ./${branchname}/VERSION
