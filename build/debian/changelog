@@ -1,3 +1,9 @@
+npstats (0.5.3p7-1) stable; urgency=low
+
+  * Use templates + css instead of direct domain urls in the display pages.
+
+ -- Jose F Nieves <nieves@ltp.uprrp.edu>  Tue, 16 Oct 2012 12:49:24 -0400
+
 npstats (0.5.3p6-1) stable; urgency=low
 
   * Added ability to the noaaport user suplementary groups
