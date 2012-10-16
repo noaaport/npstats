@@ -1,0 +1,27 @@
+
+#threecol {
+   margin:10
+}
+
+#left {
+   float:left;
+   width:33%;
+   font-size:80%;
+}
+
+#center {
+   float:left;
+   width:33%;
+   font-size:80%;
+}
+
+#right {
+   float:left;
+   width:33%;
+   font-size:80%;
+}
+
+#normal {
+    float:left;
+    width: 100%;
+}

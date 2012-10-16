@@ -1,0 +1,13 @@
+<html>
+<head>
+ <link rel="stylesheet" href="/css/main.css" type="text/css"/>
+</head>
+
+<body>
+
+@header@
+@menu@
+@body@
+
+</body>
+</html>

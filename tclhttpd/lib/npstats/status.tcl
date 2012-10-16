@@ -1,7 +1,12 @@
 #
 # $Id$
 #
-Direct_Url /npstats/status npstats/status;
+
+#
+#  Not longer used after switching to templates (Tue Oct 16 11:23:46 AST 2012)
+#
+## Direct_Url /npstats/status npstats/status;
+#
 
 #
 # The (local) spooler and monitor packages
@@ -16,7 +21,7 @@ proc npstats/status/display_device_list {} {
 	return "No devices configured.";
     }
 
-    set result "<h1>Configured devices</h1>\n";
+    set result "<h3>Configured devices</h3>\n";
     array set result_by_type {};
     foreach device $Config(devicelist) {
 	array set option [::npstats::devices::get_options $device];
@@ -28,13 +33,13 @@ proc npstats/status/display_device_list {} {
 	set devicetype [::npstats::devices::get_type $device];
 	set template [::npstats::devices::get_tml $device];
 	set q "deviceid=$deviceid&template=$template";
-	set url "/npstats/status/display_device_status";
+	set url "/npstats/status/display_device_status.tml";
 	append url "?" $q;
 	append result_by_type($devicetype) \
 	    "<li><a href=\"$url\" target=\"newwindow\">$deviceid</a></li>\n";
     }
     foreach devicetype [array names result_by_type] {
-	append result "<h3>$devicetype</h3>\n";
+	append result "<h4>$devicetype</h4>\n";
 	append result "<ul>\n" $result_by_type($devicetype) "</ul>\n";
     }
 

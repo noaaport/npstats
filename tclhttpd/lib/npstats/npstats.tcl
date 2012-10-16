@@ -1,11 +1,15 @@
 #
 # $Id$
 #
-Direct_Url /npstats npstats
+
+#
+# Not used with the template system
+# Direct_Url /npstats npstats
+#
 
 package require html
 
-proc npstats {} {
+proc npstats/main {} {
 
     global Config;
 
@@ -18,7 +22,7 @@ proc npstats/printconf {} {
 #
 # Print current npstatsd configuration.
 #
-    set result "<h1>Configuration parameters</h1>\n";
+    set result "<h3>Configuration parameters</h3>\n";
 
     append result [display_config];
 

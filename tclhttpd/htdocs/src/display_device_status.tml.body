@@ -1,0 +1,7 @@
+<div id="normal">
+  [
+    set deviceid [::ncgi::value "deviceid"]
+    set template [::ncgi::value "template"]
+    npstats/status/display_device_status $deviceid $template
+  ]
+</div>

@@ -5,6 +5,7 @@
 @include@ @q@Makefile.inc@q@
 
 DIRS = extensions
+CLEANDIRS = extensions htdocs
 
 TCLSH =         @TCLSH@
 INSTALL =       @INSTALL@
@@ -43,6 +44,7 @@ ${WWWTGZFILE}: ${WWWTGZFILE}-force
 
 ${WWWTGZFILE}-force:
 	rm -rf ${WWWWORKDIR}
+	cd ${WWWHTDOCSDIR}; ${MAKE}
 	install -d ${WWWWORKDIR}/${WWWHTDOCSDIR}
 	cp -R ${WWWHTDOCSSUBDIRS} ${WWWWORKDIR}/${WWWHTDOCSDIR}
 	cp -R ${WWWSSLDIR} ${WWWWORKDIR}
@@ -69,7 +71,7 @@ install:
 	done
 
 clean:
-	for dir in ${DIRS}; do \
+	for dir in ${CLEANDIRS}; do \
 	(cd $$dir; ${MAKE} clean) \
 	done
 	rm -f *~ Makefile ${TCLTARGET} ${SAMPLECONFFILE} ${WWWTGZFILE}

@@ -1,4 +1,7 @@
+<div id="normal">
+
 <h1>Quick Start Guide</h1>
+
 <ul>
 <li><a href="#device_configuration">Device configuration</a></li>
     <ul>
@@ -236,3 +239,5 @@ noaapoernet     kakameni
 wxpronet        kakameno
 </pre>
 </p>
+
+</div>
