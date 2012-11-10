@@ -1,3 +1,11 @@
+body {
+    font: Tahoma,Verdana,sans-serif;
+}
+
+a:link {text-decoration: none}
+a:visited {text-decoration: none}
+a:active {text-decoration: none}
+a:hover {text-decoration: underline; color: maroon;}
 
 #threecol {
    margin:10
@@ -22,6 +30,6 @@
 }
 
 #normal {
-    float:left;
-    width: 100%;
+    float:right;
+    width: 98%;
 }
