@@ -17,14 +17,14 @@ namespace eval npstats::monitor {
     set monitor(program) "";
 }
 
-proc ::npstats::monitor::init {program} {
+proc npstats::monitor::init {program} {
     
     variable monitor;
 
     set monitor(program) $program;
 }
 
-proc ::npstats::monitor::connect {} {
+proc npstats::monitor::connect {} {
 
     variable monitor;
 
@@ -41,7 +41,7 @@ proc ::npstats::monitor::connect {} {
     return "";
 }
 
-proc ::npstats::monitor::disconnect {} {
+proc npstats::monitor::disconnect {} {
 
     variable monitor;
 
@@ -62,7 +62,7 @@ proc ::npstats::monitor::disconnect {} {
     return "";
 }
 
-proc ::npstats::monitor::send_output {pdata} {
+proc npstats::monitor::send_output {pdata} {
 
     variable monitor;
 

@@ -24,7 +24,7 @@ namespace eval npstats::db {
     array set db {};
 }
 
-proc ::npstats::db::init {cmd options} {
+proc npstats::db::init {cmd options} {
 
     variable db;
 
@@ -36,14 +36,14 @@ proc ::npstats::db::init {cmd options} {
     ## unset db(F);
 }
 
-proc ::npstats::db::connect {} {
+proc npstats::db::connect {} {
 
     variable db;
 
     set db(F) [open "|$db(cmd)" "r+"];
 }
 
-proc ::npstats::db::disconnect {} {
+proc npstats::db::disconnect {} {
 
     variable db;
 
@@ -53,7 +53,7 @@ proc ::npstats::db::disconnect {} {
     unset db(F);
 }
 
-proc ::npstats::db::send {sqlscript} {
+proc npstats::db::send {sqlscript} {
 
     variable db;
 
@@ -63,7 +63,7 @@ proc ::npstats::db::send {sqlscript} {
     flush $db(F);
 }
 
-proc ::npstats::db::send_insert {table pnames pvalues} {
+proc npstats::db::send_insert {table pnames pvalues} {
 
     variable db;
 
@@ -80,7 +80,7 @@ proc ::npstats::db::send_insert {table pnames pvalues} {
 #
 # Utility
 #
-proc ::npstats::db::get_output {} {
+proc npstats::db::get_output {} {
 
     variable db;
 
@@ -89,7 +89,7 @@ proc ::npstats::db::get_output {} {
     return [read $db(F)];
 }
 
-proc ::npstats::db::read_output_xml {} {
+proc npstats::db::read_output_xml {} {
 #
 # In mysql, the appropriate command line options to use this fuction are
 # "-B -n -X"
@@ -119,7 +119,7 @@ proc ::npstats::db::read_output_xml {} {
 #
 # private
 #
-proc ::npstats::db::_verify_connection {} {
+proc npstats::db::_verify_connection {} {
 
     variable db;
 

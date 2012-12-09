@@ -24,7 +24,7 @@ namespace eval npstats::sftp {
     array set sftp {};
 }
 
-proc ::npstats::sftp::init {user host} {
+proc npstats::sftp::init {user host} {
 
     variable sftp;
 
@@ -35,7 +35,7 @@ proc ::npstats::sftp::init {user host} {
     set sftp(output) "";
 }
 
-proc ::npstats::sftp::send {cmd file} {
+proc npstats::sftp::send {cmd file} {
 
     set script {
 	$cmd $file
@@ -47,14 +47,14 @@ proc ::npstats::sftp::send {cmd file} {
     return $r;
 }
 
-proc ::npstats::sftp::put {file} {
+proc npstats::sftp::put {file} {
 
     set r [::npstats::sftp::send "put" $file];
 
     return $r;
 }
 
-proc ::npstats::sftp::rm {file} {
+proc npstats::sftp::rm {file} {
 
     set r [::npstats::sftp::send "rm" $file];
 
@@ -64,7 +64,7 @@ proc ::npstats::sftp::rm {file} {
 #
 # Utility
 #
-proc ::npstats::sftp::get_output {} {
+proc npstats::sftp::get_output {} {
 
     variable sftp;
 
@@ -74,7 +74,7 @@ proc ::npstats::sftp::get_output {} {
 #
 # private
 #
-proc ::npstats::sftp::_verify_init {} {
+proc npstats::sftp::_verify_init {} {
 
     variable sftp;
 
@@ -85,7 +85,7 @@ proc ::npstats::sftp::_verify_init {} {
     return -code error "No user@host defined.";
 }
 
-proc ::npstats::sftp::_batch {script} {
+proc npstats::sftp::_batch {script} {
 
     variable sftp;
 

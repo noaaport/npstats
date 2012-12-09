@@ -17,14 +17,14 @@ namespace eval npstats::spooler {
     set spooler(program) "";
 }
 
-proc ::npstats::spooler::init {program} {
+proc npstats::spooler::init {program} {
     
     variable spooler;
 
     set spooler(program) $program;
 }
 
-proc ::npstats::spooler::connect {} {
+proc npstats::spooler::connect {} {
 
     variable spooler;
 
@@ -41,7 +41,7 @@ proc ::npstats::spooler::connect {} {
     return "";
 }
 
-proc ::npstats::spooler::disconnect {} {
+proc npstats::spooler::disconnect {} {
 
     variable spooler;
 
@@ -62,7 +62,7 @@ proc ::npstats::spooler::disconnect {} {
     return "";
 }
 
-proc ::npstats::spooler::send_output {pdata} {
+proc npstats::spooler::send_output {pdata} {
 
     variable spooler;
 

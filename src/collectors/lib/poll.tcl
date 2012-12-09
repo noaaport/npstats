@@ -26,7 +26,7 @@ namespace eval npstats::poll {
     array set poll {};
 }
 
-proc ::npstats::poll::connect {device poller args} {
+proc npstats::poll::connect {device poller args} {
 
     variable poll;
 
@@ -38,7 +38,7 @@ proc ::npstats::poll::connect {device poller args} {
     set poll($device,F) $F;
 }
 
-proc ::npstats::poll::disconnect {device} {
+proc npstats::poll::disconnect {device} {
 
     variable poll;
 
@@ -48,7 +48,7 @@ proc ::npstats::poll::disconnect {device} {
     unset poll($device,F);
 }
 
-proc ::npstats::poll::send {device cmd} {
+proc npstats::poll::send {device cmd} {
 
     variable poll;
 
@@ -64,17 +64,17 @@ proc ::npstats::poll::send {device cmd} {
     }
 }
 
-proc ::npstats::poll::send_poll {device} {
+proc npstats::poll::send_poll {device} {
 
     ::npstats::poll::send $device "POLL";
 }
 
-proc ::npstats::poll::send_report {device} {
+proc npstats::poll::send_report {device} {
 
     ::npstats::poll::send $device "REPORT";
 }
 
-proc ::npstats::poll::pop_line {device line_varname} {
+proc npstats::poll::pop_line {device line_varname} {
 #
 # Returns the same code as "gets <fh> line".
 #
@@ -87,7 +87,7 @@ proc ::npstats::poll::pop_line {device line_varname} {
     return $r;
 }
 
-proc ::npstats::poll::dfconfigure {device args} {
+proc npstats::poll::dfconfigure {device args} {
     
     variable poll;
 
@@ -98,7 +98,7 @@ proc ::npstats::poll::dfconfigure {device args} {
 #
 # Utility
 #
-proc ::npstats::poll::set_var {device var val} {
+proc npstats::poll::set_var {device var val} {
     
     variable poll;
 
@@ -106,7 +106,7 @@ proc ::npstats::poll::set_var {device var val} {
     set poll($device,user,$var) $val;
 }
 
-proc ::npstats::poll::get_var {device var} {
+proc npstats::poll::get_var {device var} {
     
     variable poll;
 
@@ -122,7 +122,7 @@ proc ::npstats::poll::get_var {device var} {
 #
 # low level
 #
-proc ::npstats::poll::get_filehandle {device} {
+proc npstats::poll::get_filehandle {device} {
 
     variable poll;
 
@@ -134,7 +134,7 @@ proc ::npstats::poll::get_filehandle {device} {
 #
 # private
 #
-proc ::npstats::poll::_verify_connection {device} {
+proc npstats::poll::_verify_connection {device} {
 
     variable poll;
 
