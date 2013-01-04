@@ -13,7 +13,8 @@ set gplot(script) {
 
     set ylabel "Carrier/Noise"
     set xlabel "Time gmt"
-    set title "Carrier/Noise $gplot(deviceid)"
+    # set title "Carrier/Noise $gplot(deviceid)"
+    set title "Carrier/Noise"
 
     # set size 0.6,0.6
     set size $gplot(size)

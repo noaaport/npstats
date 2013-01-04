@@ -13,7 +13,8 @@ set gplot(script) {
 
     set ylabel "Packets"
     set xlabel "Time gmt"
-    set title "DVB Packets Accepted $gplot(deviceid)"
+    # set title "DVB Packets Accepted $gplot(deviceid)"
+    set title "DVB Packets Accepted"
 
     # set size 0.6,0.6
     set size $gplot(size)

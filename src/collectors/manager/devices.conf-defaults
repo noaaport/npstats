@@ -5,7 +5,9 @@
 #
 # Defaults for monitoring a novra s300 in standalone (no export to db) mode.
 # Change "s300" to "s75" if the receiver is an S75 or S75+,
-# or to "s200" if it is an S200.
+# or to "s200" if it is an S200. Use in the displaytemplate
+# "novra_s300.tml" for the standard version, or "m.novra_s300.tml"
+# for the ``mobile'' version.
 #
 lappend devices(devicelist) {
     deviceid "mydomain.mynovra"
@@ -14,5 +16,5 @@ lappend devices(devicelist) {
     export 0
     csvarchive 1
     displaystatus 1
-    displaytemplate "novra_s300.tml"
+    displaytemplate "m.novra_s300.tml"
 }

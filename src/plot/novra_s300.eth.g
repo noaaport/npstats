@@ -13,7 +13,8 @@ set gplot(script) {
 
     set ylabel "Packets"
     set xlabel "Time gmt"
-    set title "Ethernet Packets Transmitted $gplot(deviceid)"
+    # set title "Ethernet Packets Transmitted $gplot(deviceid)"
+    set title "Ethernet Packets Transmitted"
 
     # set size 0.6,0.6
     set size $gplot(size)

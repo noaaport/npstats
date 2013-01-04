@@ -201,6 +201,12 @@ while {$i <= $n} {
     incr i;
 }
 
+# Define the yesno() values that the template can use
+set tml(yesno,0) "No"
+set tml(yesno,1) "Yes"
+set tml(onoff,0) "Off"
+set tml(onoff,1) "On"
+
 set template [npstatsplot_find_tml_template $option(template)];
 if {($template eq "") || ([file exists $template] == 0)} {
     ::npstats::syslog::warn "$option(template) not found.";

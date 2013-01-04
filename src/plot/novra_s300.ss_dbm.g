@@ -1,5 +1,5 @@
 #
-# $Id: novra_s300.ss_dbm.g 79 2011-01-24 01:07:33Z jfnieves $
+# $Id$
 #
 # gnuplot template for novra_s300.signal_strength
 #
@@ -19,7 +19,8 @@ set gplot(script) {
 
     set ylabel "Signal strength (dbm)"
     set xlabel "Time gmt"
-    set title "Signal strength (dbm) $gplot(deviceid)"
+    # set title "Signal strength (dbm) $gplot(deviceid)"
+    set title "Signal strength (dbm)"
 
     # set size 0.6,0.6
     set size $gplot(size)

@@ -1,0 +1,45 @@
+#
+# $Id$
+#
+set tml(page) {
+<h1>$tml(deviceid)</h1>
+
+<p>
+<b>Start time</b> <br/>$tml(starttime)<br/><br/>
+<b>End time</b> <br/>$tml(endtime)<br/><br/>
+<b>Data lock</b> <br/>$tml(yesno,$tml(1))<br/><br/>
+<b>Signal lock</b> <br/>$tml(yesno,$tml(2))<br/><br/>
+<b>Vber Min</b> <br/>$tml(5)<br/><br/>
+<b>Vber Max</b> <br/>$tml(6)<br/><br/>
+<b>Uncorrectable errors</b> <br/>$tml(7)<br/><br/>
+<b>Signal strength Min (%)</b> <br/>$tml(3)<br/><br/>
+<b>Signal strength Max (%)</b> <br/>$tml(4)<br/><br/>
+<b>Signal strength Min (dbm)</b> <br/>$tml(10)<br/><br/>
+<b>Signal strength Max (dbm)</b> <br/>$tml(11)<br/><br/>
+<b>Carrier/Noise Min</b> <br/>$tml(8)<br/><br/>
+<b>Carrier/Noise Max</b> <br/>$tml(9)<br/><br/>
+<b>Data sync loss</b> <br/>$tml(12)<br/><br/>
+<b>Frequency offset</b> <br/>$tml(13)<br/><br/>
+<b>Ethernet packets transmitted</b> <br/>$tml(14)<br/><br/>
+<b>DVB packets accepted</b> <br/>$tml(15)
+</p>
+
+<p>
+<img src="[file join / $tml(plot.vber)]"><br/><br/>
+<img src="[file join / $tml(plot.errors)]"><br/><br/>
+<img src="[file join / $tml(plot.cn)]"><br/><br/>
+<img src="[file join / $tml(plot.ss)]"><br/><br/>
+<img src="[file join / $tml(plot.ss_dbm)]"><br/><br/>
+<img src="[file join / $tml(plot.eth)]"><br/><br/>
+<img src="[file join / $tml(plot.dvb)]">
+</p>
+}
+
+#
+# Generate the plot(s) used by the tml(script) above
+#
+foreach p [list vber ss errors ss_dbm cn eth dvb] {
+    set tml(plot.${p}) [file join $tml(outputdir) $tml(deviceid).${p}.png];
+    exec npstatsplot -o [file join $tml(docroot) $tml(plot.${p})] \
+	$tml(deviceid) novra_s300.${p}.g;
+}

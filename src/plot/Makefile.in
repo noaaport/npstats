@@ -30,7 +30,7 @@ GPLOTDIR =	gnuplot
 
 TMLSOURCES =	novra_s75.tml \
 		novra_s200.tml \
-		novra_s300.tml \
+		novra_s300.tml m.novra_s300.tml \
 		ipricot_s500.tml \
 		nbsp.tml inpemwin.tml \
 		fs.tml load.tml mem_freebsd.tml mem_linux.tml \
