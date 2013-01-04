@@ -7,25 +7,36 @@ a:visited {text-decoration: none}
 a:active {text-decoration: none}
 a:hover {text-decoration: underline; color: maroon;}
 
-#threecol {
+#fivecol {
    margin:10
 }
 
 #left {
    float:left;
-   width:33%;
+   width:20%;
    font-size:80%;
 }
 
-#center {
+#center1 {
    float:left;
-   width:33%;
+   width:20%;
+   font-size:80%;
+}
+
+#center2 {
+   float:left;
+   width:20%;
+   font-size:80%;
+}
+#center3 {
+   float:left;
+   width:20%;
    font-size:80%;
 }
 
 #right {
    float:left;
-   width:33%;
+   width:20%;
    font-size:80%;
 }
 
