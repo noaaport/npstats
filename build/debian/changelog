@@ -1,8 +1,9 @@
-npstats (0.5.4p1-1) stable; urgency=low
+npstats (0.5.4p2-1) stable; urgency=low
 
   * Use templates + css instead of direct domain urls in the display pages.
+  * Using m.novra_s300.tml for mobile devices
 
- -- Jose F Nieves <nieves@ltp.uprrp.edu>  Fri, 09 Nov 2012 22:45:28 -0400
+ -- Jose F Nieves <nieves@ltp.uprrp.edu>  Fri, 04 Jan 2013 13:56:14 -0400
 
 npstats (0.5.3p6-1) stable; urgency=low
 
