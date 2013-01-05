@@ -2,7 +2,7 @@
 # $Id$
 #
 set tml(page) {
-<h1>$tml(deviceid)</h1>
+<h3 class="devicesection">$tml(deviceid)</h3>
 
 <p>
 <table border>
