@@ -2,24 +2,25 @@ BUILDDIR =	pub
 
 CSSDIR	=	css
 IMGDIR =	images
-SUBDIRS =	${CSSDIR} ${IMGDIR}
+INCDIR =	include
+SUBDIRS =	${CSSDIR} ${IMGDIR} ${INCDIR}
 
 SOURCES =	display_device_list.tml.body \
 		display_device_status.tml.body \
 		display_main_device.tml.body \
 		index.tml.body \
 		printconf.tml.body \
-		quickguide.html.body
+		quickguide.tml.body
 
 OBJECTS = 	display_device_list.tml \
 		display_device_status.tml \
 		display_main_device.tml \
 		index.tml \
 		printconf.tml \
-		quickguide.html
+		quickguide.tml
 
 NPSTATSDIR =	${BUILDDIR}/npstats
-NPSTATSFILES =	printconf.tml quickguide.html
+NPSTATSFILES =	printconf.tml quickguide.tml
 
 STATUSDIR =	${BUILDDIR}/npstats/status
 STATUSFILES =	display_device_list.tml \
@@ -46,8 +47,8 @@ index.tml: index.tml.body
 printconf.tml: printconf.tml.body
 	./mk-tml.sh printconf > printconf.tml
 
-quickguide.html: quickguide.html.body
-	./mk-html.sh quickguide > quickguide.html
+quickguide.tml: quickguide.tml.body
+	./mk-tml.sh quickguide > quickguide.tml
 
 build: ${TARGET}
 	rm -rf ${BUILDDIR}

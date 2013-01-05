@@ -7,8 +7,8 @@
 
 <body>
 
-@header@
-@menu@
+[::fileutil::cat $Config(headerFile)]
+[::fileutil::cat $Config(menuFile)]
 @body@
 
 </body>

@@ -103,6 +103,11 @@ set Config(compat) 3.3
 set Config(docRoot) [file join $Config(home) htdocs pub]
 set Config(indexFile) "index.{html,tml}"
 
+# common header and menu used in the index.tml and other pages
+#
+set Config(headerFile) [file join $Config(docRoot) "include" "header.html"]
+set Config(menuFile) [file join $Config(docRoot) "include" "menu.html"]
+
 # host - the name of the server (i.e., www.yourcompany.com)
 #
 set Config(host)		[info hostname]
