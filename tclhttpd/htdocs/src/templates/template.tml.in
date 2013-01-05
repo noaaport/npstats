@@ -7,8 +7,8 @@
 
 <body>
 
-[::fileutil::cat $Config(headerFile)]
-[::fileutil::cat $Config(menuFile)]
+[::fileutil::cat [file join $Config(docRoot) "include" $Config(headerFile)]]
+[::fileutil::cat [file join $Config(docRoot) "include" $Config(menuFile)]]
 @body@
 
 </body>
