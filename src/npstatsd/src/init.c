@@ -41,7 +41,9 @@ void init_globals(void){
   g.home = NPSTATS_HOME;
   g.umask = DEFAULT_UMASK;
 
-  g.pidfile = NPSTATS_PIDFILE;;
+  g.pidfile = NPSTATS_PIDFILE;
+  g.pidfile_mode = NPSTATS_PIDFILE_MODE;
+
   g.startscript = NPSTATS_STARTSCRIPT;
   g.stopscript =  NPSTATS_STOPSCRIPT;
   g.scheduler = NPSTATS_SCHEDULER;
@@ -122,7 +124,7 @@ int init_lock(void){
    */
   int status = 0;
 
-  if(create_pidfile(g.pidfile) != 0){
+  if(create_pidfile(g.pidfile, g.pidfile_mode) != 0){
     log_err2("Could not create", g.pidfile);
     status = 1;
   }else

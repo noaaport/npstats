@@ -1,3 +1,9 @@
+npstats (0.5.4p4-1) stable; urgency=low
+
+  * Added configurable setting for the pidfile mode.
+
+ -- Jose F Nieves <nieves@ltp.uprrp.edu>  Sun, 24 Feb 2013 22:30:40 -0400
+
 npstats (0.5.4p3-1) stable; urgency=low
 
   * Use templates + css instead of direct domain urls in the display pages.

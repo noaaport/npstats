@@ -23,6 +23,7 @@ struct npstatsd_globals {
   char *home;
   mode_t umask;
   char *pidfile;
+  mode_t pidfile_mode;
   char *startscript;
   char *stopscript;
   char *scheduler;

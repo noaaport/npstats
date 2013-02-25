@@ -28,6 +28,9 @@
 #define CONFOPT_PIDFILE			@counter@
 #define DEFVAL_PIDFILE			NPSTATS_PIDFILE
 
+#define CONFOPT_PIDFILEMODE		@counter@
+#define DEFVAL_PIDFILEMODE		NPSTATS_PIDFILE_MODE
+
 #define CONFOPT_STARTSCRIPT		@counter@
 #define DEFVAL_STARTSCRIPT		NPSTATS_STARTSCRIPT
 
@@ -71,6 +74,8 @@ static struct confoption_st confoptions[] = {
   {"home", CONFOPT_HOME, TCL_LINK_STRING, NULL, 0},
   {"umask", CONFOPT_UMASK, TCL_LINK_INT, NULL, DEFVAL_UMASK},
   {"pidfile", CONFOPT_PIDFILE, TCL_LINK_STRING, NULL, 0},
+  {"pidfilemode", CONFOPT_PIDFILEMODE, TCL_LINK_INT, NULL,
+      DEFVAL_PIDFILEMODE},
   {"startscript", CONFOPT_STARTSCRIPT, TCL_LINK_STRING, NULL, 0},
   {"stopscript", CONFOPT_STOPSCRIPT, TCL_LINK_STRING, NULL, 0},
   {"scheduler", CONFOPT_SCHEDULER, TCL_LINK_STRING, NULL, 0},
@@ -113,6 +118,7 @@ int configure(void){
   setoptval(&g.home, confoptions, CONFOPT_HOME);
   setoptval(&g.umask, confoptions, CONFOPT_UMASK);
   setoptval(&g.pidfile, confoptions, CONFOPT_PIDFILE);
+  setoptval(&g.pidfile_mode, confoptions, CONFOPT_PIDFILEMODE);
   setoptval(&g.startscript, confoptions, CONFOPT_STARTSCRIPT);
   setoptval(&g.stopscript, confoptions, CONFOPT_STOPSCRIPT);
   setoptval(&g.scheduler, confoptions, CONFOPT_SCHEDULER);
@@ -147,6 +153,8 @@ void print_confoptions(void){
   fprintf(stdout, "umask %o\n", g.umask);
 
   fprintf_str(stdout, fmt, "pidfile", g.pidfile);
+  fprintf(stdout, "pidfilemode %o\n", g.pidfile_mode);
+
   fprintf_str(stdout, fmt, "startscript", g.startscript);
   fprintf_str(stdout, fmt, "stopscript", g.stopscript);
   fprintf_str(stdout, fmt, "scheduler", g.scheduler);
@@ -185,7 +193,8 @@ int validate_configuration(void){
   char *varname = NULL;
 
   /* char* user, group, home can be NULL or empty */
-  /* mode_t umask	type */
+  /* mode_t umask, "pidfilemode, type restricts value range */
+
   VALIDATE_STR(g.pidfile, "pidfile");
   /* char* startscript, stopscript  can be NULL or empty. */
   VALIDATE_STR(g.scheduler, "scheduler");

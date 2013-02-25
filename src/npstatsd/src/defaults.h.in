@@ -43,6 +43,7 @@
 
 /* pid file */
 #define NPSTATS_PIDFILE		"/var/run/npstats/npstatsd.pid"
+#define NPSTATS_PIDFILE_MODE    0666
 
 /*
  * These (tcl) scripts are evaluated by the npstatsd daemon itself
