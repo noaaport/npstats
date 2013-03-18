@@ -2,11 +2,14 @@
 #
 # $Id$
 #
-# Usage {inpemwinpoll [-p <port>] [-t <connect_timeout>] <server_poll_id>};
+# Usage:
+#       inpemwinpoll [-p <port>] [-t <connect_timeout>] <pool_id> | -h <host>
 #
 package require cmdline;
-set usage {inpemwinpoll [-p <port>] [-t <connect_timeout>] <server_poll_id>};
-set optlist {{p.arg ""} {t.arg ""}};
+
+set usage {inpemwinpoll [-p <port>] [-t <connect_timeout>]
+    <pool_id> | -h <host>};
+set optlist {h {p.arg ""} {t.arg ""}};
 
 # defaults
 set inpemwin(pool_server_port) 8016;
@@ -17,6 +20,10 @@ append inpemwin(pool_url_tmpl) "http://" \
     {$inpemwin(pool_server_id).pool.iemwin.net:$inpemwin(pool_server_port)} \
     "/_iemwin/stats";
 
+append inpemwin(host_url_tmpl) "http://" \
+    {$inpemwin(pool_server_id):$inpemwin(pool_server_port)} \
+    "/_iemwin/stats";
+
 set inpemwin(curl_options_tmpl) \
     [list -s -S --connect-timeout {$inpemwin(connect_timeout)}];
 #
@@ -24,7 +31,7 @@ set inpemwin(pool_url) "";
 set inpemwin(curl_options) "";
 
 # This is the order of the fields
-set inpemwin(numfields) 20;
+set inpemwin(numfields) 25;
 set inpemwin(index,time) 0;
 set inpemwin(index,npemwind_start_time) 1;
 set inpemwin(index,num_clients) 2;
@@ -46,6 +53,12 @@ set inpemwin(index,es_stats_header_errors) 16;
 set inpemwin(index,es_stats_checksum_errors) 17;
 set inpemwin(index,es_stats_filename_errors) 18;
 set inpemwin(index,es_stats_unknown_errors) 19;
+#
+set inpemwin(index,frames_time) 20;
+set inpemwin(index,frames_received) 21;
+set inpemwin(index,frames_processed) 22;
+set inpemwin(index,frames_bad) 23;
+set inpemwin(index,frames_data_size) 24;
 
 # These are the output fields according to the devices.def file.
 set inpemwin(fields) [list time \
@@ -91,7 +104,7 @@ proc inpemwin_get_data {} {
     # Secondly, we will enclose the string valued elements within single
     # quotes (as a concesion to the sql insert methods later).
     #
-    set client_table [join [split $a(client_table)] "+"];
+    set client_table [join [split $a(client_table) "\n"] "|"];
     set a(client_table) "'${client_table}'";
     set es_ip "'[lindex $a(upstream_master) 0]'";
     set a(upstream_master) [lreplace $a(upstream_master) 0 0 $es_ip];
@@ -101,6 +114,7 @@ proc inpemwin_get_data {} {
     # data_format
     # npemwind_start_time
     # upstream_master
+    # npemwin_status
     # num_clients
     # client_table
     #
@@ -122,12 +136,22 @@ proc inpemwin_get_data {} {
     #		  es->stats.filename_errors,
     #		  es->stats.unknown_errors
     #
+    # and (from npemwin/src/stats.c)
+    #
+    # npemwin_status = (unsigned int)g.nbspstats.time,
+    #	  g.nbspstats.frames_received,
+    #     g.nbspstats.frames_processed,
+    #     g.nbspstats.frames_bad,
+    #     g.nbspstats.frames_data_size
+    #
     # In principle, we should use use the value of a(data_format) to
     # interpret the data if there were various formats or versions.
     # Whatever we do later, this is how we will normalize the data:
 
-    set data [concat [list [clock seconds] $a(start_time) $a(num_clients) \
-			 $a(client_table)] [split $a(upstream_master)]];
+    set data [concat [list [clock seconds] $a(start_time) \
+			  $a(num_clients) $a(client_table)] \
+		  [split $a(upstream_master)] \
+		  [split $a(npemwin_status)]];
 
     if {[inpemwin_verify_data $data] != 0} {
 	# Partial record, maybe from file rotation. Assume it is a
@@ -171,6 +195,7 @@ proc inpemwin_verify_data {data} {
     global inpemwin;
 
     if {[llength $data] != $inpemwin(numfields)} {
+	puts [llength $data];
 	return 1;
     }
 
@@ -203,8 +228,12 @@ if {$option(t) ne ""} {
     set inpemwin(connect_timeout) $option(t);
 }
 
-set inpemwin(pool_url) [subst $inpemwin(pool_url_tmpl)];
 set inpemwin(curl_options) [subst $inpemwin(curl_options_tmpl)];
+if {$option(h) == 0} {
+    set inpemwin(pool_url) [subst $inpemwin(pool_url_tmpl)];
+} else {
+    set inpemwin(pool_url) [subst $inpemwin(host_url_tmpl)];
+}
 
 while {[gets stdin cmd] > 0} {
     if {$cmd eq "POLL"} {
