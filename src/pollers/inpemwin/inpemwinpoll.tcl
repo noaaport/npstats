@@ -1,4 +1,4 @@
-#!%TCLSH%
+#!/usr/bin/tclsh
 #
 # $Id$
 #
@@ -31,7 +31,7 @@ set inpemwin(pool_url) "";
 set inpemwin(curl_options) "";
 
 # This is the order of the fields
-set inpemwin(numfields) 25;
+set inpemwin(numfields) 20;
 set inpemwin(index,time) 0;
 set inpemwin(index,npemwind_start_time) 1;
 set inpemwin(index,num_clients) 2;
@@ -53,6 +53,9 @@ set inpemwin(index,es_stats_header_errors) 16;
 set inpemwin(index,es_stats_checksum_errors) 17;
 set inpemwin(index,es_stats_filename_errors) 18;
 set inpemwin(index,es_stats_unknown_errors) 19;
+#
+# These will be included, and inpemwin(numfields) will be updated,
+# if the npemwin output includes the frames data.
 #
 set inpemwin(index,frames_time) 20;
 set inpemwin(index,frames_received) 21;
@@ -144,14 +147,18 @@ proc inpemwin_get_data {} {
     #     g.nbspstats.frames_bad,
     #     g.nbspstats.frames_data_size
     #
-    # In principle, we should use use the value of a(data_format) to
-    # interpret the data if there were various formats or versions.
-    # Whatever we do later, this is how we will normalize the data:
 
+    # Handle first the original (up to npemwin-2.4.5r output (version 1)
     set data [concat [list [clock seconds] $a(start_time) \
 			  $a(num_clients) $a(client_table)] \
-		  [split $a(upstream_master)] \
-		  [split $a(npemwin_status)]];
+		  [split $a(upstream_master)]];
+
+    # Handle the revised (as of npemwin-2.4.6r) output (version 2) which
+    # includes the frames data.
+    if {$a(data_format) == 2} {
+	set data [concat $data [split $a(npemwin_status)]];
+	incr inpemwin(numfields) 5;
+    }
 
     if {[inpemwin_verify_data $data] != 0} {
 	# Partial record, maybe from file rotation. Assume it is a
