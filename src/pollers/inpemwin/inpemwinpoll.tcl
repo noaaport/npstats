@@ -75,7 +75,7 @@ set inpemwin(fields) [list time \
 			  client_table];
 
 # Variables
-set inpemwin(numfields) $inpemwin(numfields,1);
+set inpemwin(numfields) $inpemwin(numfields,1);  # default initialization
 set inpemwin(data,last_time) 0;
 set inpemwin(data,valid) 0;
 foreach field $inpemwin(fields) {
