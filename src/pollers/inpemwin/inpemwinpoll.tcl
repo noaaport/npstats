@@ -114,6 +114,7 @@ proc inpemwin_get_data {} {
 
     # The raw data contains
     #
+    # data_type
     # data_format
     # npemwind_start_time
     # upstream_master
@@ -154,7 +155,9 @@ proc inpemwin_get_data {} {
 		  [split $a(upstream_master)]];
 
     # Handle the revised (as of npemwin-2.4.6r) output (version 2) which
-    # includes the frames data.
+    # includes the frames data. The "data_type" should be just
+    # "npemwin/_iemwin/stats" (which we could check for consistency).
+    # 
     if {$a(data_format) == 2} {
 	set data [concat $data [split $a(npemwin_status)]];
 	incr inpemwin(numfields) 5;
