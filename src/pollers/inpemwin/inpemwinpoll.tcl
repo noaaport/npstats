@@ -31,7 +31,8 @@ set inpemwin(pool_url) "";
 set inpemwin(curl_options) "";
 
 # This is the order of the fields
-set inpemwin(numfields) 20;
+set inpemwin(numfields,1) 20;   # format 1
+set inpemwin(numfields,2) 25;   # format 2
 set inpemwin(index,time) 0;
 set inpemwin(index,npemwind_start_time) 1;
 set inpemwin(index,num_clients) 2;
@@ -74,6 +75,7 @@ set inpemwin(fields) [list time \
 			  client_table];
 
 # Variables
+set inpemwin(numfields) $inpemwin(numfields,1);
 set inpemwin(data,last_time) 0;
 set inpemwin(data,valid) 0;
 foreach field $inpemwin(fields) {
@@ -160,7 +162,7 @@ proc inpemwin_get_data {} {
     # 
     if {$a(data_format) == 2} {
 	set data [concat $data [split $a(npemwin_status)]];
-	incr inpemwin(numfields) 5;
+	set inpemwin(numfields) $inpemwin(numfields,2);
     }
 
     if {[inpemwin_verify_data $data] != 0} {
@@ -205,7 +207,8 @@ proc inpemwin_verify_data {data} {
     global inpemwin;
 
     if {[llength $data] != $inpemwin(numfields)} {
-	puts [llength $data];
+	# puts [llength $data];
+	# puts $inpemwin(numfields)
 	return 1;
     }
 
