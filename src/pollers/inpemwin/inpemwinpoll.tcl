@@ -1,4 +1,4 @@
-#!/usr/bin/tclsh
+#!%TCLSH%
 #
 # $Id$
 #
@@ -30,54 +30,22 @@ set inpemwin(curl_options_tmpl) \
 set inpemwin(pool_url) "";
 set inpemwin(curl_options) "";
 
-# This is the order of the fields
-set inpemwin(numfields) 20;
-set inpemwin(index,time) 0;
-set inpemwin(index,npemwind_start_time) 1;
-set inpemwin(index,num_clients) 2;
-set inpemwin(index,client_table) 3;
-#
-set inpemwin(index,es_ip) 4;
-set inpemwin(index,es_port) 5;
-set inpemwin(index,es_stats_connect) 6;
-set inpemwin(index,es_stats_disconnect) 7;
-set inpemwin(index,es_stats_consecutive_packets) 8;
-set inpemwin(index,es_stats_max_packets) 9;
-set inpemwin(index,es_stats_total_packets) 10;
-set inpemwin(index,es_stats_bad_packet_count) 11; 
-set inpemwin(index,es_stats_connections) 12;
-set inpemwin(index,es_stats_error) 13;
-set inpemwin(index,es_stats_serverread_errors) 14;
-set inpemwin(index,es_stats_serverclosed_errors) 15;
-set inpemwin(index,es_stats_header_errors) 16;
-set inpemwin(index,es_stats_checksum_errors) 17;
-set inpemwin(index,es_stats_filename_errors) 18;
-set inpemwin(index,es_stats_unknown_errors) 19;
-#
-# These will be included, and inpemwin(numfields) will be updated,
-# if the npemwin output includes the frames data.
-#
-set inpemwin(index,frames_time) 20;
-set inpemwin(index,frames_received) 21;
-set inpemwin(index,frames_processed) 22;
-set inpemwin(index,frames_bad) 23;
-set inpemwin(index,frames_data_size) 24;
-
 # These are the output fields according to the devices.def file.
-set inpemwin(fields) [list time \
-			  npemwind_start_time \
-			  num_clients \
-			  es_ip \
-			  es_port \
-			  es_stats_connect \
-			  es_stats_consecutive_packets \
-			  client_table];
+set inpemwin(keys) [list \
+			stats_time \
+			npemwind_start_time \
+			num_clients \
+			es_ip \
+			es_port \
+			es_stats_connect \
+			es_stats_consecutive_packets \
+			client_table];
 
 # Variables
 set inpemwin(data,last_time) 0;
 set inpemwin(data,valid) 0;
-foreach field $inpemwin(fields) {
-    set inpemwin(data,$field) 0;
+foreach key $inpemwin(keys) {
+    set inpemwin(data,$key) "";
 }
 
 proc inpemwin_get_data {} {
@@ -94,84 +62,83 @@ proc inpemwin_get_data {} {
 	return;
     }
 
-    set rawdata_parts [split $rawdata ";"];
+    # format 1 is separated by ";\n" while in format it is just "\n"
+    set rawdata_lines [split $rawdata "\n"];
 
-    foreach part $rawdata_parts {
-	set part_list [split [string trim $part] "="];
-	set key [lindex $part_list 0];
-	set a($key) [lindex $part_list 1];
+    foreach line $rawdata_lines {
+	set line [string trimright $line ";"]
+	set kv_list [split $line "="];
+	set key [string trim [lindex $kv_list 0]];
+	set inpemwin(data,$key) [string trim [lindex $kv_list 1]];
     }
+
+    # Handle format 1
+    if {$inpemwin(data,data_format) == 1} {
+	#
+	# Split on the ";" so that we get the client table
+	# in one list element
+	#
+	set rawdata_lines [split $rawdata ";"];
+	foreach line $rawdata_lines {
+	    set kv_list [split $line "="];
+	    set key [string trim [lindex $kv_list 0]];
+	    set inpemwin(data,$key) [string trim [lindex $kv_list 1]];
+	}
+
+	#
+	# Split the upstream data and extract what we need. We use the fact
+	# that the fields are ordered like this
+	# (from npemwin/src/servers.c)
+	#
+	# upstream_master = es->ip, es->port,
+	#		  (intmax_t)es->stats.connect, 
+	#		  (intmax_t)es->stats.disconnect, 
+	#		  es->stats.consecutive_packets, 
+	#		  es->stats.max_packets,
+	#		  es->stats.total_packets, 
+	#		  es->stats.bad_packet_count, 
+	#		  es->stats.connections, 
+	#		  es->stats.error,
+	#		  es->stats.serverread_errors,
+	#		  es->stats.serverclosed_errors,
+	#		  es->stats.header_errors,
+	#		  es->stats.checksum_errors,
+	#		  es->stats.filename_errors,
+	#		  es->stats.unknown_errors
+	#
+	set _es [split $inpemwin(data,upstream_master)];	
+	set inpemwin(data,es_ip) [lindex ${_es} 0];
+	set inpemwin(data,es_port) [lindex ${_es} 1];
+	set inpemwin(data,es_stats_connect) [lindex ${_es} 2];
+	set inpemwin(data,es_stats_consecutive_packets) [lindex ${_es} 4];
+
+	# The stats time is not output in version 1 of the iemwin query
+	set inpemwin(data,stats_time) [clock seconds];
+
+	# The start_time key was renamed in version 2
+	set inpemwin(data,npemwind_start_time) $inpemwin(data,start_time);
+
+	# Transform the client_table as output by iemwin in version 1;
+	# each client entry is delimited by a "|" instead of a "\n".
+	set inpemwin(data,client_table) \
+	    [join [split $inpemwin(data,client_table) "\n"] "|"];
+    }
+
     #
-    # We will transform the data in two ways. First the clients in the
-    # client table will be separated by a '+' rather than a space.
-    # Secondly, we will enclose the string valued elements within single
+    # We will enclose the string valued elements within single
     # quotes (as a concesion to the sql insert methods later).
     #
-    set client_table [join [split $a(client_table) "\n"] "|"];
-    set a(client_table) "'${client_table}'";
-    set es_ip "'[lindex $a(upstream_master) 0]'";
-    set a(upstream_master) [lreplace $a(upstream_master) 0 0 $es_ip];
+    set inpemwin(data,client_table) "'$inpemwin(data,client_table)'";
+    set inpemwin(data,es_ip) "'$inpemwin(data,es_ip)'";
 
-    # The raw data contains
-    #
-    # data_format
-    # npemwind_start_time
-    # upstream_master
-    # npemwin_status
-    # num_clients
-    # client_table
-    #
-    # where (from npemwin/src/servers.c)
-    #
-    # upstream_master = es->ip, es->port,
-    #		  (intmax_t)es->stats.connect, 
-    #		  (intmax_t)es->stats.disconnect, 
-    #		  es->stats.consecutive_packets, 
-    #		  es->stats.max_packets,
-    #		  es->stats.total_packets, 
-    #		  es->stats.bad_packet_count, 
-    #		  es->stats.connections, 
-    #		  es->stats.error,
-    #		  es->stats.serverread_errors,
-    #		  es->stats.serverclosed_errors,
-    #		  es->stats.header_errors,
-    #		  es->stats.checksum_errors,
-    #		  es->stats.filename_errors,
-    #		  es->stats.unknown_errors
-    #
-    # and (from npemwin/src/stats.c)
-    #
-    # npemwin_status = (unsigned int)g.nbspstats.time,
-    #	  g.nbspstats.frames_received,
-    #     g.nbspstats.frames_processed,
-    #     g.nbspstats.frames_bad,
-    #     g.nbspstats.frames_data_size
-    #
-
-    # Handle first the original (up to npemwin-2.4.5r output (version 1)
-    set data [concat [list [clock seconds] $a(start_time) \
-			  $a(num_clients) $a(client_table)] \
-		  [split $a(upstream_master)]];
-
-    # Handle the revised (as of npemwin-2.4.6r) output (version 2) which
-    # includes the frames data.
-    if {$a(data_format) == 2} {
-	set data [concat $data [split $a(npemwin_status)]];
-	incr inpemwin(numfields) 5;
-    }
-
-    if {[inpemwin_verify_data $data] != 0} {
+    if {[inpemwin_verify_data] != 0} {
 	# Partial record, maybe from file rotation. Assume it is a
 	# temporary situation.
 	return;
     }
 
-    # Fill the array with the current values
-    foreach field $inpemwin(fields) {
-	set inpemwin(data,$field) [lindex $data $inpemwin(index,$field)];
-    }
     set inpemwin(data,valid) 1;
-    set inpemwin(data,last_time) $inpemwin(data,time);
+    set inpemwin(data,last_time) $inpemwin(data,stats_time);
 }
 
 proc inpemwin_report_data {} {
@@ -185,29 +152,24 @@ proc inpemwin_report_data {} {
 
     set output "OK:";
     set data [list];
-    foreach field $inpemwin(fields) {
-	lappend data $inpemwin(data,$field);
+    foreach k $inpemwin(keys) {
+	lappend data $inpemwin(data,$k);
     }
     append output [join $data ","];
     puts $output;
 
     set inpemwin(data,valid) 0;
-    foreach field $inpemwin(fields) {
-	set inpemwin(data,$field) 0;
+    foreach k $inpemwin(keys) {
+	set inpemwin(data,$k) "";
     }
 }
 
-proc inpemwin_verify_data {data} {
+proc inpemwin_verify_data {} {
 
     global inpemwin;
 
-    if {[llength $data] != $inpemwin(numfields)} {
-	puts [llength $data];
-	return 1;
-    }
-
-    foreach field $inpemwin(fields) {
-	set v [lindex $data $inpemwin(index,$field)];
+    foreach k $inpemwin(keys) {
+	set v $inpemwin(data,$k)];
 	if {[regexp {^\s*$} $v]} {
 	    return 1;
 	}
