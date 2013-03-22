@@ -25,7 +25,7 @@ set inbsp(curl_options) "";
 
 # These are the output fields according to the devices.def file.
 set inbsp(keys) [list \
-		     unix_seconds \
+		     stats_time \
 		     frames_received \
 		     frames_jumps \
 		     frames_data_size \
@@ -75,7 +75,7 @@ proc inbsp_get_data {} {
     }
 
     set inbsp(data,valid) 1;
-    set inbsp(data,last_time) $inbsp(data,unix_seconds);
+    set inbsp(data,last_time) $inbsp(data,stats_time);
 }
 
 proc inbsp_report_data {} {
