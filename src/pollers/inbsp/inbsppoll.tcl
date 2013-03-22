@@ -24,22 +24,23 @@ set inbsp(server_url) "";
 set inbsp(curl_options) "";
 
 # These are the output fields according to the devices.def file.
-set inbsp(fields) [list unix_seconds \
-		       frames_received \
-		       frames_jumps \
-		       frames_data_size \
-		       products_transmitted \
-		       products_retransmitted \
-		       products_missed \
-		       queue_processor \
-		       queue_filter \
-		       queue_server];
+set inbsp(keys) [list \
+		     unix_seconds \
+		     frames_received \
+		     frames_jumps \
+		     frames_data_size \
+		     products_transmitted \
+		     products_retransmitted \
+		     products_missed \
+		     queue_processor \
+		     queue_filter \
+		     queue_server];
 
 # Variables
 set inbsp(data,last_time) 0;
 set inbsp(data,valid) 0;
-foreach field $inbsp(fields) {
-    set inbsp(data,$field) 0;
+foreach k $inbsp(keys) {
+    set inbsp(data,$k) "";
 }
 
 proc inbsp_get_data {} {
@@ -61,10 +62,10 @@ proc inbsp_get_data {} {
     # In principle, we should use use the value of a(data_format) to
     # interpret the data if there were various formats or versions.
 
-    foreach part $rawdata_parts {
-	set part_list [split [string trim $part] "="];
-	set field [lindex $part_list 0];
-	set inbsp(data,$field) [lindex $part_list 1];
+    foreach kv $rawdata_parts {
+	set kv_list [split $kv "="];
+	set k [string trim [lindex $kv_list 0]];
+	set inbsp(data,$k) [string trim [lindex $kv_list 1]];
     }
 
     if {[inbsp_verify_data] != 0} {
@@ -88,15 +89,15 @@ proc inbsp_report_data {} {
 
     set output "OK:";
     set data [list];
-    foreach field $inbsp(fields) {
-	lappend data $inbsp(data,$field);
+    foreach k $inbsp(keys) {
+	lappend data $inbsp(data,$k);
     }
     append output [join $data ","];
     puts $output;
 
     set inbsp(data,valid) 0;
-    foreach field $inbsp(fields) {
-	set inbsp(data,$field) 0;
+    foreach k $inbsp(keys) {
+	set inbsp(data,$k) "";
     }
 }
 
@@ -104,8 +105,8 @@ proc inbsp_verify_data {} {
 
     global inbsp;
 
-    foreach field $inbsp(fields) {
-	set v $inbsp(data,$field);
+    foreach k $inbsp(keys) {
+	set v $inbsp(data,$k);
 	if {[regexp {^\s*$} $v]} {
 	    return 1;
 	}
