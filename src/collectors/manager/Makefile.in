@@ -14,7 +14,7 @@ SAMPLES =	manager.conf-sample \
 		devices.def-sample
 DEFAULTS =	devices.conf-defaults
 EXAMPLES =	devices.conf-examples devices.tdb-examples \
-		devices.conf-ipricot
+		devices.conf-ipricot devices.conf-ayecka
 
 TARGET =	${LIBEXECTARGET} ${SAMPLES}
 
