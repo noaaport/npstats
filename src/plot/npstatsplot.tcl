@@ -2,8 +2,8 @@
 #
 # $Id$
 #
-# Usage: npstatsplot [-b] [-d outputdir] [-D datafile]
-#                    [-f fmt] [-F] [-g fmtoptions]
+# Usage: npstatsplot [-b] [-d outputdir] [-D defs] [-f fmt] [-F]
+#                    [-g fmtoptions] [-i datafile]
 #                    [-n days_back | -y yyyymmdd]
 #                    [-o outputfile] [-s size]
 #                    <deviceid> [<template>]
@@ -16,12 +16,19 @@
 #                       novra9020.wxpronet novra_s75_vber.g
 #           npstatsplot linda.noaaportnet (output the data to stdout)
 #
+# The -D option:
+#
+#           npstatsplot -D "_channel=1,_index=12" <device> <template>
+#
+# defines the variables gplot(_channel) and g(_index) that the template can use.
+#
 # -b => use syslog
 # -d => directory for output file
-# -D => use the given datafile instead of the archive
+# -D => define gplot(xxx) variables for the plot script
 # -f => format  (default "png")
 # -F => the template is used as is (instead of looking in std dirs)
 # -g => options (default "small size 320,240 xd0d0d0")
+# -i => use the given datafile instead of the archive
 # -n => default n = 0 (today); n = 1 is yesterday, etc.
 # -o => outputfile name (default "<devtype>_<devid>.<fmt>)
 # -s => plot size (default "1,1")
@@ -29,13 +36,13 @@
 #
 package require cmdline;
 
-set usage {npstatsplot [-b] [-d outputdir] [-D datafile]
-    [-f fmt] [-F] [-g fmtoptions] [-n days_back | -y yyyymmdd]
+set usage {npstatsplot [-b] [-d outputdir] [-D var1=val1,...] [-f fmt] [-F]
+    [-g fmtoptions] [-i datafile] [-n days_back | -y yyyymmdd]
     [-o outputfile] [-s size] [-y yyyymmdd]
     <deviceid> [<template>]};
 
 set optlist {b {d.arg ""} {D.arg ""} {f.arg "png"} F
-    {g.arg "small size 320,240 xd0d0d0"}
+    {g.arg "small size 320,240 xd0d0d0"} {i.arg ""}
     {n.arg 0} {o.arg ""} {s.arg "1,1"} {y.arg ""}}; 
 
 #
@@ -104,8 +111,8 @@ proc npstatsplot_get_data_csv {} {
     global option;
     global npstatsplot;
 
-    if {$option(D) ne ""} {
-	set datafile $option(D);
+    if {$option(i) ne ""} {
+	set datafile $option(i);
     } else {
 	set datafile [npstatsplot_get_archive_datafile];
     }
@@ -205,6 +212,19 @@ proc npstatsplot_minmax {data colnumber {separator ","}} {
     return [list $min $max];
 }
 
+proc npstatsplot_get_defs {s} {
+#
+# Utility to extract the variables defines via -D.
+#
+    global gplot;
+
+    foreach {kv} [split $s ","] {
+	if {[regexp {([^=]+)=([^=]+)} $kv match k v]} {
+	    set gplot($k) $v;
+	}
+    }
+}
+
 ## Initialization
 # The common defaults
 set defaultsfile "/usr/local/etc/npstats/collectors.conf";
@@ -298,6 +318,10 @@ if {$option(F) == 1} {
 if {($gnuplottemplate eq "") || ([file exists $gnuplottemplate] == 0)} {
     ::npstats::syslog::warn "$option(template) not found.";
     return 1;
+}
+
+if {$option(D) ne ""} {
+    npstatsplot_get_defs $option(D);
 }
 source $gnuplottemplate;
 

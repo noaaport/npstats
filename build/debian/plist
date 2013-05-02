@@ -33,6 +33,7 @@
 /usr/local/etc/npstats/dist/devices.conf-defaults
 /usr/local/etc/npstats/dist/devices.conf-examples
 /usr/local/etc/npstats/dist/devices.conf-ipricot
+/usr/local/etc/npstats/dist/devices.conf-ayecka
 /usr/local/etc/npstats/dist/devices.tdb-examples
 /usr/local/libexec/npstats/qrunner
 /usr/local/libexec/npstats/uploaders/ftp.tcl
@@ -53,6 +54,7 @@
 /usr/local/etc/npstats/dist/spooler.conf-sample
 /usr/local/libexec/npstats/pollers/novrapoll
 /usr/local/libexec/npstats/pollers/ipricotpoll
+/usr/local/libexec/npstats/pollers/ayeckapoll
 /usr/local/libexec/npstats/pollers/nbsppoll
 /usr/local/libexec/npstats/pollers/nbspqstatspoll
 /usr/local/libexec/npstats/pollers/inbsppoll

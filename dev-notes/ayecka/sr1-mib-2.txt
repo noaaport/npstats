@@ -1,0 +1,64 @@
+(Message inbox:47)
+Date:    Wed, 01 May 2013 20:32:37 -0400
+To:      "'Jose F Nieves'" <nieves@ltp.uprrp.edu>
+cc:      "'Andrey Shkinev'" <andreys@ayecka.com>
+From:    Andrey Shkinev <andreys@ayecka.com>
+Subject: RE: resurrection
+
+Return-Path: andreys@ayecka.com
+Delivery-Date: Wed May  1 20:32:52 2013
+Return-Path: <andreys@ayecka.com>
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on ltp.uprrp.edu
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	 version=3.3.2
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	 d=google.com; s=20120113;
+	 h=x-received:message-id:from:to:cc:subject:date:mime-version
+	 :content-type:content-transfer-encoding:x-mailer:thread-index
+	 :in-reply-to:x-mimeole:x-gm-message-state;
+	 bh=eGmJvJMJwZpFkYjPDJw6AzLxLIaYnFvuzJnpcanrfPc=;
+	 b=UoMjqXtbl8nvfrEPOpUsE4FZiSfXQ3U9sx3CFgaphe+TD4yTKhkebBqrd6dwkkarBO
+	 +fboKQc9Z8RkIQgIKsOtLua8Xq1MOImYXP3GooXqhDyd37MIocWWmMjQfwDKxyjEbI3n
+	 9YKbuMC8rqOtmLzNYFnhhCUq5F+l4UV9nuJzJwqsM/PQKLhjGVpkV8NQsEbllXVdIcVd
+	 Hy1I1lcaCxdPcqRDpErdsY6eTSBL2nLFBy9fjSYcydKLaOZLLvhQVhH5TCCNQJwB/Wxy
+	 aSpWr7HGMW/nsmT29x5MfZu3219QL9YMPrazQOb1PYNyZ/eRVVyHwNOCjbMi1HkwoW5v
+	 TvqA==
+X-Received: by 10.42.95.195 with SMTP id g3mr2430858icn.14.1367454766005;
+	 Wed, 01 May 2013 17:32:46 -0700 (PDT)
+MIME-Version: 1.0
+X-Mailer: Microsoft Office Outlook, Build 11.0.5510
+Thread-Index: Ac5GysQ9ZQ/ZyvaHTqCyYoKgZb4lEQAAaokw
+In-Reply-To: <201305020019.r420JplH036496@ltp.uprrp.edu>
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.5931
+X-Gm-Message-State: ALoCoQmjreWhp7COiqWRkROaCjCHaS3PRl2RE6nHRH9+Bruotd+QATHzgXl
+     ***SvDLVLzA6worTZAJA
+X-Spam-Seen: Yes
+Status:  O
+
+part       text/plain                 421
+[7mPress <return> to show content...[27mJose,
+
+It is # of MPEG packets that matched the PID for the given filter.
+
+Best regards,
+Andrey
+
+-----Original Message-----
+From: Jose F Nieves [mailto:nieves@ltp.uprrp.edu] 
+Sent: May 1, 2013 20:20
+To: Andrey Shkinev
+Subject: Re: resurrection
+
+Andrey
+
+This related to what you explained about the packet counters.
+What are these:
+
+SR1-159::counterPidPassed1.1 (2,3,4)
+
+and there will be a 3.1 in our case.
+
+Thanks
+
+Jose
