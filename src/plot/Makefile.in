@@ -19,6 +19,8 @@ GPLOTSOURCES =	novra_s75.vber.g novra_s75.errors.g novra_s75.ss.g \
 		novra_s300.dvb.g \
 		ipricot_s500.vber.g ipricot_s500.errors.g ipricot_s500.sn.g \
 		ipricot_s500.ss.g ipricot_s500.temp.g \
+		ayecka_sr1.ber.g ayecka_sr1.esno.g ayecka_sr1.mpeg.g \
+		ayecka_sr1.crc.g ayecka_sr1.mpe.g ayecka_sr1.pl.g
 		nbsp.files.g nbsp.bytes.g \
 		fs.usedfr.g load.1.g \
 		mem_freebsd.vmstat.pi.g mem_freebsd.vmstat.po.g \
@@ -32,6 +34,7 @@ TMLSOURCES =	novra_s75.tml \
 		novra_s200.tml \
 		novra_s300.tml m.novra_s300.tml \
 		ipricot_s500.tml \
+		ayecka_sr1.tml m.ayecka_sr1.tml \
 		nbsp.tml inpemwin.tml \
 		fs.tml load.tml mem_freebsd.tml mem_linux.tml \
 		qdbstats.tml mdbstats.tml qstate.tml
