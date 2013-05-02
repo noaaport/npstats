@@ -1,0 +1,28 @@
+#
+# Copyright (c) 2006-2013 Jose F. Nieves <nieves@ltp.uprrp.edu>
+#
+# See LICENSE
+#
+# $Id$
+#
+@include@ @q@../../../Makefile.inc@q@
+
+TCLTARGET = 	ayeckapoll
+TCLSOURCES =	ayeckapoll.tcl
+
+POLLERS =	${TCLTARGET}
+TARGET =	${TCLTARGET}
+
+TCLSH =		@TCLSH@
+INSTALL =	@INSTALL@
+
+all: ${TARGET}
+
+ayeckapoll: ayeckapoll.tcl
+	sed -e /%TCLSH%/s##${TCLSH}# ayeckapoll.tcl > ayeckapoll
+
+install: ${TARGET}
+	${INSTALL} -m 755 ${POLLERS} ${MYPOLLERSDIR}
+
+clean:
+	rm -f *~ ${TARGET} Makefile

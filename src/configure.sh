@@ -8,7 +8,8 @@ pollers/inbsp
 pollers/inpemwin
 pollers/sys
 pollers/novra
-pollers/ipricot"
+pollers/ipricot
+pollers/ayecka"
 
 for d in $subdirs
 do
