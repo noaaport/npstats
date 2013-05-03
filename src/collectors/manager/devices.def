@@ -120,7 +120,12 @@ set devices(param,ayecka_sr1) [list \
 	counter_mpe_sections3 \
 	counter_mpe_sections4 \
 	counter_mpe_sections5];
-set devices(poller,ayecka_sr1) "sr1poll";
+#
+# set devices(poller,ayecka_sr1) "";
+# Each instance must redefine its poller with the correct id:
+# set devices(poller,<deviceid>) "ayeckapoll ip";
+#
+set devices(poller,ayecka_sr1) ""; 
 set devices(defaulttemplate,ayecka_sr1) "ayecka_sr1.tml";
 set devices(dbtable,ayecka_sr1) "ayecka_sr1";
 set devices(dbcols,ayecka_sr1) \

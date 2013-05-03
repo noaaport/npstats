@@ -16,3 +16,4 @@ lappend devices(devicelist) {
     displaystatus 1
     displaytemplate "ayecka_sr1.tml"
 }
+set devices(poller,noaaportnet.sr1) "ayeckapoll sr1.i-noaaport.net";
