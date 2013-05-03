@@ -7,8 +7,15 @@
 # Calculate the limits
 set gplot(_ymin) [lindex [npstatsplot_minmax $gplot(data) 5] 0];
 set gplot(_ymax) [lindex [npstatsplot_minmax $gplot(data) 6] 1];
-incr gplot(_ymin) -1;
-incr gplot(_ymax) 1;
+set gplot(_ymin) [expr $gplot(_ymin) - 1];
+set gplot(_ymax) [expr $gplot(_ymax) + 1];
+#
+# In case that the data is represented in float (e.g., 43.0 instead of 43)
+# we use the above instead of
+#
+# incr gplot(_ymin) -1;
+# incr gplot(_ymax) 1;
+#
 
 set gplot(script) {
 

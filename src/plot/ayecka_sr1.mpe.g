@@ -6,8 +6,8 @@
 
 # Uses
 #
-# set g(_index) 22;     # index of column in data file (22 for pid=101)
-# set g(_channel) 1;    # pid channel (1-5) or (101-105)
+# set gplot(_index) 22;     # index of column in data file (22 for pid=101)
+# set gplot(_channel) 1;    # pid channel (1-5) or (101-105)
 #
 # (see the crc template)
 
@@ -18,7 +18,7 @@ set gplot(script) {
 
     set ylabel "Num Sections"
     set xlabel "Time gmt"
-    set title "MPE Sections Accepted $g(_channel)"
+    set title "MPE Sections Accepted $gplot(_channel)"
 
     # set size 0.6,0.6
     set size $gplot(size)
@@ -38,7 +38,7 @@ set gplot(script) {
 
     set datafile separator ","
 
-    plot '-' using 2:$g(_index) notitle with boxes
+    plot '-' using 2:$gplot(_index) notitle with boxes
     $gplot(data)
 
     quit

@@ -100,8 +100,8 @@ foreach p [list pl esno ber] {
 	$tml(deviceid) ayecka_sr1.${p}.g
 }
 
+set i 12;
 foreach n [list crc mpeg mpe] {
-    set i 12;
     foreach c [list 1 2 3 4 5] {
       set p ${n}.${c}
       set tml(plot.${p}) [file join $tml(outputdir) $tml(deviceid).${p}.png]

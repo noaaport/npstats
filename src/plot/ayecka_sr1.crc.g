@@ -8,8 +8,8 @@
 #
 # For the first channel (pid = 101)
 #
-# set g(_index) 12;     # index of column in data file (12 for pid=101)
-# set g(_channel) 1;    # pid channel (1-5) or (101-105)
+# set gplot(_index) 12;     # index of column in data file (12 for pid=101)
+# set gplot(_channel) 1;    # pid channel (1-5) or (101-105)
 
 set gplot(script) {
 
@@ -18,7 +18,7 @@ set gplot(script) {
 
     set ylabel "Errors"
     set xlabel "Time gmt"
-    set title "Crc Errors $g(_channel)"
+    set title "Crc Errors $gplot(_channel)"
 
     # set size 0.6,0.6
     set size $gplot(size)
@@ -38,7 +38,7 @@ set gplot(script) {
 
     set datafile separator ","
 
-    plot '-' using 2:$g(_index) notitle with boxes
+    plot '-' using 2:$gplot(_index) notitle with boxes
     $gplot(data)
 
     quit
