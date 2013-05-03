@@ -38,7 +38,7 @@ set gplot(script) {
 
     set datafile separator ","
 
-    plot '-' using 2:$gplot(_index) notitle with lines
+    plot '-' using 2:$gplot(_index) notitle with boxes
     $gplot(data)
 
     quit

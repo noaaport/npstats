@@ -19,7 +19,7 @@ namespace eval sr1 {
     set sr1(snmpwalk_opts) {-v 1 -c public -Oq};
     set sr1(data.last) [list];
     set sr1(data.now) [list];
-    set sr1(output) [list];
+    set sr1(data.period) [list];
     set sr1(oidlist) \
 	[list tuner_status1 iso.3.6.1.4.1.27928.101.1.1.4.1.0 \
 	     demodulator_status1 iso.3.6.1.4.1.27928.101.1.1.4.11.0 \
@@ -68,7 +68,7 @@ namespace eval sr1 {
 			      counter_mpe_sections14 \
 			      counter_mpe_sections31];
 
-    # Initialize state variables
+    # Initialize state (output) variables
     foreach var $sr1(poll.varlist) {
 	set sr1(poll.${var}) 0;
     }
@@ -153,17 +153,20 @@ proc sr1::snmpwalk {} {
 
     set r [list];
     sr1::snmpwalk1;
-    if {[llength $sr1(data.last)]} {
-	foreach {k1 v1} $sr1(data.last) {k1 v2} $sr1(data.now) {
-	    set v $v2;
-	    if {([regexp {^counter} $k1]) && ($v2 > $v1)} {
-		set v [expr $v2 - $v1];
-	    }
-	    lappend r $k1 $v;
+
+    foreach {k1 v1} $sr1(data.last) {k1 v2} $sr1(data.now) {
+	set v $v2;
+	if {([regexp {^counter} $k1]) && ($v2 >= $v1)} {
+	    set v [expr $v2 - $v1];
+	    set sr1(poll.${k1}) [expr $sr1(poll.${k1}) + $v];
+	} else {
+	    set sr1(poll.${k1}) $v;
 	}
+	lappend r $k1 $sr1(poll.${k1});
     }
+
     set sr1(data.last) $sr1(data.now);
-    set sr1(output) $r;
+    set sr1(data.period) $r;
 }
 
 proc sr1::update {} {
@@ -175,21 +178,12 @@ proc sr1::update {} {
     # Read from the device
     snmpwalk;
 
-    # First update the poll variables that are directly read
-    foreach var $sr1(poll.varlist) {
-	set index [lsearch $sr1(output) $var];
-	if {$index != -1} {
-	    incr index;
-	    set sr1(poll.${var}) [lindex $sr1(output) $index];
-	}
-    }
-
     # Update the min/max
     foreach var [list power_level1 esno1 ber1] {
-	set index [lsearch $sr1(output) $var];
+	set index [lsearch $sr1(data.period) $var];
 	incr index;
 
-	set current_val [lindex $sr1(output) $index];
+	set current_val [lindex $sr1(data.period) $index];
 
 	if {$current_val > $sr1(poll.${var}_max)} {
 	    set sr1(poll.${var}_max) $current_val;
@@ -205,7 +199,7 @@ proc sr1::print {} {
 
     variable sr1;
 
-    foreach {k v} $sr1(output) {
+    foreach {k v} $sr1(data.period) {
 	puts "${k} = ${v}";
     }
 }
@@ -215,7 +209,7 @@ proc sr1::log {logfile} {
     variable sr1;
 
     set r [list];
-    foreach {k v} $sr1(output) {
+    foreach {k v} $sr1(data.period) {
 	lappend r $v;
     }
 
@@ -254,6 +248,10 @@ proc sr1::output {} {
     puts stdout [join $r ","];
 
     # Reinitialize the variables
+    # Initialize state variables (poll) and output variables
+    foreach var $sr1(poll.varlist) {
+	set sr1(poll.${var}) 0;
+    }
     set sr1(poll.power_level1_min) -10;
     set sr1(poll.power_level1_max) -1000;
     set sr1(poll.esno1_min) 1000;
