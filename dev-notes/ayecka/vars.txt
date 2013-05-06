@@ -1,3 +1,11 @@
+frequency1:  (line 48)  (in kHz)
+  SR1-159::frequency1.0 = Gauge32: 1151000
+  iso.3.6.1.4.1.27928.101.1.1.1.1.1.0 = Gauge32: 1151000
+
+symbolRate1:"Symbol Rate"  (line 52)  (in symbols/sec)
+  iso.3.6.1.4.1.27928.101.1.1.1.2.2.0 = Gauge32: 15118018
+  SR1-159::symbolRate1.0 = Gauge32: 15118026
+
 tunerStatus1: locked(0), unlocked(1), error(2) (line 158)
   SR1-159::tunerStatus1.0 = INTEGER: locked(0)
   iso.3.6.1.4.1.27928.101.1.1.4.1.0 = INTEGER: 0
@@ -6,6 +14,10 @@ demodulatorStatus1: dvbsLocked(0),dvbs2Locked(1),ddsLocked(2),
                     unlocked(3),error(4)  (line 168)
   SR1-159::demodulatorStatus1.0 = INTEGER: dvbs2Locked(1)
   iso.3.6.1.4.1.27928.101.1.1.4.11.0 = INTEGER: 1
+
+transportStatus1: locked(0), unlocked(1), error(2)  (line 170)
+  SR1-159::transportStatus1.0 = INTEGER: locked(0)
+  iso.3.6.1.4.1.27928.101.1.1.4.13.0 = INTEGER: 0
 
 powerLevel1: "Power Level [0.1dB] (line 160)
   SR1-159::powerLevel1.0 = INTEGER: -420
