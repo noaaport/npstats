@@ -18,8 +18,12 @@ namespace eval sr1 {
     set sr1(data.now) [list];
     set sr1(output) [list];
     set sr1(oidlist) \
-	[list tuner_status1 iso.3.6.1.4.1.27928.101.1.1.4.1.0 \
+	[list frequency1 iso.3.6.1.4.1.27928.101.1.1.1.1.1.0 \
+	     symbol_rate1 iso.3.6.1.4.1.27928.101.1.1.1.2.2.0 \
+	     frequency_offset1 iso.3.6.1.4.1.27928.101.1.1.4.2.0 \
+	     tuner_status1 iso.3.6.1.4.1.27928.101.1.1.4.1.0 \
 	     demodulator_status1 iso.3.6.1.4.1.27928.101.1.1.4.11.0 \
+	     transport_status1 iso.3.6.1.4.1.27928.101.1.1.4.13.0 \
 	     power_level1 iso.3.6.1.4.1.27928.101.1.1.4.3.0 \
 	     esno1 iso.3.6.1.4.1.27928.101.1.1.4.4.0 \
 	     ber1 iso.3.6.1.4.1.27928.101.1.1.4.5.0 \

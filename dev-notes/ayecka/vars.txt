@@ -6,6 +6,11 @@ symbolRate1:"Symbol Rate"  (line 52)  (in symbols/sec)
   iso.3.6.1.4.1.27928.101.1.1.1.2.2.0 = Gauge32: 15118018
   SR1-159::symbolRate1.0 = Gauge32: 15118026
 
+frequencyOffset1: (line 159)
+  SR1-159::frequencyOffset1.0 = Wrong Type
+           (should be Gauge32 or Unsigned32): INTEGER: 0
+  iso.3.6.1.4.1.27928.101.1.1.4.2.0 = INTEGER: 0
+
 tunerStatus1: locked(0), unlocked(1), error(2) (line 158)
   SR1-159::tunerStatus1.0 = INTEGER: locked(0)
   iso.3.6.1.4.1.27928.101.1.1.4.1.0 = INTEGER: 0

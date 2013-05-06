@@ -21,8 +21,12 @@ namespace eval sr1 {
     set sr1(data.now) [list];
     set sr1(data.period) [list];
     set sr1(oidlist) \
-	[list tuner_status1 iso.3.6.1.4.1.27928.101.1.1.4.1.0 \
+	[list frequency1 iso.3.6.1.4.1.27928.101.1.1.1.1.1.0 \
+	     symbol_rate1 iso.3.6.1.4.1.27928.101.1.1.1.2.2.0 \
+	     frequency_offset1 iso.3.6.1.4.1.27928.101.1.1.4.2.0 \
+	     tuner_status1 iso.3.6.1.4.1.27928.101.1.1.4.1.0 \
 	     demodulator_status1 iso.3.6.1.4.1.27928.101.1.1.4.11.0 \
+	     transport_status1 iso.3.6.1.4.1.27928.101.1.1.4.13.0 \
 	     power_level1 iso.3.6.1.4.1.27928.101.1.1.4.3.0 \
 	     esno1 iso.3.6.1.4.1.27928.101.1.1.4.4.0 \
 	     ber1 iso.3.6.1.4.1.27928.101.1.1.4.5.0 \
@@ -45,28 +49,32 @@ namespace eval sr1 {
 
     # list variables in the order the will be output
     set sr1(poll.varlist) [list \
-			      unixseconds \
-			      tuner_status1 \
-			      demodulator_status1 \
-			      power_level1_min power_level1_max  \
-			      esno1_min esno1_max \
-			      ber1_min ber1_max \
-			      crc_errors1 \
-			      counter_crc_errors11 \
-			      counter_crc_errors12 \
-			      counter_crc_errors13 \
-			      counter_crc_errors14 \
-			      counter_crc_errors31 \
-			      counter_pid_passed11 \
-			      counter_pid_passed12 \
-			      counter_pid_passed13 \
-			      counter_pid_passed14 \
-			      counter_pid_passed31 \
-			      counter_mpe_sections11 \
-			      counter_mpe_sections12 \
-			      counter_mpe_sections13 \
-			      counter_mpe_sections14 \
-			      counter_mpe_sections31];
+			       unixseconds \
+			       frequency1 \
+			       symbol_rate1 \
+			       frequency_offset1 \
+			       tuner_status1 \
+			       demodulator_status1 \
+			       transport_status1 \
+			       power_level1_min power_level1_max  \
+			       esno1_min esno1_max \
+			       ber1_min ber1_max \
+			       crc_errors1 \
+			       counter_crc_errors11 \
+			       counter_crc_errors12 \
+			       counter_crc_errors13 \
+			       counter_crc_errors14 \
+			       counter_crc_errors31 \
+			       counter_pid_passed11 \
+			       counter_pid_passed12 \
+			       counter_pid_passed13 \
+			       counter_pid_passed14 \
+			       counter_pid_passed31 \
+			       counter_mpe_sections11 \
+			       counter_mpe_sections12 \
+			       counter_mpe_sections13 \
+			       counter_mpe_sections14 \
+			       counter_mpe_sections31];
 
     # Initialize state (output) variables
     foreach var $sr1(poll.varlist) {
