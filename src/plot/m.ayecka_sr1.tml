@@ -25,7 +25,7 @@ set tml(page) {
 <b>End time</b> <br/>$tml(endtime)<br/><br/>
 <b>Frequency (kHz)</b> <br/>$tml(1)<br/><br/>
 <b>Symbol rate</b> <br/>$tml(2)<br/><br/>
-<b>Frequency offset(kHz)</b> <br/>$tml(3)<br/><br/>
+<b>Frequency offset (kHz)</b> <br/>$tml(3)<br/><br/>
 <b>Tuner status</b> <br/>$tml(tuner_status,$tml(4))<br/><br/>
 <b>Demod status</b> <br/>$tml(demod_status,$tml(5))<br/><br/>
 <b>Transport status</b> <br/>$tml(transport_status,$tml(6))<br/><br/>
