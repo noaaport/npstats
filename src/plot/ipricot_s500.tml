@@ -23,7 +23,6 @@ set tml(page) {
 <tr><th>Eb/No Min</th> <td>$tml(2)</td></tr>
 <tr><th>Eb/No Max</th> <td>$tml(3)</td></tr>
 <tr><th>Receiver temperature</th> <td>$tml(11)</td></tr>
-</tr>
 </table>
 </p>
 

@@ -29,7 +29,6 @@ set tml(page) {
 <tr><th>Frequency offset</th> <td>$tml(13)</td></tr>
 <tr><th>Ethernet packets transmitted</th> <td>$tml(14)</td></tr>
 <tr><th>DVB packets accepted</th> <td>$tml(15)</td></tr>
-</tr>
 </table>
 </p>
 

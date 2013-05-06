@@ -5,8 +5,8 @@
 #
 
 # Calculate the limits
-set gplot(_ymin) [lindex [npstatsplot_minmax $gplot(data) 5] 0];
-set gplot(_ymax) [lindex [npstatsplot_minmax $gplot(data) 6] 1];
+set gplot(_ymin) [lindex [npstatsplot_minmax $gplot(data) 9] 0];
+set gplot(_ymax) [lindex [npstatsplot_minmax $gplot(data) 10] 1];
 set gplot(_ymin) [expr $gplot(_ymin) - 1];
 set gplot(_ymax) [expr $gplot(_ymax) + 1];
 #
@@ -49,8 +49,8 @@ set gplot(script) {
     set datafile separator ","
 
     plot [][$gplot(_ymin):$gplot(_ymax)] \
-    '-' using 2:5 with lines linewidth 2 title "Min",\
-    '-' using 2:6 with lines linewidth 2 title "Max"
+    '-' using 2:9 with lines linewidth 2 title "Min",\
+    '-' using 2:10 with lines linewidth 2 title "Max"
     $gplot(data)
     e
     $gplot(data)
