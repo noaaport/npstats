@@ -245,8 +245,8 @@ proc sr1::output {} {
 	if {[regexp {(power_level|esno)} $key]} {
 	    set val [format "%.1f" [expr $val *0.1]];
 	} elseif {[regexp {(ber)} $key]} {
-	    #set val [format "%.1e" [expr $val * 1.0e-7]];
-	    set val "${val}e-7";
+	    # set val "${val}e-7";
+	    set val [format "%.1e" [expr $val * 1.0e-7]];
 	}
 
 	lappend r $val;
