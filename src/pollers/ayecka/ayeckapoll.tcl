@@ -23,14 +23,16 @@ namespace eval sr1 {
     set sr1(oidlist) \
 	[list frequency1 iso.3.6.1.4.1.27928.101.1.1.1.1.1.0 \
 	     symbol_rate1 iso.3.6.1.4.1.27928.101.1.1.1.2.2.0 \
-	     frequency_offset1 iso.3.6.1.4.1.27928.101.1.1.4.2.0 \
 	     tuner_status1 iso.3.6.1.4.1.27928.101.1.1.4.1.0 \
 	     demodulator_status1 iso.3.6.1.4.1.27928.101.1.1.4.11.0 \
 	     transport_status1 iso.3.6.1.4.1.27928.101.1.1.4.13.0 \
+	     frequency_offset1 iso.3.6.1.4.1.27928.101.1.1.4.2.0 \
 	     power_level1 iso.3.6.1.4.1.27928.101.1.1.4.3.0 \
 	     esno1 iso.3.6.1.4.1.27928.101.1.1.4.4.0 \
 	     ber1 iso.3.6.1.4.1.27928.101.1.1.4.5.0 \
 	     crc_errors1 iso.3.6.1.4.1.27928.101.1.1.4.12.0 \
+	     bad_frame_count1 iso.3.6.1.4.1.27928.101.1.1.4.15.0 \
+	     bad_packet_count1 iso.3.6.1.4.1.27928.101.1.1.4.16.0 \
 	     counter_crc_errors11 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.1 \
 	     counter_crc_errors12 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.2 \
 	     counter_crc_errors13 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.3 \
@@ -52,14 +54,16 @@ namespace eval sr1 {
 			       unixseconds \
 			       frequency1 \
 			       symbol_rate1 \
-			       frequency_offset1 \
 			       tuner_status1 \
 			       demodulator_status1 \
 			       transport_status1 \
+			       frequency_offset1 \
 			       power_level1_min power_level1_max  \
 			       esno1_min esno1_max \
 			       ber1_min ber1_max \
 			       crc_errors1 \
+			       bad_frame_count1 \
+			       bad_packet_count1 \
 			       counter_crc_errors11 \
 			       counter_crc_errors12 \
 			       counter_crc_errors13 \
@@ -162,9 +166,11 @@ proc sr1::snmpwalk {} {
     set r [list];
     sr1::snmpwalk1;
 
+    set counters {^(counter|crc_errors|bad_frame_count|bad_packet_count)};
+
     foreach {k1 v1} $sr1(data.last) {k1 v2} $sr1(data.now) {
 	set v $v2;
-	if {([regexp {^counter} $k1]) && ($v2 >= $v1)} {
+	if {([regexp $counters $k1]) && ($v2 >= $v1)} {
 	    set v [expr $v2 - $v1];
 	    set sr1(poll.${k1}) [expr $sr1(poll.${k1}) + $v];
 	} else {

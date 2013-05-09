@@ -25,10 +25,10 @@ set tml(page) {
 <b>End time</b> <br/>$tml(endtime)<br/><br/>
 <b>Frequency (kHz)</b> <br/>$tml(1)<br/><br/>
 <b>Symbol rate</b> <br/>$tml(2)<br/><br/>
-<b>Frequency offset (kHz)</b> <br/>$tml(3)<br/><br/>
-<b>Tuner status</b> <br/>$tml(tuner_status,$tml(4))<br/><br/>
-<b>Demod status</b> <br/>$tml(demod_status,$tml(5))<br/><br/>
-<b>Transport status</b> <br/>$tml(transport_status,$tml(6))<br/><br/>
+<b>Tuner status</b> <br/>$tml(tuner_status,$tml(3))<br/><br/>
+<b>Demod status</b> <br/>$tml(demod_status,$tml(4))<br/><br/>
+<b>Transport status</b> <br/>$tml(transport_status,$tml(5))<br/><br/>
+<b>Frequency offset (kHz)</b> <br/>$tml(6)<br/><br/>
 <b>Power level Min (dbm)</b> <br/>$tml(7)<br/><br/>
 <b>Power level Max (dbm)</b> <br/>$tml(8)<br/><br/>
 <b>Es/No Min (dbm)</b> <br/>$tml(9)<br/><br/>
@@ -36,27 +36,33 @@ set tml(page) {
 <b>Ber Min</b> <br/>$tml(11)<br/><br/>
 <b>Ber Max</b> <br/>$tml(12)<br/><br/>
 <b>Crc errors</b> <br/>$tml(13)<br/><br/>
-<b>Crc errors 1</b> <br/>$tml(14)<br/><br/>
-<b>Crc errors 2</b> <br/>$tml(15)<br/><br/>
-<b>Crc errors 3</b> <br/>$tml(16)<br/><br/>
-<b>Crc errors 4</b> <br/>$tml(17)<br/><br/>
-<b>Crc errors 5</b> <br/>$tml(18)<br/><br/>
-<b>Mpeg packets 1</b> <br/>$tml(19)<br/><br/>
-<b>Mpeg packets 2</b> <br/>$tml(20)<br/><br/>
-<b>Mpeg packets 3</b> <br/>$tml(21)<br/><br/>
-<b>Mpeg packets 4</b> <br/>$tml(22)<br/><br/>
-<b>Mpeg packets 5</b> <br/>$tml(23)<br/><br/>
-<b>Mpe sections 1</b> <br/>$tml(24)<br/><br/>
-<b>Mpe sections 2</b> <br/>$tml(25)<br/><br/>
-<b>Mpe sections 3</b> <br/>$tml(26)<br/><br/>
-<b>Mpe sections 4</b> <br/>$tml(27)<br/><br/>
-<b>Mpe sections 5</b> <br/>$tml(28)<br/><br/>
+<b>Bad frame count</b> <br/>$tml(14)<br/><br/>
+<b>Bad packet count</b> <br/>$tml(15)<br/><br/>
+<b>Crc errors 1</b> <br/>$tml(16)<br/><br/>
+<b>Crc errors 2</b> <br/>$tml(17)<br/><br/>
+<b>Crc errors 3</b> <br/>$tml(18)<br/><br/>
+<b>Crc errors 4</b> <br/>$tml(19)<br/><br/>
+<b>Crc errors 5</b> <br/>$tml(20)<br/><br/>
+<b>Mpeg packets 1</b> <br/>$tml(21)<br/><br/>
+<b>Mpeg packets 2</b> <br/>$tml(22)<br/><br/>
+<b>Mpeg packets 3</b> <br/>$tml(23)<br/><br/>
+<b>Mpeg packets 4</b> <br/>$tml(24)<br/><br/>
+<b>Mpeg packets 5</b> <br/>$tml(25)<br/><br/>
+<b>Mpe sections 1</b> <br/>$tml(26)<br/><br/>
+<b>Mpe sections 2</b> <br/>$tml(27)<br/><br/>
+<b>Mpe sections 3</b> <br/>$tml(28)<br/><br/>
+<b>Mpe sections 4</b> <br/>$tml(29)<br/><br/>
+<b>Mpe sections 5</b> <br/>$tml(30)<br/><br/>
 </p>
 
 <p>
 <img src="[file join / $tml(plot.pl)]"><br/><br/>
 <img src="[file join / $tml(plot.esno)]"><br/><br/>
 <img src="[file join / $tml(plot.ber)]"><br/><br/>
+
+<img src="[file join / $tml(plot.mpegcrc)]"><br/><br/>
+<img src="[file join / $tml(plot.badframe)]"><br/><br/>
+<img src="[file join / $tml(plot.badpacket)]"><br/><br/>
 
 <img src="[file join / $tml(plot.mpeg.1)]"><br/><br/>
 <img src="[file join / $tml(plot.mpe.1)]"><br/><br/>
@@ -83,13 +89,13 @@ set tml(page) {
 #
 # Generate the plot(s) used by the tml(script) above
 #
-foreach p [list pl esno ber] {
+foreach p [list pl esno ber mpegcrc badframe badpacket] {
     set tml(plot.${p}) [file join $tml(outputdir) $tml(deviceid).${p}.png]
     exec npstatsplot -o [file join $tml(docroot) $tml(plot.${p})] \
 	$tml(deviceid) ayecka_sr1.${p}.g
 }
 
-set i 16;
+set i 18;
 foreach n [list crc mpeg mpe] {
     foreach c [list 1 2 3 4 5] {
       set p ${n}.${c}

@@ -1,0 +1,13 @@
+#
+# These are the additional variables included in the second version
+#
+
+badFrameCount1: (line 172)
+  SR1::badFrameCount1.0 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.4.15.0 = Gauge32: 0
+
+badPacketCount1: (line 173)
+  SR1::badPacketCount1.0 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.4.16.0 = Gauge32: 0
+
+
