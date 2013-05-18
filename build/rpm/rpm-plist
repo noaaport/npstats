@@ -32,6 +32,7 @@
 /usr/local/etc/npstats/dist/devices.def-sample
 /usr/local/etc/npstats/dist/devices.conf-defaults
 /usr/local/etc/npstats/dist/devices.conf-examples
+/usr/local/etc/npstats/dist/devices.conf-novra
 /usr/local/etc/npstats/dist/devices.conf-ipricot
 /usr/local/etc/npstats/dist/devices.conf-ayecka
 /usr/local/etc/npstats/dist/devices.tdb-examples
