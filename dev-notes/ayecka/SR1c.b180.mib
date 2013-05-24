@@ -1,0 +1,1800 @@
+SR1 DEFINITIONS ::= BEGIN
+
+IMPORTS
+	MODULE-IDENTITY, OBJECT-TYPE, enterprises,
+	Integer32,  
+	Unsigned32,
+	IpAddress
+	FROM SNMPv2-SMI 
+	
+	MacAddress
+	FROM SNMPv2-TC
+	
+	MODULE-COMPLIANCE, OBJECT-GROUP
+	FROM SNMPv2-CONF;
+	
+ayecka MODULE-IDENTITY
+	LAST-UPDATED "201012291200Z"
+	ORGANIZATION "Ayecka Communications Systems Ltd."
+	CONTACT-INFO "yarong@ayecka.com"
+	DESCRIPTION "This is the MIB of the SR1"
+	::= {enterprises 27928}  
+	
+sr1 				OBJECT IDENTIFIER ::= {ayecka 101}   
+configuration 		OBJECT IDENTIFIER ::= {sr1 1}
+rx1 				OBJECT IDENTIFIER ::= {configuration 1}
+rx2 				OBJECT IDENTIFIER ::= {configuration 2}
+rx_mgmt				OBJECT IDENTIFIER ::= {configuration 3}
+rx1_cfg1			OBJECT IDENTIFIER ::= {rx1 1}
+rx1_cfg2			OBJECT IDENTIFIER ::= {rx1 2}
+rx1_cfg_mode		OBJECT IDENTIFIER ::= {rx1 3}
+rx1_status			OBJECT IDENTIFIER ::= {rx1 4}
+rx2_cfg1			OBJECT IDENTIFIER ::= {rx2 1}
+rx2_cfg2			OBJECT IDENTIFIER ::= {rx2 2}
+rx2_cfg_mode		OBJECT IDENTIFIER ::= {rx2 3} 
+rx2_status			OBJECT IDENTIFIER ::= {rx2 4} 
+rx1_cfg1_tuner		OBJECT IDENTIFIER ::= {rx1_cfg1 1}
+rx1_cfg1_demod		OBJECT IDENTIFIER ::= {rx1_cfg1 2}
+rx1_cfg1_lnb		OBJECT IDENTIFIER ::= {rx1_cfg1 3}
+rx1_cfg1_transport	OBJECT IDENTIFIER ::= {rx1_cfg1 4}
+rx1_cfg2_tuner		OBJECT IDENTIFIER ::= {rx1_cfg2 1}
+rx1_cfg2_demod		OBJECT IDENTIFIER ::= {rx1_cfg2 2}
+rx1_cfg2_lnb		OBJECT IDENTIFIER ::= {rx1_cfg2 3}
+rx1_cfg2_transport	OBJECT IDENTIFIER ::= {rx1_cfg2 4}
+rx2_cfg1_tuner		OBJECT IDENTIFIER ::= {rx2_cfg1 1}
+rx2_cfg1_demod		OBJECT IDENTIFIER ::= {rx2_cfg1 2}
+rx2_cfg1_lnb		OBJECT IDENTIFIER ::= {rx2_cfg1 3}
+rx2_cfg1_transport	OBJECT IDENTIFIER ::= {rx2_cfg1 4}
+rx2_cfg2_tuner		OBJECT IDENTIFIER ::= {rx2_cfg2 1}
+rx2_cfg2_demod		OBJECT IDENTIFIER ::= {rx2_cfg2 2}
+rx2_cfg2_lnb		OBJECT IDENTIFIER ::= {rx2_cfg2 3}
+rx2_cfg2_transport	OBJECT IDENTIFIER ::= {rx2_cfg2 4}
+network				OBJECT IDENTIFIER ::= {sr1 2}
+system				OBJECT IDENTIFIER ::= {sr1 3}
+alarms				OBJECT IDENTIFIER ::= {sr1 10}
+
+--------------------------------------------------------------------------------
+-- Receiver 1 / 2 configuration configuration mode
+--
+rx1CfgSet1Status OBJECT-TYPE
+	SYNTAX INTEGER { active( 0 ), inactive( 1 ), error( 2 ) } 
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Receiver Configuration Set Status"
+	::= {rx1_cfg_mode 1}
+
+rx1CfgSet2Status OBJECT-TYPE
+	SYNTAX INTEGER { active( 0 ), inactive( 1 ), error( 2 ) } 
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Receiver Configuration Set Status"
+	::= {rx1_cfg_mode 2}
+
+rx1CfgMode OBJECT-TYPE
+	SYNTAX INTEGER { auto( 0 ), manual( 1 ), error( 2 ) } 
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Receiver Configuration Mode"
+	::= {rx1_cfg_mode 3}
+
+rx1CfgSwitchPeriod OBJECT-TYPE
+	SYNTAX INTEGER (3..30) 
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Receiver Configuration Switch Period"
+	::= {rx1_cfg_mode 4}
+
+rx2CfgSet1Status OBJECT-TYPE
+	SYNTAX INTEGER { active( 0 ), inactive( 1 ), error( 2 ) } 
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Receiver Configuration Set Status"
+	::= {rx2_cfg_mode 1}
+
+rx2CfgSet2Status OBJECT-TYPE
+	SYNTAX INTEGER { active( 0 ), inactive( 1 ), error( 2 ) } 
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Receiver Configuration Set Status"
+	::= {rx2_cfg_mode 2}
+
+rx2CfgMode OBJECT-TYPE
+	SYNTAX INTEGER { auto( 0 ), manual( 1 ), error( 2 ) } 
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Receiver Configuration Mode"
+	::= {rx2_cfg_mode 3}
+
+rx2CfgSwitchPeriod OBJECT-TYPE
+	SYNTAX INTEGER (3..30) 
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Receiver Configuration Switch Period"
+	::= {rx2_cfg_mode 4}
+
+--------------------------------------------------------------------------------
+-- Tuner configuration and status
+--
+frequency1 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Tuner Frequency"
+	::= {rx1_cfg1_tuner 1}
+
+frequency2 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Tuner Frequency"
+	::= {rx1_cfg2_tuner 1}
+
+frequency3 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Tuner Frequency"
+	::= {rx2_cfg1_tuner 1}
+
+frequency4 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Tuner Frequency"
+	::= {rx2_cfg2_tuner 1}
+	
+acquisitionBandwidth1 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Tuner Acquisition Bandwidth"
+	::= {rx1_cfg1_tuner 2}
+
+acquisitionBandwidth2 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Tuner Acquisition Bandwidth"
+	::= {rx1_cfg2_tuner 2}
+
+acquisitionBandwidth3 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Tuner Acquisition Bandwidth"
+	::= {rx2_cfg1_tuner 2}
+
+acquisitionBandwidth4 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Tuner Acquisition Bandwidth"
+	::= {rx2_cfg2_tuner 2}
+
+gain1 OBJECT-TYPE
+	SYNTAX Integer32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Tuner Gain"
+	::= {rx1_cfg1_tuner 3}
+
+gain2 OBJECT-TYPE
+	SYNTAX Integer32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Tuner Gain"
+	::= {rx1_cfg2_tuner 3}
+
+gain3 OBJECT-TYPE
+	SYNTAX Integer32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Tuner Gain"
+	::= {rx2_cfg1_tuner 3}
+
+gain4 OBJECT-TYPE
+	SYNTAX Integer32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Tuner Gain"
+	::= {rx2_cfg2_tuner 3}
+
+--------------------------------------------------------------------------------
+-- Demodulator configuration and status
+--
+standard1 OBJECT-TYPE
+	SYNTAX INTEGER {dvbs1(0), dvbs2(1), dss(3), unknown(4)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Signal Standard"
+	::= {rx1_cfg1_demod 1}
+
+standard2 OBJECT-TYPE
+	SYNTAX INTEGER {dvbs1(0), dvbs2(1), dss(3), unknown(4)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Signal Standard"
+	::= {rx1_cfg2_demod 1}
+
+standard3 OBJECT-TYPE
+	SYNTAX INTEGER {dvbs1(0), dvbs2(1), dss(3), unknown(4)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Signal Standard"
+	::= {rx2_cfg1_demod 1}
+
+standard4 OBJECT-TYPE
+	SYNTAX INTEGER {dvbs1(0), dvbs2(1), dss(3), unknown(4)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Signal Standard"
+	::= {rx2_cfg2_demod 1}
+
+symbolRate1 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Symbol Rate"
+	::= {rx1_cfg1_demod 2}
+
+symbolRate2 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Symbol Rate"
+	::= {rx1_cfg2_demod 2}
+
+symbolRate3 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Symbol Rate"
+	::= {rx2_cfg1_demod 2}
+
+symbolRate4 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Symbol Rate"
+	::= {rx2_cfg2_demod 2}
+	
+codingMode1 OBJECT-TYPE
+	SYNTAX INTEGER {ccm(0), vcm(1), acm(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Coding Mode"
+	::= {rx1_cfg1_demod 3}
+
+codingMode2 OBJECT-TYPE
+	SYNTAX INTEGER {ccm(0), vcm(1), acm(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Coding Mode"
+	::= {rx1_cfg2_demod 3}
+
+codingMode3 OBJECT-TYPE
+	SYNTAX INTEGER {ccm(0), vcm(1), acm(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Coding Mode"
+	::= {rx2_cfg1_demod 3}
+
+codingMode4 OBJECT-TYPE
+	SYNTAX INTEGER {ccm(0), vcm(1), acm(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Coding Mode"
+	::= {rx2_cfg2_demod 3}
+	
+modcod1 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "DVB-S2 ModCode"
+	::= {rx1_cfg1_demod 4}
+
+modcod2 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "DVB-S2 ModCode"
+	::= {rx1_cfg2_demod 4}
+
+modcod3 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "DVB-S2 ModCode"
+	::= {rx2_cfg1_demod 4}
+
+modcod4 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "DVB-S2 ModCode"
+	::= {rx2_cfg2_demod 4}
+
+rollOff1 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Signal Roll Off (20%,25%,35%)"
+	::= {rx1_cfg1_demod 5}
+
+rollOff2 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Signal Roll Off (20%,25%,35%)"
+	::= {rx1_cfg2_demod 5}
+
+rollOff3 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Signal Roll Off (20%,25%,35%)"
+	::= {rx2_cfg1_demod 5}
+
+rollOff4 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Signal Roll Off (20%,25%,35%)"
+	::= {rx2_cfg2_demod 5}
+
+pilots1 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Pilots"
+	::= {rx1_cfg1_demod 6}
+
+pilots2 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Pilots"
+	::= {rx1_cfg2_demod 6}
+
+pilots3 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Pilots"
+	::= {rx2_cfg1_demod 6}
+
+pilots4 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Pilots"
+	::= {rx2_cfg2_demod 6}
+
+spectralInversion1 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0), on(1), off(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Spectral Inversion"
+	::= {rx1_cfg1_demod 7}
+
+spectralInversion2 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0), on(1), off(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Spectral Inversion"
+	::= {rx1_cfg2_demod 7}
+
+spectralInversion3 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0), on(1), off(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Spectral Inversion"
+	::= {rx2_cfg1_demod 7}
+
+spectralInversion4 OBJECT-TYPE
+	SYNTAX INTEGER {auto(0), on(1), off(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Spectral Inversion"
+	::= {rx2_cfg2_demod 7}
+
+goldCode1 OBJECT-TYPE
+    SYNTAX INTEGER (0..262141)
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"DVB-S2 Gold Code"
+    ::= {rx1_cfg1_demod 8}
+
+goldCode2 OBJECT-TYPE
+    SYNTAX INTEGER (0..262141)
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"DVB-S2 Gold Code"
+    ::= {rx1_cfg2_demod 8}
+
+goldCode3 OBJECT-TYPE
+    SYNTAX INTEGER (0..262141)
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"DVB-S2 Gold Code"
+    ::= {rx2_cfg1_demod 8}
+
+goldCode4 OBJECT-TYPE
+    SYNTAX INTEGER (0..262141)
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"DVB-S2 Gold Code"
+    ::= {rx2_cfg2_demod 8}
+			
+--------------------------------------------------------------------------------
+-- LNB configuration and status
+--
+lnbPower1 OBJECT-TYPE
+	SYNTAX INTEGER {off(0), v13(1), v18(2), error(3)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "LNB Power"
+	::= {rx1_cfg1_lnb 1}
+
+lnbPower2 OBJECT-TYPE
+	SYNTAX INTEGER {off(0), v13(1), v18(2), error(3)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "LNB Power"
+	::= {rx1_cfg2_lnb 1}
+
+lnbPower3 OBJECT-TYPE
+	SYNTAX INTEGER {off(0), v13(1), v18(2), error(3)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "LNB Power"
+	::= {rx2_cfg1_lnb 1}
+
+lnbPower4 OBJECT-TYPE
+	SYNTAX INTEGER {off(0), v13(1), v18(2), error(3)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "LNB Power"
+	::= {rx2_cfg2_lnb 1}
+
+compensation1 OBJECT-TYPE
+	SYNTAX INTEGER {off(0),on(1)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Compensation"
+	::= {rx1_cfg1_lnb 2}
+
+compensation2 OBJECT-TYPE
+	SYNTAX INTEGER {off(0),on(1)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Compensation"
+	::= {rx1_cfg2_lnb 2}
+
+compensation3 OBJECT-TYPE
+	SYNTAX INTEGER {off(0),on(1)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Compensation"
+	::= {rx2_cfg1_lnb 2}
+
+compensation4 OBJECT-TYPE
+	SYNTAX INTEGER {off(0),on(1)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Compensation"
+	::= {rx2_cfg2_lnb 2}
+
+signal22KHz1 OBJECT-TYPE
+	SYNTAX INTEGER {off(0),on(1),error(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "22 KHz"
+	::= {rx1_cfg1_lnb 3}
+
+signal22KHz2 OBJECT-TYPE
+	SYNTAX INTEGER {off(0),on(1),error(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "22 KHz"
+	::= {rx1_cfg2_lnb 3}
+
+signal22KHz3 OBJECT-TYPE
+	SYNTAX INTEGER {off(0),on(1),error(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "22 KHz"
+	::= {rx2_cfg1_lnb 3}
+
+signal22KHz4 OBJECT-TYPE
+	SYNTAX INTEGER {off(0),on(1),error(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "22 KHz"
+	::= {rx2_cfg2_lnb 3}
+
+--------------------------------------------------------------------------------
+-- Transport configuration and status
+--
+
+isi1 OBJECT-TYPE
+	SYNTAX INTEGER (0..255)
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Input Stream Identifier (0-255)"
+	::= {rx1_cfg1_transport 1}
+
+isi2 OBJECT-TYPE
+	SYNTAX INTEGER (0..255)
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Input Stream Identifier (0-255)"
+	::= {rx1_cfg2_transport 1}
+
+isi3 OBJECT-TYPE
+	SYNTAX INTEGER (0..255)
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Input Stream Identifier (0-255)"
+	::= {rx2_cfg1_transport 1}
+
+isi4 OBJECT-TYPE
+	SYNTAX INTEGER (0..255)
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Input Stream Identifier (0-255)"
+	::= {rx2_cfg2_transport 1}
+
+encapsulation1 OBJECT-TYPE
+	SYNTAX INTEGER {mpeg(0), genericStream(1), error(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Encapsulation"
+	::= {rx1_cfg1_transport 2}  
+
+encapsulation2 OBJECT-TYPE
+	SYNTAX INTEGER {mpeg(0), genericStream(1), error(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Encapsulation"
+	::= {rx1_cfg2_transport 2}  
+
+encapsulation3 OBJECT-TYPE
+	SYNTAX INTEGER {mpeg(0), genericStream(1), error(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Encapsulation"
+	::= {rx2_cfg1_transport 2}  
+
+encapsulation4 OBJECT-TYPE
+	SYNTAX INTEGER {mpeg(0), genericStream(1), error(2)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Encapsulation"
+	::= {rx2_cfg2_transport 2}  
+
+filters1Table OBJECT-TYPE
+    SYNTAX SEQUENCE OF Filters1Entry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+           "Table of filters."
+ 	::= { rx1_cfg1_transport 3 }
+
+filters2Table OBJECT-TYPE
+    SYNTAX SEQUENCE OF Filters2Entry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+           "Table of filters."
+ 	::= { rx1_cfg2_transport 3 }
+
+filters3Table OBJECT-TYPE
+    SYNTAX SEQUENCE OF Filters3Entry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+           "Table of filters."
+ 	::= { rx2_cfg1_transport 3 }
+
+filters4Table OBJECT-TYPE
+    SYNTAX SEQUENCE OF Filters4Entry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+           "Table of filters."
+ 	::= { rx2_cfg2_transport 3 }
+ 
+filters1Entry OBJECT-TYPE
+    SYNTAX Filters1Entry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+           "Filters table. Each row contains a filter"
+    INDEX { filterIndex1 }
+    ::= { filters1Table 1 }
+
+filters2Entry OBJECT-TYPE
+    SYNTAX Filters2Entry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+           "Filters table. Each row contains a filter"
+    INDEX { filterIndex2 }
+    ::= { filters2Table 1 }
+
+filters3Entry OBJECT-TYPE
+    SYNTAX Filters3Entry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+           "Filters table. Each row contains a filter"
+    INDEX { filterIndex3 }
+    ::= { filters3Table 1 }
+
+filters4Entry OBJECT-TYPE
+    SYNTAX Filters4Entry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+           "Filters table. Each row contains a filter"
+    INDEX { filterIndex4 }
+    ::= { filters4Table 1 }
+
+Filters1Entry ::= SEQUENCE {
+    filterIndex1			INTEGER,
+	pid1					INTEGER,
+	ethernetAddress1		MacAddress, 
+	counterPidPassed1		Unsigned32,
+	counterMpeSections1		Unsigned32,
+	counterCrcErrors1		Unsigned32,
+	counterMpeDiscarded1	Unsigned32,
+	filterStatus1			INTEGER,
+	filterMulticastMode1	INTEGER,
+	}
+
+Filters2Entry ::= SEQUENCE {
+    filterIndex2			INTEGER,
+	pid2					INTEGER,
+	ethernetAddress2		MacAddress, 
+	counterPidPassed2		Unsigned32,
+	counterMpeSections2		Unsigned32,
+	counterCrcErrors2		Unsigned32,
+	counterMpeDiscarded2	Unsigned32,
+	filterStatus2			INTEGER,
+	filterMulticastMode2	INTEGER,
+	}
+
+Filters3Entry ::= SEQUENCE {
+    filterIndex3			INTEGER,
+	pid3					INTEGER,
+	ethernetAddress3		MacAddress, 
+	counterPidPassed3		Unsigned32,
+	counterMpeSections3		Unsigned32,
+	counterCrcErrors3		Unsigned32,
+	counterMpeDiscarded3	Unsigned32,
+	filterStatus3			INTEGER,
+	filterMulticastMode3	INTEGER,
+	}
+
+Filters4Entry ::= SEQUENCE {
+    filterIndex4			INTEGER,
+	pid4					INTEGER,
+	ethernetAddress4		MacAddress, 
+	counterPidPassed4		Unsigned32,
+	counterMpeSections4		Unsigned32,
+	counterCrcErrors4		Unsigned32,
+	counterMpeDiscarded4	Unsigned32,
+	filterStatus4			INTEGER,
+	filterMulticastMode4	INTEGER,
+	}
+
+filterIndex1 OBJECT-TYPE
+    SYNTAX INTEGER (1..4)
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Unique index of this filter"
+    ::= { filters1Entry 1 }
+
+filterIndex2 OBJECT-TYPE
+    SYNTAX INTEGER (1..4)
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Unique index of this filter"
+    ::= { filters2Entry 1 }
+
+filterIndex3 OBJECT-TYPE
+    SYNTAX INTEGER (1..4)
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Unique index of this filter"
+    ::= { filters3Entry 1 }
+
+filterIndex4 OBJECT-TYPE
+    SYNTAX INTEGER (1..4)
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Unique index of this filter"
+    ::= { filters4Entry 1 }
+	
+pid1 OBJECT-TYPE
+    SYNTAX INTEGER (0..8191)
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"PID"
+    ::= { filters1Entry 2 }
+
+pid2 OBJECT-TYPE
+    SYNTAX INTEGER (0..8191)
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"PID"
+    ::= { filters2Entry 2 }
+
+pid3 OBJECT-TYPE
+    SYNTAX INTEGER (0..8191)
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"PID"
+    ::= { filters3Entry 2 }
+
+pid4 OBJECT-TYPE
+    SYNTAX INTEGER (0..8191)
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"PID"
+    ::= { filters4Entry 2 }
+	
+ethernetAddress1 OBJECT-TYPE
+    SYNTAX MacAddress
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Ethernet Address"
+    ::= { filters1Entry 3 }
+
+ethernetAddress2 OBJECT-TYPE
+    SYNTAX MacAddress
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Ethernet Address"
+    ::= { filters2Entry 3 }
+
+ethernetAddress3 OBJECT-TYPE
+    SYNTAX MacAddress
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Ethernet Address"
+    ::= { filters3Entry 3 }
+
+ethernetAddress4 OBJECT-TYPE
+    SYNTAX MacAddress
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Ethernet Address"
+    ::= { filters4Entry 3 }
+	
+counterPidPassed1 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter PID passed"
+    ::= { filters1Entry 4 }
+
+counterPidPassed2 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter PID passed"
+    ::= { filters2Entry 4 }
+
+counterPidPassed3 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter PID passed"
+    ::= { filters3Entry 4 }
+
+counterPidPassed4 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter PID passed"
+    ::= { filters4Entry 4 }
+	
+counterMpeSections1 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter MPE sections"
+    ::= { filters1Entry 5 }
+
+counterMpeSections2 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter MPE sections"
+    ::= { filters2Entry 5 }
+
+counterMpeSections3 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter MPE sections"
+    ::= { filters3Entry 5 }
+
+counterMpeSections4 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter MPE sections"
+    ::= { filters4Entry 5 }
+
+counterCrcErrors1 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter CRC errors"
+    ::= { filters1Entry 6 }
+
+counterCrcErrors2 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter CRC errors"
+    ::= { filters2Entry 6 }
+
+counterCrcErrors3 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter CRC errors"
+    ::= { filters3Entry 6 }
+
+counterCrcErrors4 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter CRC errors"
+    ::= { filters4Entry 6 }
+ 	
+counterMpeDiscarded1 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter MPE discarded"
+    ::= { filters1Entry 7 }
+
+counterMpeDiscarded2 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter MPE discarded"
+    ::= { filters2Entry 7 }
+
+counterMpeDiscarded3 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter MPE discarded"
+    ::= { filters3Entry 7 }
+
+counterMpeDiscarded4 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Counter MPE discarded"
+    ::= { filters4Entry 7 }
+	
+filterStatus1 OBJECT-TYPE
+    SYNTAX INTEGER {disable( 0 ), enable( 1 )}
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Filter Status"
+    ::= { filters1Entry 8 }
+
+filterStatus2 OBJECT-TYPE
+    SYNTAX INTEGER {disable( 0 ), enable( 1 )}
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Filter Status"
+    ::= { filters2Entry 8 }
+
+filterStatus3 OBJECT-TYPE
+    SYNTAX INTEGER {disable( 0 ), enable( 1 )}
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Filter Status"
+    ::= { filters3Entry 8 }
+
+filterStatus4 OBJECT-TYPE
+    SYNTAX INTEGER {disable( 0 ), enable( 1 )}
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Filter Status"
+    ::= { filters4Entry 8 }
+    
+filterMulticastMode1 OBJECT-TYPE
+    SYNTAX INTEGER {blocked(0),passed(1)}
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Filter Multicast mode"
+    ::= { filters1Entry 10 }
+
+filterMulticastMode2 OBJECT-TYPE
+    SYNTAX INTEGER {blocked(0),passed(1)}
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Filter Multicast mode"
+    ::= { filters2Entry 10 }
+
+filterMulticastMode3 OBJECT-TYPE
+    SYNTAX INTEGER {blocked(0),passed(1)}
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Filter Multicast mode"
+    ::= { filters3Entry 10 }
+
+filterMulticastMode4 OBJECT-TYPE
+    SYNTAX INTEGER {blocked(0),passed(1)}
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Filter Multicast mode"
+    ::= { filters4Entry 10 }
+
+--------------------------------------------------------------------------------
+-- Receiver 1/2 activation/deactivation
+--
+rxActive OBJECT-TYPE
+	SYNTAX INTEGER { first( 1 ), second( 2 ) } 
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Active Receiver"
+	::= {rx_mgmt 1}
+
+rxSwitchMode OBJECT-TYPE
+	SYNTAX INTEGER { auto( 0 ), manual( 1 ), disabled( 2 ) } 
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Receiver Switch Mode"
+	::= {rx_mgmt 2}
+  
+rxSwitchPeriod OBJECT-TYPE
+	SYNTAX INTEGER (20..120) 
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Receiver Switch Period"
+	::= {rx_mgmt 3}
+
+rxChannelOpMode OBJECT-TYPE
+	SYNTAX INTEGER { single( 0 ), dual( 1 ) } 
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Receiver Channel Operation Mode"
+	::= {rx_mgmt 4}
+
+--------------------------------------------------------------------------------
+-- Receiver 1/2 status
+--
+tunerStatus1 OBJECT-TYPE
+	SYNTAX INTEGER {locked(0), unlocked(1), error(2)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Tuner Status"
+	::= {rx1_status 1}
+
+tunerStatus2 OBJECT-TYPE
+	SYNTAX INTEGER {locked(0), unlocked(1), error(2)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Tuner Status"
+	::= {rx2_status 1}
+
+frequencyOffset1 OBJECT-TYPE
+	SYNTAX Integer32
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Frequency Offset"
+	::= {rx1_status 2}
+
+frequencyOffset2 OBJECT-TYPE
+	SYNTAX Integer32
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Frequency Offset"
+	::= {rx2_status 2}
+
+powerLevel1 OBJECT-TYPE
+	SYNTAX Integer32
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Power Level [0.1dB]"
+	::= {rx1_status 3}
+
+powerLevel2 OBJECT-TYPE
+	SYNTAX Integer32
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Power Level [0.1dB]"
+	::= {rx2_status 3}
+
+esno1 OBJECT-TYPE
+	SYNTAX Integer32
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Es/No [0.1dB]"
+	::= {rx1_status 4}
+
+esno2 OBJECT-TYPE
+	SYNTAX Integer32
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Es/No [0.1dB]"
+	::= {rx2_status 4}
+	
+ber1 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "BER"
+	::= {rx1_status 5}
+
+ber2 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "BER"
+	::= {rx2_status 5}
+
+linkMargin1 OBJECT-TYPE
+	SYNTAX Integer32
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Link Margin [0.1dB]"
+	::= {rx1_status 6}   
+
+linkMargin2 OBJECT-TYPE
+	SYNTAX Integer32
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Link Margin [0.1dB]"
+	::= {rx2_status 6}     
+
+modcodStatus1 OBJECT-TYPE
+	SYNTAX INTEGER {dvbs2_auto(0),dvbs2_qpsk_1_4(1),dvbs2_qpsk_1_3(2),
+					dvbs2_qpsk_2_5(3),dvbs2_qpsk_1_2(4),dvbs2_qpsk_3_5(5),
+					dvbs2_qpsk_2_3(6),dvbs2_qpsk_3_4(7),dvbs2_qpsk_4_5(8),
+					dvbs2_qpsk_5_6(9),dvbs2_qpsk_8_9(10),dvbs2_qpsk_9_10(11),
+					dvbs2_8psk_3_5(12),dvbs2_8psk_2_3(13),dvbs2_8psk_3_4(14),
+					dvbs2_8psk_5_6(15),dvbs2_8psk_8_9(16),dvbs2_8psk_9_10(17),
+					dvbs2_16apsk_2_3(18),dvbs2_16apsk_3_4(19),
+					dvbs2_16apsk_4_5(20),dvbs2_16apsk_5_6(21),dvbs2_16apsk_8_9(22),
+					dvbs2_16apsk_9_10(23),dvbs2_32apsk_3_4(24),dvbs2_32apsk_4_5(25),
+					dvbs2_32apsk_5_6(26),dvbs2_32apsk_8_9(27),dvbs2_32apsk_9_10(28),
+					dvbs_auto(45),dvbs_1_2(46),dvbs_2_3(47),dvbs_3_4(48),dvbs_5_6(49),
+					dvbs_7_8(50)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "MODCOD"
+	::= {rx1_status 7}
+
+modcodStatus2 OBJECT-TYPE
+	SYNTAX INTEGER {dvbs2_auto(0),dvbs2_qpsk_1_4(1),dvbs2_qpsk_1_3(2),
+					dvbs2_qpsk_2_5(3),dvbs2_qpsk_1_2(4),dvbs2_qpsk_3_5(5),
+					dvbs2_qpsk_2_3(6),dvbs2_qpsk_3_4(7),dvbs2_qpsk_4_5(8),
+					dvbs2_qpsk_5_6(9),dvbs2_qpsk_8_9(10),dvbs2_qpsk_9_10(11),
+					dvbs2_8psk_3_5(12),dvbs2_8psk_2_3(13),dvbs2_8psk_3_4(14),
+					dvbs2_8psk_5_6(15),dvbs2_8psk_8_9(16),dvbs2_8psk_9_10(17),
+					dvbs2_16apsk_2_3(18),dvbs2_16apsk_3_4(19),
+					dvbs2_16apsk_4_5(20),dvbs2_16apsk_5_6(21),dvbs2_16apsk_8_9(22),
+					dvbs2_16apsk_9_10(23),dvbs2_32apsk_3_4(24),dvbs2_32apsk_4_5(25),
+					dvbs2_32apsk_5_6(26),dvbs2_32apsk_8_9(27),dvbs2_32apsk_9_10(28),
+					dvbs_auto(45),dvbs_1_2(46),dvbs_2_3(47),dvbs_3_4(48),dvbs_5_6(49),
+					dvbs_7_8(50)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "MODCOD"
+	::= {rx2_status 7}
+
+rollOffStatus1 OBJECT-TYPE
+	SYNTAX INTEGER {rf35(0), rf25(1), rf20(2)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Signal Roll Off (20%,25%,35%)"
+	::= {rx1_status 8}
+
+rollOffStatus2 OBJECT-TYPE
+	SYNTAX INTEGER {rf35(0), rf25(1), rf20(2)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Signal Roll Off (20%,25%,35%)"
+	::= {rx2_status 8}
+
+pilotsStatus1 OBJECT-TYPE
+	SYNTAX INTEGER {off(0), on(1)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Pilots"
+	::= {rx1_status 9}
+
+pilotsStatus2 OBJECT-TYPE
+	SYNTAX INTEGER {off(0), on(1)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Pilots"
+	::= {rx2_status 9}
+
+frameTypeStatus1 OBJECT-TYPE
+	SYNTAX INTEGER {normal(0), short(1)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Frame Type"
+	::= {rx1_status 10}
+
+frameTypeStatus2 OBJECT-TYPE
+	SYNTAX INTEGER {normal(0), short(1)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Frame Type"
+	::= {rx2_status 10}
+	
+demodulatorStatus1 OBJECT-TYPE
+	SYNTAX INTEGER {dvbsLocked(0),dvbs2Locked(1),ddsLocked(2),unlocked(3),error(4)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Demodulator Status"
+	::= {rx1_status 11}
+
+demodulatorStatus2 OBJECT-TYPE
+	SYNTAX INTEGER {dvbsLocked(0),dvbs2Locked(1),ddsLocked(2),unlocked(3),error(4)}
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Demodulator Status"
+	::= {rx2_status 11}
+
+crcErrors1 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "CRC Errors"
+	::= {rx1_status 12}  
+
+crcErrors2 OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "CRC Errors"
+	::= {rx2_status 12}
+
+transportStatus1 OBJECT-TYPE
+    SYNTAX INTEGER {locked(0),unlocked(1),error(2)}
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Transport Status"
+    ::= { rx1_status 13 }
+
+transportStatus2 OBJECT-TYPE
+    SYNTAX INTEGER {locked(0),unlocked(1),error(2)}
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Transport Status"
+    ::= { rx2_status 13 }
+
+resetCounters1 OBJECT-TYPE
+    SYNTAX INTEGER {reset(1)}
+    MAX-ACCESS write-only
+    STATUS current
+    DESCRIPTION "Reset Counters"
+    ::= { rx1_status 14 }  
+
+resetCounters2 OBJECT-TYPE
+    SYNTAX INTEGER {reset(1)}
+    MAX-ACCESS write-only
+    STATUS current
+    DESCRIPTION "Reset Counters"
+    ::= { rx2_status 14 }
+
+badFrameCount1 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Bad frame count"
+    ::= { rx1_status 15 }  
+
+badFrameCount2 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Bad frame count"
+    ::= { rx2_status 15 }
+
+badPacketCount1 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Bad MPEG Packet count"
+    ::= { rx1_status 16 }  
+
+badPacketCount2 OBJECT-TYPE
+    SYNTAX Unsigned32
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Bad MPEG Packet count"
+    ::= { rx2_status 16 }
+
+profileName1 OBJECT-TYPE
+	SYNTAX OCTET STRING (SIZE(0..19))
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Profile Name"
+	::= {rx1_cfg1 5}
+
+profileName2 OBJECT-TYPE
+	SYNTAX OCTET STRING
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Profile Name"
+	::= {rx1_cfg2 5}
+
+profileName3 OBJECT-TYPE
+	SYNTAX OCTET STRING
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Profile Name"
+	::= {rx2_cfg1 5}
+
+profileName4 OBJECT-TYPE
+	SYNTAX OCTET STRING
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Profile Name"
+	::= {rx2_cfg2 5}
+
+rx1NumFilters OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Number of RX transport filters allocated for first RX"
+	::= {rx1 5} 
+
+rx2NumFilters OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Number of RX transport filters allocated for second RX"
+	::= {rx2 5}
+
+--
+-- The MIB module consists of the following groups:
+-- Network
+
+managementIpAddress OBJECT-TYPE
+	SYNTAX IpAddress
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Management IP Address"
+	::= {network 1}
+	
+managementSubnetMask OBJECT-TYPE
+	SYNTAX IpAddress
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Management Subnet Mask"
+	::= {network 2}
+
+managementMacAddress OBJECT-TYPE
+	SYNTAX MacAddress
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Management MAC Address"
+	::= {network 3}
+
+managementDefaultGateway OBJECT-TYPE
+	SYNTAX IpAddress
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Tuner Gain"
+	::= {network 4}       
+	
+managementDhcpClient OBJECT-TYPE
+	SYNTAX INTEGER {off(0),on(1)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Management DHCP Client Mode"
+	::= {network 5}
+
+managementDscp OBJECT-TYPE
+	SYNTAX INTEGER (0..63)
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Management DiffServ Code Point"
+	::= {network 6}
+
+managementVlanId OBJECT-TYPE
+	SYNTAX INTEGER (0..4094)
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Management VLAN Identifier"
+	::= {network 7}
+
+managementMulticastMode OBJECT-TYPE
+	SYNTAX INTEGER {on(0), off(1)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Management Multicast Mode"
+	::= {network 8}
+	
+routerArpMode OBJECT-TYPE
+	SYNTAX INTEGER {off(0),on(1)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Router ARP Mode"
+	::= {network 9}
+
+lanIpAddress OBJECT-TYPE
+	SYNTAX IpAddress
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "LAN IP Address"
+	::= {network 10}
+	
+lanSubnetMask OBJECT-TYPE
+	SYNTAX IpAddress
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "LAN Subnet Mask"
+	::= {network 11}
+
+lanMulticastMode OBJECT-TYPE
+	SYNTAX INTEGER {on(0), off(1)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "LAN Multicast Mode"
+	::= {network 12}
+
+lanDefaultGateway OBJECT-TYPE
+	SYNTAX IpAddress
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "LAN Default Gateway"
+	::= {network 13}
+	
+lanMacAddress OBJECT-TYPE
+	SYNTAX MacAddress
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "LAN MAC Address"
+	::= {network 14}     
+	
+lanDhcpClient OBJECT-TYPE
+	SYNTAX INTEGER {off(0),on(1)}
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "LAN DHCP Client"
+	::= {network 15}
+
+routerIpAddress OBJECT-TYPE
+	SYNTAX IpAddress
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Router IP Address"
+	::= {network 16}
+
+routerMacAddress OBJECT-TYPE
+	SYNTAX MacAddress
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Router MAC Address"
+	::= {network 17}
+
+routerArpPeriod OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Router ARP period"
+	::= {network 18}
+
+routerArpTimeout OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Router ARP timeout"
+	::= {network 19}
+
+airIpAddress OBJECT-TYPE
+	SYNTAX IpAddress
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Air IP Address"
+	::= {network 20}
+
+airMacAddress OBJECT-TYPE
+	SYNTAX MacAddress
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Air MAC Address"
+	::= {network 21}
+
+isolateNets OBJECT-TYPE
+	SYNTAX INTEGER { off(0), on(1) }
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Enable/Disable isolation of Management and Traffic networks"
+	::= {network 22}
+
+--
+-- The MIB module consists of the following groups:
+-- System
+
+warmReset OBJECT-TYPE
+	SYNTAX INTEGER {reset(1)}
+	MAX-ACCESS write-only
+	STATUS current
+	DESCRIPTION "Warm Reset"
+	::= {system 1}
+	
+coldReset OBJECT-TYPE
+	SYNTAX INTEGER {reset(1)}
+	MAX-ACCESS write-only
+	STATUS current
+	DESCRIPTION "Cold Reset"
+	::= {system 2}
+
+serialNumber OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "SR Serial Number"
+	::= {system 3}
+
+productionCode OBJECT-TYPE
+	SYNTAX Unsigned32
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "SR Production Code"
+	::= {system 4}
+
+softwareVersion OBJECT-TYPE
+	SYNTAX OCTET STRING
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "SR1 Software Version"
+	::= {system 5}
+
+fpgaVersion OBJECT-TYPE
+	SYNTAX OCTET STRING
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "Active FPGA Version"
+	::= {system 6}
+
+hardwareVersion OBJECT-TYPE
+	SYNTAX OCTET STRING
+	MAX-ACCESS read-only
+	STATUS current
+	DESCRIPTION "SR1 Hardware Version"
+	::= {system 7}
+
+username OBJECT-TYPE
+	SYNTAX OCTET STRING (SIZE(1..11))
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Telnet Login Username"
+	::= {system 8}
+	
+password OBJECT-TYPE
+	SYNTAX OCTET STRING (SIZE(1..11))
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Telnet Login Password"
+	::= {system 9}
+	
+ntpServerIpAddress OBJECT-TYPE
+	SYNTAX IpAddress
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "NTP Server IP Address"
+	::= {system 10}
+	
+snmpTrapServerIpAddress OBJECT-TYPE
+	SYNTAX IpAddress
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "SNMP Trap Server IP Address"
+	::= {system 11}
+	
+snmpWriteCommunity OBJECT-TYPE
+	SYNTAX OCTET STRING (SIZE(0..19))
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "SNMP Write Community"
+	::= {system 12}
+	
+snmpReadCommunity OBJECT-TYPE
+	SYNTAX OCTET STRING (SIZE(0..19))
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "SNMP Read Community"
+	::= {system 13}
+	
+tftpServerIp OBJECT-TYPE
+	SYNTAX IpAddress
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "TFTP Server IP Address"
+	::= {system 14}
+	
+fpgaImageFilename OBJECT-TYPE
+	SYNTAX OCTET STRING (SIZE(0..19))
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "FPGA image filename"
+	::= {system 15}
+	
+startFpgaUpgrade OBJECT-TYPE
+	SYNTAX INTEGER {start(1)}
+	MAX-ACCESS write-only
+	STATUS current
+	DESCRIPTION "Start FPGA Upgrade"
+	::= {system 16}
+
+fpgaVersionTable OBJECT-TYPE
+    SYNTAX SEQUENCE OF FpgaVersionEntry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+           "Table of FPGA Versions."
+ 	::= { system 17 }
+ 
+fpgaVersionEntry OBJECT-TYPE
+    SYNTAX FpgaVersionEntry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+           "FPGA Version table"
+    INDEX { fpgaVersionIndex }
+    ::= { fpgaVersionTable 1 }
+
+FpgaVersionEntry ::= SEQUENCE {
+    fpgaVersionIndex	INTEGER,
+	fpgaVersionValue	OCTET STRING,
+	fpgaVersionSize	    Unsigned32,
+	fpgaVersionValid	INTEGER,
+	fpgaVersionActive	INTEGER,
+	}
+
+fpgaVersionIndex OBJECT-TYPE
+    SYNTAX INTEGER 
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Unique index of this fpga version entry"
+    ::= { fpgaVersionEntry 1 }
+	
+fpgaVersionValue OBJECT-TYPE
+    SYNTAX OCTET STRING 
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"FPGA Version"
+    ::= { fpgaVersionEntry 2 }
+	
+fpgaVersionSize OBJECT-TYPE
+    SYNTAX Unsigned32 
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"FPGA Version Size"
+    ::= { fpgaVersionEntry 3 }
+	
+fpgaVersionValid OBJECT-TYPE
+    SYNTAX INTEGER {no(0),yes(1)}
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"FPGA Version Valid"
+    ::= { fpgaVersionEntry 4 }
+	
+fpgaVersionActive OBJECT-TYPE
+    SYNTAX INTEGER {no(0),yes(1)}
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"FPGA Version Active"
+    ::= { fpgaVersionEntry 5 }
+
+softwareImageFilename OBJECT-TYPE
+	SYNTAX OCTET STRING (SIZE(0..19))
+	MAX-ACCESS read-write
+	STATUS current
+	DESCRIPTION "Software image filename"
+	::= {system 18}
+	
+startSoftwareUpgrade OBJECT-TYPE
+	SYNTAX INTEGER {start(1)}
+	MAX-ACCESS write-only
+	STATUS current
+	DESCRIPTION "Start Software Upgrade"
+	::= {system 19}
+
+softwareVersionTable OBJECT-TYPE
+    SYNTAX SEQUENCE OF SoftwareVersionEntry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+           "Table of Software Versions."
+ 	::= { system 20 }
+ 
+softwareVersionEntry OBJECT-TYPE
+    SYNTAX SoftwareVersionEntry
+    MAX-ACCESS not-accessible
+    STATUS current
+    DESCRIPTION
+           "Software Version Table"
+    INDEX { softwareVersionIndex }
+    ::= { softwareVersionTable 1 }
+
+SoftwareVersionEntry ::= SEQUENCE {
+    softwareVersionIndex	INTEGER,
+	softwareVersionValue	OCTET STRING,
+	softwareVersionSize	    Unsigned32,
+	softwareVersionValid	INTEGER,
+	softwareVersionActive	INTEGER,
+	}
+
+softwareVersionIndex OBJECT-TYPE
+    SYNTAX INTEGER 
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Unique index of this software version entry"
+    ::= { softwareVersionEntry 1 }
+	
+softwareVersionValue OBJECT-TYPE
+    SYNTAX OCTET STRING 
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Software Version"
+    ::= { softwareVersionEntry 2 }
+	
+softwareVersionSize OBJECT-TYPE
+    SYNTAX Unsigned32 
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Software Version Size"
+    ::= { softwareVersionEntry 3 }
+	
+softwareVersionValid OBJECT-TYPE
+    SYNTAX INTEGER {no(0),yes(1)}
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION
+		"Software Version Valid"
+    ::= { softwareVersionEntry 4 }
+	
+softwareVersionActive OBJECT-TYPE
+    SYNTAX INTEGER {no(0),yes(1)}
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION
+		"Software Version Active"
+    ::= { softwareVersionEntry 5 }
+
+permanentStorageDevice OBJECT-TYPE
+	SYNTAX OCTET STRING 
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "Permanent Storage Device"
+	::= {system 21}
+
+rxChipsetModel OBJECT-TYPE
+	SYNTAX OCTET STRING 
+    MAX-ACCESS read-only
+    STATUS current
+    DESCRIPTION "RX Chipset Model"
+	::= {system 22}
+
+menuTimeout OBJECT-TYPE
+	SYNTAX Unsigned32 (10..3600)
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION "Timeout of console menu, in seconds [10-3600]"
+	::= {system 23}
+
+telnetTimeout OBJECT-TYPE
+	SYNTAX Unsigned32 (60..3600)
+    MAX-ACCESS read-write
+    STATUS current
+    DESCRIPTION "Timeout of telnet, in seconds [60-3600]"
+	::= {system 24}
+
+--
+-- The MIB module consists of the following groups:
+-- alarms
+
+demod1Locked NOTIFICATION-TYPE
+    OBJECTS { demodulatorStatus1 }
+    STATUS  current
+    DESCRIPTION
+        "Trap sent when Demod1 status has changed"
+    ::= { alarms 1 }
+
+demod2Locked NOTIFICATION-TYPE
+    OBJECTS { demodulatorStatus2 }
+    STATUS  current
+    DESCRIPTION
+        "Trap sent when Demod2 status has changed"
+    ::= { alarms 2 }
+
+demod1LinkMarginTooLow NOTIFICATION-TYPE
+    OBJECTS { linkMargin1 }
+    STATUS  current
+    DESCRIPTION
+        "Trap sent when Demod1 link margin is lower than threshold"
+    ::= { alarms 3 }
+
+demod2LinkMarginTooLow NOTIFICATION-TYPE
+    OBJECTS { linkMargin2 }
+    STATUS  current
+    DESCRIPTION
+        "Trap sent when Demod2 link margin is lower than threshold"
+    ::= { alarms 4 }
+
+demod1LinkMarginTooHigh NOTIFICATION-TYPE
+    OBJECTS { linkMargin1 }
+    STATUS  current
+    DESCRIPTION
+        "Trap sent when Demod1 link margin is higher than threshold"
+    ::= { alarms 5 }
+
+demod2LinkMarginTooHigh NOTIFICATION-TYPE
+    OBJECTS { linkMargin2 }
+    STATUS  current
+    DESCRIPTION
+        "Trap sent when Demod2 link margin is higher than threshold"
+    ::= { alarms 6 }
+
+END
