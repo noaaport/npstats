@@ -30,21 +30,21 @@ namespace eval sr1 {
 	     crc_errors1 iso.3.6.1.4.1.27928.101.1.1.4.12.0 \
 	     bad_frame_count1 iso.3.6.1.4.1.27928.101.1.1.4.15.0 \
 	     bad_packet_count1 iso.3.6.1.4.1.27928.101.1.1.4.16.0 \
-	     counter_crc_errors11 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.1 \
-	     counter_crc_errors12 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.2 \
-	     counter_crc_errors13 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.3 \
-	     counter_crc_errors14 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.4 \
-	     counter_crc_errors31 iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.6.1 \
-	     counter_pid_passed11 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.1 \
-	     counter_pid_passed12 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.2 \
-	     counter_pid_passed13 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.3 \
-	     counter_pid_passed14 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.4 \
-	     counter_pid_passed31 iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.4.1 \
-	     counter_mpe_sections11 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.1 \
-	     counter_mpe_sections12 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.2 \
-	     counter_mpe_sections13 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.3 \
-	     counter_mpe_sections14 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.4 \
-	     counter_mpe_sections31 iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.5.1];
+	     counter_crc_errors1 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.1 \
+	     counter_crc_errors2 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.2 \
+	     counter_crc_errors3 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.3 \
+	     counter_crc_errors4 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.4 \
+	     counter_crc_errors5 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.5 \
+	     counter_pid_passed1 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.1 \
+	     counter_pid_passed2 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.2 \
+	     counter_pid_passed3 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.3 \
+	     counter_pid_passed4 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.4 \
+	     counter_pid_passed5 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.5 \
+	     counter_mpe_sections1 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.1 \
+	     counter_mpe_sections2 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.2 \
+	     counter_mpe_sections3 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.3 \
+	     counter_mpe_sections4 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.4 \
+	     counter_mpe_sections5 iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.5];
 }
 
 proc sr1::warnx {s} {
