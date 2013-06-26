@@ -1,6 +1,7 @@
-npstats (0.6.1p1-1) stable; urgency=low
+npstats (0.6.1p2-1) stable; urgency=low
 
   * Added support for the Ayecka SR1 receiver
+  * Updated for gnuplot-4.6
 
  -- Jose F Nieves <nieves@ltp.uprrp.edu>  Sat, 04 May 2013 11:05:46 -0400
 

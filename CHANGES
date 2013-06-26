@@ -39,3 +39,10 @@ npstats (0.5.3p5-1) stable; urgency=low
   * Initial debian package release
 
  -- Jose F Nieves <nieves@ltp.uprrp.edu>  Sun, 03 Jul 2011 21:02:55 -0400
+
+npstats (0.6.1p2-1)
+
+  * Added support for the Ayecka SR1 receiver
+  * Updated for gnuplot-4.6
+
+ -- Jose F Nieves <nieves@ltp.uprrp.edu>  Sat, 04 May 2013 11:05:46 -0400

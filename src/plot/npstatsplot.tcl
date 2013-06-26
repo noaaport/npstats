@@ -27,7 +27,7 @@
 # -D => define gplot(xxx) variables for the plot script
 # -f => format  (default "png")
 # -F => the template is used as is (instead of looking in std dirs)
-# -g => options (default "small size 320,240 xd0d0d0")
+# -g => options (default: small size 320,240 background "#d0d0d0")
 # -i => use the given datafile instead of the archive
 # -n => default n = 0 (today); n = 1 is yesterday, etc.
 # -o => outputfile name (default "<devtype>_<devid>.<fmt>)
@@ -42,7 +42,7 @@ set usage {npstatsplot [-b] [-d outputdir] [-D var1=val1,...] [-f fmt] [-F]
     <deviceid> [<template>]};
 
 set optlist {b {d.arg ""} {D.arg ""} {f.arg "png"} F
-    {g.arg "small size 320,240 xd0d0d0"} {i.arg ""}
+    {g.arg {small size 320,240 background "#d0d0d0"}} {i.arg ""}
     {n.arg 0} {o.arg ""} {s.arg "1,1"} {y.arg ""}}; 
 
 #
