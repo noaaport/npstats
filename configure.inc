@@ -36,11 +36,11 @@ then
 elif [ -f /etc/debian_version ] 
 then
    flavor=debian
-   ubuntu=0
+   ubuntu=
    if [ -f /etc/os-release ]
    then
 	. /etc/os-release
-	ubuntu=$VERSION_ID
+	[ $ID = "ubuntu" ] && ubuntu=$VERSION_ID
    fi
 fi
 
