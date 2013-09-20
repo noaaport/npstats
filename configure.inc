@@ -36,7 +36,7 @@ then
 elif [ -f /etc/debian_version ] 
 then
    flavor=debian
-   ubuntu=
+   ubuntu="0"
    if [ -f /etc/os-release ]
    then
 	. /etc/os-release
