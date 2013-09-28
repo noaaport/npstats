@@ -10,8 +10,13 @@ for analysis, display and archival.
 
 The **Npstats** binary package is configured to monitor the status
 of the Novra S300 Noaaport receiver by default. Support for the Ayecka SR1
-receiver was added in version 0.6. To monitor the Ayecka SR1,
-execute the following::
+receiver was added in version 0.6. To monitor the Ayecka SR1 the
+snmp package must be installed, or example in debian and freebsd,
+
+    apt-get install snmp
+    pkg_add -r net-snmp
+
+Then execute the following::
 
     cd /usr/local/etc/npstats
     cp dist/devices.conf-ayecka defaults/devices.conf
