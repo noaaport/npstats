@@ -33,7 +33,7 @@ set usage {npstatsdbplot [-b] [-d outputdir]
     [-o outputfile] [-s size] [-t deviceid]
     <devicetable> <devicetid> [<template>]};
 
-set optlist {b {d.arg ""} {f.arg "png"} F {g.arg {small background "#d0d0d0"}}
+set optlist {b {d.arg ""} {f.arg "png"} F {g.arg {small d0d0d0}}
     {n.arg 0} {o.arg ""} {s.arg "0.6,0.6"} {t.arg ""}}; 
 
 #
