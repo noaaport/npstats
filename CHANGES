@@ -1,12 +1,48 @@
-#
-# $Id$
-# $Format:Commit: %H$
-# $Format:Author: <%aE> %aD$
-#
+npstats (0.6.1p1-1) stable; urgency=low
 
-0.5.3.p4
-========
-- Implemented dynamic setting of the min/max values in the ss plots
+  * Added support for the Ayecka SR1 receiver
 
-0.5.3.p6
-- Added ability to set the supplementary groups of the noaaport user.
+ -- Jose F Nieves <nieves@ltp.uprrp.edu>  Sat, 04 May 2013 11:05:46 -0400
+
+npstats (0.5.4p5-1) stable; urgency=low
+
+  * Updated inpemwinpoll to handle new output (which includes now the
+    frame stats) although the frame stats is not used in npstats.
+
+ -- Jose F Nieves <nieves@ltp.uprrp.edu>  Mon, 18 Mar 2013 17:47:59 -0400
+
+npstats (0.5.4p4-1) stable; urgency=low
+
+  * Added configurable setting for the pidfile mode.
+
+ -- Jose F Nieves <nieves@ltp.uprrp.edu>  Sun, 24 Feb 2013 22:30:40 -0400
+
+npstats (0.5.4p3-1) stable; urgency=low
+
+  * Use templates + css instead of direct domain urls in the display pages.
+  * Using m.novra_s300.tml for mobile devices
+  * The common header and menu are now loaded dynamically by the tml
+    files instead of being inserted statically in the package. In this
+    way, other applications line iemwinstats can change them as needed.
+
+ -- Jose F Nieves <nieves@ltp.uprrp.edu>  Fri, 04 Jan 2013 13:56:14 -0400
+
+npstats (0.5.3p6-1) stable; urgency=low
+
+  * Added ability to the noaaport user suplementary groups
+  * Corrected mispelling in the scheduler.conf file
+
+ -- Jose F Nieves <nieves@ltp.uprrp.edu>  Fri, 27 Apr 2012 22:53:44 -0400
+
+npstats (0.5.3p5-1) stable; urgency=low
+
+  * Initial debian package release
+
+ -- Jose F Nieves <nieves@ltp.uprrp.edu>  Sun, 03 Jul 2011 21:02:55 -0400
+
+npstats (0.6.1p2-1)
+
+  * Added support for the Ayecka SR1 receiver
+  * Updated for gnuplot-4.6
+
+ -- Jose F Nieves <nieves@ltp.uprrp.edu>  Sat, 04 May 2013 11:05:46 -0400

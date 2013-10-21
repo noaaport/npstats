@@ -20,7 +20,7 @@
 # -d => directory for output file
 # -f => format  (default "png")
 # -F => the template is used as is (instead of looking in std dirs)
-# -g => options (default "small xd0d0d0")
+# -g => options (default: small background "#d0d0d0")
 # -n => 24 hour periods back (default 0 => last 24 hours)
 # -o => outputfile name (default "<devicetable>.<devicetid>.<fmt>)
 # -s => size (default "0.6,0.6")
@@ -33,7 +33,7 @@ set usage {npstatsdbplot [-b] [-d outputdir]
     [-o outputfile] [-s size] [-t deviceid]
     <devicetable> <devicetid> [<template>]};
 
-set optlist {b {d.arg ""} {f.arg "png"} F {g.arg "small xd0d0d0"}
+set optlist {b {d.arg ""} {f.arg "png"} F {g.arg {small background "#d0d0d0"}}
     {n.arg 0} {o.arg ""} {s.arg "0.6,0.6"} {t.arg ""}}; 
 
 #

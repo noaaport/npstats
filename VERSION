@@ -11,8 +11,8 @@
 # p = prerelase (release candidate)
 # r = release
 name=npstats
-branch=0.5
-releasenumber=4
+branch=0.6
+releasenumber=1
 releaselevel=p
-update=5
+update=2
 version=${branch}.${releasenumber}${releaselevel}${update}

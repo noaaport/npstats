@@ -1,0 +1,129 @@
+#
+# $Id$
+#
+
+# Define the flags values that the template can use
+set tml(tuner_status,0) "Locked"
+set tml(tuner_status,1) "Unlocked"
+set tml(tuner_status,2) "Error"
+#
+set tml(demod_status,0) "Dvbs"
+set tml(demod_status,1) "Dvbs2"
+set tml(demod_status,2) "Dds"
+set tml(demod_status,3) "Unlocked"
+set tml(demod_status,4) "Error"
+#
+set tml(transport_status,0) "Locked"
+set tml(transport_status,1) "Unlocked"
+set tml(transport_status,2) "Error"
+
+set tml(page) {
+<h3 class="devicesection">$tml(deviceid)</h3>
+
+<p>
+<table border>
+<tr><th>Start time</th> <td>$tml(starttime)</td></tr>
+<tr><th>End time</th> <td>$tml(endtime)</td></tr>
+<tr><th>Frequency (kHz)</th> <td>$tml(1)</td></tr>
+<tr><th>Symbol rate</th> <td>$tml(2)</td></tr>
+<tr><th>Tuner status</th> <td>$tml(tuner_status,$tml(3))</td></tr>
+<tr><th>Demod status</th> <td>$tml(demod_status,$tml(4))</td></tr>
+<tr><th>Transport status</th> <td>$tml(transport_status,$tml(5))</td></tr>
+<tr><th>Frequency offset (kHz)</th> <td>$tml(6)</td></tr>
+<tr><th>Power level Min (dbm)</th> <td>$tml(7)</td></tr>
+<tr><th>Power level Max (dbm)</th> <td>$tml(8)</td></tr>
+<tr><th>Es/No Min (dbm)</th> <td>$tml(9)</td></tr>
+<tr><th>Es/No Max (dbm)</th> <td>$tml(10)</td></tr>
+<tr><th>Ber Min</th> <td>$tml(11)</td></tr>
+<tr><th>Ber Max</th> <td>$tml(12)</td></tr>
+<tr><th>Crc errors</th> <td>$tml(13)</td></tr>
+<tr><th>Bad frame count</th> <td>$tml(14)</td></tr>
+<tr><th>Bad packet count</th> <td>$tml(15)</td></tr>
+
+<tr><th>Crc errors 1</th> <td>$tml(16)</td></tr>
+<tr><th>Crc errors 2</th> <td>$tml(17)</td></tr>
+<tr><th>Crc errors 3</th> <td>$tml(18)</td></tr>
+<tr><th>Crc errors 4</th> <td>$tml(19)</td></tr>
+<tr><th>Crc errors 5</th> <td>$tml(20)</td></tr>
+<tr><th>Mpeg packets 1</th> <td>$tml(21)</td></tr>
+<tr><th>Mpeg packets 2</th> <td>$tml(22)</td></tr>
+<tr><th>Mpeg packets 3</th> <td>$tml(23)</td></tr>
+<tr><th>Mpeg packets 4</th> <td>$tml(24)</td></tr>
+<tr><th>Mpeg packets 5</th> <td>$tml(25)</td></tr>
+<tr><th>Mpe sections 1</th> <td>$tml(26)</td></tr>
+<tr><th>Mpe sections 2</th> <td>$tml(27)</td></tr>
+<tr><th>Mpe sections 3</th> <td>$tml(28)</td></tr>
+<tr><th>Mpe sections 4</th> <td>$tml(29)</td></tr>
+<tr><th>Mpe sections 5</th> <td>$tml(30)</td></tr>
+</table>
+</p>
+
+<p>
+<table>
+
+<tr>
+   <td><img src="[file join / $tml(plot.pl)]"></td>
+   <td><img src="[file join / $tml(plot.esno)]"></td>
+   <td><img src="[file join / $tml(plot.ber)]"></td>
+</tr>
+
+<tr>
+   <td><img src="[file join / $tml(plot.mpegcrc)]"></td>
+   <td><img src="[file join / $tml(plot.badframe)]"></td>
+   <td><img src="[file join / $tml(plot.badpacket)]"></td>
+</tr>
+
+<tr>
+   <td><img src="[file join / $tml(plot.mpeg.1)]"></td>
+   <td><img src="[file join / $tml(plot.mpe.1)]"></td>
+   <td><img src="[file join / $tml(plot.crc.1)]"></td>
+</tr>
+
+<tr>
+   <td><img src="[file join / $tml(plot.mpeg.2)]"></td>
+   <td><img src="[file join / $tml(plot.mpe.2)]"></td>
+   <td><img src="[file join / $tml(plot.crc.2)]"></td>
+</tr>
+
+<tr>
+   <td><img src="[file join / $tml(plot.mpeg.3)]"></td>
+   <td><img src="[file join / $tml(plot.mpe.3)]"></td>
+   <td><img src="[file join / $tml(plot.crc.3)]"></td>
+</tr>
+
+<tr>
+   <td><img src="[file join / $tml(plot.mpeg.4)]"></td>
+   <td><img src="[file join / $tml(plot.mpe.4)]"></td>
+   <td><img src="[file join / $tml(plot.crc.4)]"></td>
+</tr>
+
+<tr>
+   <td><img src="[file join / $tml(plot.mpeg.5)]"></td>
+   <td><img src="[file join / $tml(plot.mpe.5)]"></td>
+   <td><img src="[file join / $tml(plot.crc.5)]"></td>
+</tr>
+
+</table>
+</p>
+}
+
+#
+# Generate the plot(s) used by the tml(script) above
+#
+foreach p [list pl esno ber mpegcrc badframe badpacket] {
+    set tml(plot.${p}) [file join $tml(outputdir) $tml(deviceid).${p}.png]
+    exec npstatsplot -o [file join $tml(docroot) $tml(plot.${p})] \
+	$tml(deviceid) ayecka_sr1.${p}.g
+}
+
+set i 18;
+foreach n [list crc mpeg mpe] {
+    foreach c [list 1 2 3 4 5] {
+      set p ${n}.${c}
+      set tml(plot.${p}) [file join $tml(outputdir) $tml(deviceid).${p}.png]
+      exec npstatsplot -o [file join $tml(docroot) $tml(plot.${p})] \
+	-D "_index=$i,_channel=$c" $tml(deviceid) ayecka_sr1.${n}.g
+
+      incr i
+    }
+}

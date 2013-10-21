@@ -1,0 +1,61 @@
+Date:	 Wed, 01 May 2013 17:47:35 -0400
+To:	  "'Jose F Nieves'" <nieves@ltp.uprrp.edu>
+cc:	"'Andrey Shkinev'" <andreys@ayecka.com>,
+	 "'Baruch Kagan'" <baruchk@ayecka.com>, "'Avi Barda'"
+	 <avib@ayecka.com>
+From:	 Andrey Shkinev <andreys@ayecka.com>
+----------
+
+Hi Jose,
+
+Yes, we want to provide the best device, for the NOAAPort system or for
+any other application :).
+
+On the current SR1 platform 8 PIDs might not be the hard limit, but
+to add more we will have to remove some functionality, like drop or
+simplify the counters per channel. Even then the PID number will not
+go up significantly. So far nobody beside NOAAPort has hit the limit
+of even 4 PID filters per channel... If there is a serious customer
+who needs more than 8 filters, we will replace current FPGA chip with
+a denser version and have more PID filters available.
+
+SNMP:
+
+1) counterCrcErrors1 defines an entry in a Profile, there are 2 profiles
+per RX. So counterCrcErrors1 and counterCrcErrors2 belong to RX1,
+counterCrcErrors3 and counterCrcErrors4 belong to RX2. To access the
+filter counters you walk on counterCrcErrors1.1 for 1st PID filter,
+counterCrcErrors1.2 for second and so on up to 4 per RX.
+
+For current SR1 configuration with 5 PIDs counterCrcErrors1.1 -
+counterCrcErrors1.4 and counterCrcErrors3.1 are active.
+
+Note that counterCrcErrors1.x and counterCrcErrors2.x ( 3.x and 4.x is
+another pair) will show same values since there is one set of counters
+per RX while there are two profiles per RX.
+
+crcErrors1 - it is a counter of MPEGs failed CRC8 reported by DVBS2
+chipset, on entire transport stream. Our counters report failed CRC on
+MPE section for a given filter, i.e. PID + MAC combination.
+
+2) BER is a value scaled to 1e-7, i.e. value of 5 means 5e-7.
+
+3) Packet counters - counterMpeSections1.x - it is a number of MPE
+sections that were passed by the filter. If you subtract from this number
+the value of corresponding counterCrcErrors1.x, it will be the number of
+packet passed out. We do not have a distinction between multicast and
+unicast packets passed by a filter, but in NOAAPort case all packets
+are multicast.
+
+Also you could use RFC1213 MIB,
+.iso.org.dod.internet.mgmt.mib-2.interfaces.ifTable.ifEntry
+(.1.3.6.1.2.1.2.2.1). It contains aggregated statistics for network
+interfaces. Traffic interface values are x.1, and management's are
+x.2. There you can find counters for unicast and non-unicast packets as
+long as byte counters for unicast and non-unicast incoming and outgoing
+traffic. At this level all packets going out are counted and it cannot
+be used to provide per-filter info.
+
+Please let us know if you have any other questions.
+
+Thank you, Andrey

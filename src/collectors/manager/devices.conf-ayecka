@@ -1,0 +1,19 @@
+#
+# $Id$
+#
+
+#
+# Defaults for monitoring an Ayecka SR1 box in standalone mode
+#
+set devices(devicelist) [list];    # to delete the default
+
+lappend devices(devicelist) {
+    deviceid "noaaportnet.sr1"
+    devicenumber 1002
+    devicetype "ayecka_sr1"
+    export 0
+    csvarchive 1
+    displaystatus 1
+    displaytemplate "m.ayecka_sr1.tml"
+}
+set devices(poller,noaaportnet.sr1) "ayeckapoll sr1.i-noaaport.net";

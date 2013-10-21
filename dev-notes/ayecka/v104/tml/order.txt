@@ -1,0 +1,30 @@
+This is the order in which npstats writes the data files;
+the indices of the entries are needed in the ayecka_sr1
+gnuplot templates.
+
+unixseconds
+unixseconds
+tuner_status1
+demodulator_status1
+power_level1_min
+power_level1_max 
+esno1_min
+esno1_max
+ber1_min
+ber1_max
+crc_errors1
+counter_crc_errors11
+counter_crc_errors12
+counter_crc_errors13
+counter_crc_errors14
+counter_crc_errors31
+counter_pid_passed11
+counter_pid_passed12
+counter_pid_passed13
+counter_pid_passed14
+counter_pid_passed31
+counter_mpe_sections11
+counter_mpe_sections12
+counter_mpe_sections13
+counter_mpe_sections14
+counter_mpe_sections31

@@ -1,6 +1,12 @@
 #
 # $Id$
 #
+# Define the yesno() values that the template can use
+set tml(yesno,0) "No"
+set tml(yesno,1) "Yes"
+set tml(onoff,0) "Off"
+set tml(onoff,1) "On"
+
 set tml(page) {
 <h1>$tml(deviceid)</h1>
 
@@ -17,7 +23,6 @@ set tml(page) {
 <tr><th>Eb/No Min</th> <td>$tml(2)</td></tr>
 <tr><th>Eb/No Max</th> <td>$tml(3)</td></tr>
 <tr><th>Receiver temperature</th> <td>$tml(11)</td></tr>
-</tr>
 </table>
 </p>
 

@@ -14,9 +14,9 @@ SAMPLES =	manager.conf-sample \
 		devices.def-sample
 DEFAULTS =	devices.conf-defaults
 EXAMPLES =	devices.conf-examples devices.tdb-examples \
-		devices.conf-ipricot
+		devices.conf-novra devices.conf-ipricot devices.conf-ayecka
 
-TARGET =	${LIBEXECTARGET} ${SAMPLES}
+TARGET =	${LIBEXECTARGET} ${SAMPLES} ${DEFAULTS}
 
 TCLSH =		@TCLSH@
 INSTALL =	@INSTALL@
@@ -34,6 +34,9 @@ devices.conf-sample: devices.conf
 
 devices.def-sample: devices.def
 	cp devices.def devices.def-sample
+
+devices.conf-defaults: devices.conf-novra
+	cp devices.conf-novra devices.conf-defaults
 
 install: ${TARGET}
 	${INSTALL} -m 755 ${LIBEXECTARGET} ${MYLIBEXECDIR}

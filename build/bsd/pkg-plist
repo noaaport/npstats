@@ -34,7 +34,9 @@ etc/npstats/dist/devices.conf-sample
 etc/npstats/dist/devices.def-sample
 etc/npstats/dist/devices.conf-defaults
 etc/npstats/dist/devices.conf-examples
+etc/npstats/dist/devices.conf-novra
 etc/npstats/dist/devices.conf-ipricot
+etc/npstats/dist/devices.conf-ayecka
 etc/npstats/dist/devices.tdb-examples
 libexec/npstats/qrunner
 libexec/npstats/uploaders/ftp.tcl
@@ -55,6 +57,7 @@ libexec/npstats/spooler
 etc/npstats/dist/spooler.conf-sample
 libexec/npstats/pollers/novrapoll
 libexec/npstats/pollers/ipricotpoll
+libexec/npstats/pollers/ayeckapoll
 libexec/npstats/pollers/nbsppoll
 libexec/npstats/pollers/nbspqstatspoll
 libexec/npstats/pollers/inbsppoll

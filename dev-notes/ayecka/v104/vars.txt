@@ -1,0 +1,94 @@
+frequency1:  (line 48)  (in kHz)
+  SR1-159::frequency1.0 = Gauge32: 1151000
+  iso.3.6.1.4.1.27928.101.1.1.1.1.1.0 = Gauge32: 1151000
+
+symbolRate1:"Symbol Rate"  (line 52)  (in symbols/sec)
+  iso.3.6.1.4.1.27928.101.1.1.1.2.2.0 = Gauge32: 15118018
+  SR1-159::symbolRate1.0 = Gauge32: 15118026
+
+tunerStatus1: locked(0), unlocked(1), error(2) (line 158)
+  SR1-159::tunerStatus1.0 = INTEGER: locked(0)
+  iso.3.6.1.4.1.27928.101.1.1.4.1.0 = INTEGER: 0
+
+demodulatorStatus1: dvbsLocked(0),dvbs2Locked(1),ddsLocked(2),
+                    unlocked(3),error(4)  (line 168)
+  SR1-159::demodulatorStatus1.0 = INTEGER: dvbs2Locked(1)
+  iso.3.6.1.4.1.27928.101.1.1.4.11.0 = INTEGER: 1
+
+transportStatus1: locked(0), unlocked(1), error(2)  (line 170)
+  SR1-159::transportStatus1.0 = INTEGER: locked(0)
+  iso.3.6.1.4.1.27928.101.1.1.4.13.0 = INTEGER: 0
+
+powerLevel1: "Power Level [0.1dB] (line 160)
+  SR1-159::powerLevel1.0 = INTEGER: -420
+  iso.3.6.1.4.1.27928.101.1.1.4.3.0 = INTEGER: -420
+
+esno1: "Es/No [0.1dB] (line 161)
+  SR1-159::esno1.0 = INTEGER: 136
+  iso.3.6.1.4.1.27928.101.1.1.4.4.0 = INTEGER: 137
+
+ber1:  "BER" (line 162)
+  SR1-159::ber1.0 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.4.5.0 = Gauge32: 0
+  NOTE: The value reported is (ber*e^7).
+
+crcErrors1: "CRC Errors" (line 169)
+  SR1-159::crcErrors1.0 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.4.12.0 = Gauge32: 0
+
+counterCrcErrors1.1...4 "Counter CRC errors"(line 84, 85, 86, 87)
+  SR1-159::counterCrcErrors1.1 = Gauge32: 0
+  SR1-159::counterCrcErrors1.2 = Gauge32: 0
+  SR1-159::counterCrcErrors1.3 = Gauge32: 1
+  SR1-159::counterCrcErrors1.4 = Gauge32: 1
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.1 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.2 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.3 = Gauge32: 1
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.4 = Gauge32: 1
+
+  SR1-159::counterCrcErrors3.1 = Gauge32: 0 (line 208, 209, 210, 211)
+  SR1-159::counterCrcErrors3.2 = Gauge32: 0
+  SR1-159::counterCrcErrors3.3 = Gauge32: 0
+  SR1-159::counterCrcErrors3.4 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.6.1 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.6.2 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.6.3 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.6.4 = Gauge32: 0
+
+counterPidPassed1.1...4 "Counter PID passed" (lines 76, 77, 78, 79)
+  SR1-159::counterPidPassed1.1 = Gauge32: 1095761684
+  SR1-159::counterPidPassed1.2 = Gauge32: 81362728
+  SR1-159::counterPidPassed1.3 = Gauge32: 703914639
+  SR1-159::counterPidPassed1.4 = Gauge32: 46463398
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.1 = Gauge32: 1095716198
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.2 = Gauge32: 81362727
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.3 = Gauge32: 703884226
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.4 = Gauge32: 46463164
+
+  SR1-159::counterPidPassed3.1 = Gauge32: 145192346 (line 200, 201, 202, 203)
+  SR1-159::counterPidPassed3.2 = Gauge32: 0
+  SR1-159::counterPidPassed3.3 = Gauge32: 0
+  SR1-159::counterPidPassed3.4 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.4.1 = Gauge32: 145192345
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.4.2 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.4.3 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.4.4 = Gauge32: 0
+
+counterMpeSections1.1...4 "Counter MPE sections" (lines 80, 81, 82, 83)
+  SR1-159::counterMpeSections1.1 = Gauge32: 153414766
+  SR1-159::counterMpeSections1.2 = Gauge32: 13331230
+  SR1-159::counterMpeSections1.3 = Gauge32: 94407181
+  SR1-159::counterMpeSections1.4 = Gauge32: 8922460
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.1 = Gauge32: 153408377
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.2 = Gauge32: 13331229
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.3 = Gauge32: 94403074
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.4 = Gauge32: 8922314
+
+  SR1-159::counterMpeSections3.1 = Gauge32: 19307509 (lines 204, 205, 206, 207)
+  SR1-159::counterMpeSections3.2 = Gauge32: 0
+  SR1-159::counterMpeSections3.3 = Gauge32: 0
+  SR1-159::counterMpeSections3.4 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.5.1 = Gauge32: 19307508
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.5.2 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.5.3 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.5.4 = Gauge32: 0

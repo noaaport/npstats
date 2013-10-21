@@ -93,6 +93,44 @@ set devices(dbtable,ipricot_s500) "ipricot_s500";
 set devices(dbcols,ipricot_s500) [concat "devicenumber" \
 	$devices(param,ipricot_s500)];
 
+# ayecka sr1
+set devices(param,ayecka_sr1) [list \
+	time \
+	tuner_status \
+	demodulator_status \
+	power_level_min \
+	power_level_max  \
+	esno_min \
+	esno_max \
+	ber_min \
+	ber_max \
+	crc_errors \
+	counter_crc_errors1 \
+	counter_crc_errors2 \
+	counter_crc_errors3 \
+	counter_crc_errors4 \
+	counter_crc_errors5 \
+	counter_pid_passed1 \
+	counter_pid_passed2 \
+	counter_pid_passed3 \
+	counter_pid_passed4 \
+	counter_pid_passed5 \
+	counter_mpe_sections1 \
+	counter_mpe_sections2 \
+	counter_mpe_sections3 \
+	counter_mpe_sections4 \
+	counter_mpe_sections5];
+#
+# set devices(poller,ayecka_sr1) "";
+# Each instance must redefine its poller with the correct id:
+# set devices(poller,<deviceid>) "ayeckapoll ip";
+#
+set devices(poller,ayecka_sr1) ""; 
+set devices(defaulttemplate,ayecka_sr1) "ayecka_sr1.tml";
+set devices(dbtable,ayecka_sr1) "ayecka_sr1";
+set devices(dbcols,ayecka_sr1) \
+	[concat "devicenumber" $devices(param,ayecka_sr1)];
+
 # nbsp server
 set devices(param,nbsp) [list \
 	time \

@@ -1,0 +1,156 @@
+#
+# mib table for fw b183 (the mib file is the same as for b182)
+#
+
+frequency1:  (line 48)  (in kHz)
+  SR1::frequency1.0 = Gauge32: 1151000
+  iso.3.6.1.4.1.27928.101.1.1.1.1.1.0 = Gauge32: 1151150
+
+symbolRate1:"Symbol Rate"  (line 52)  (in symbols/sec)
+  SR1::symbolRate1.0 = Gauge32: 15118026
+  iso.3.6.1.4.1.27928.101.1.1.1.2.2.0 = Gauge32: 15118048
+
+tunerStatus1: locked(0), unlocked(1), error(2) (line 230)
+  SR1-159::tunerStatus1.0 = INTEGER: locked(0)
+  iso.3.6.1.4.1.27928.101.1.1.4.1.0 = INTEGER: 0
+
+frequencyOffset1: (line 231) (in kHz)
+  SR1::frequencyOffset1.0 = INTEGER: -205
+  iso.3.6.1.4.1.27928.101.1.1.4.2.0 = INTEGER: -205
+
+powerLevel1: "Power Level [0.1dB] (line 232)
+  SR1::powerLevel1.0 = INTEGER: -430
+  iso.3.6.1.4.1.27928.101.1.1.4.3.0 = INTEGER: -430
+
+esno1: "Es/No [0.1dB] (line 233)
+  SR1::esno1.0 = INTEGER: 137
+  iso.3.6.1.4.1.27928.101.1.1.4.4.0 = INTEGER: 137
+
+ber1:  "BER" (line 234)
+  SR1::ber1.0 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.4.5.0 = Gauge32: 0
+  NOTE: The value reported is (ber*e^7).
+
+linkMargin1: Link Margin [0.1dB]" (line 235)
+  SR1::linkMargin1.0 = INTEGER: -863
+  iso.3.6.1.4.1.27928.101.1.1.4.6.0 = INTEGER: -863
+
+demodulatorStatus1: dvbsLocked(0),dvbs2Locked(1),ddsLocked(2),
+                    unlocked(3),error(4)  (line 240)
+  SR1::demodulatorStatus1.0 = INTEGER: dvbs2Locked(1)
+  iso.3.6.1.4.1.27928.101.1.1.4.11.0 = INTEGER: 1
+
+transportStatus1: locked(0), unlocked(1), error(2)  (line 242)
+  SR1::transportStatus1.0 = INTEGER: locked(0)
+  iso.3.6.1.4.1.27928.101.1.1.4.13.0 = INTEGER: 0
+
+crcErrors1: "CRC Errors" (line 241)
+  SR1::crcErrors1.0 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.4.12.0 = Gauge32: 0
+
+badFrameCount1: (line 244)
+  SR1::badFrameCount1.0 = Gauge32: 80
+  iso.3.6.1.4.1.27928.101.1.1.4.15.0 = Gauge32: 80
+
+badPacketCount1: (line 245)
+  SR1::badPacketCount1.0 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.4.16.0 = Gauge32: 0
+
+
+
+
+
+counterCrcErrors1.1...4 "Counter CRC errors"(line 84, 85, 86, 87)
+  SR1-159::counterCrcErrors1.1 = Gauge32: 0
+  SR1-159::counterCrcErrors1.2 = Gauge32: 0
+  SR1-159::counterCrcErrors1.3 = Gauge32: 1
+  SR1-159::counterCrcErrors1.4 = Gauge32: 1
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.1 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.2 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.3 = Gauge32: 1
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.4 = Gauge32: 1
+
+  SR1-159::counterCrcErrors3.1 = Gauge32: 0 (line 208, 209, 210, 211)
+  SR1-159::counterCrcErrors3.2 = Gauge32: 0
+  SR1-159::counterCrcErrors3.3 = Gauge32: 0
+  SR1-159::counterCrcErrors3.4 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.6.1 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.6.2 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.6.3 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.2.1.4.3.1.6.4 = Gauge32: 0
+
+counterPidPassed1.1...4 "Counter PID passed" (lines 76, 77, 78, 79)
+  SR1-159::counterPidPassed1.1 = Gauge32: 1095761684
+  SR1-159::counterPidPassed1.2 = Gauge32: 81362728
+  SR1-159::counterPidPassed1.3 = Gauge32: 703914639
+  SR1-159::counterPidPassed1.4 = Gauge32: 46463398
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.1 = Gauge32: 1095716198
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.2 = Gauge32: 81362727
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.3 = Gauge32: 703884226
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.4 = Gauge32: 46463164
+
+  # lines (88-119)
+  SR1::counterPidPassed1.1 = Gauge32: 24232996
+  SR1::counterPidPassed1.2 = Gauge32: 2521699
+  SR1::counterPidPassed1.3 = Gauge32: 11568576
+  SR1::counterPidPassed1.4 = Gauge32: 737575
+  SR1::counterPidPassed1.5 = Gauge32: 5578054
+  SR1::counterPidPassed1.6 = Gauge32: 0
+  SR1::counterPidPassed1.7 = Gauge32: 0
+  SR1::counterPidPassed1.8 = Gauge32: 0
+  SR1::counterMpeSections1.1 = Gauge32: 3398799
+  SR1::counterMpeSections1.2 = Gauge32: 380761
+  SR1::counterMpeSections1.3 = Gauge32: 1548784
+  SR1::counterMpeSections1.4 = Gauge32: 153321
+  SR1::counterMpeSections1.5 = Gauge32: 741553
+  SR1::counterMpeSections1.6 = Gauge32: 0
+  SR1::counterMpeSections1.7 = Gauge32: 0
+  SR1::counterMpeSections1.8 = Gauge32: 0
+  SR1::counterCrcErrors1.1 = Gauge32: 0
+  SR1::counterCrcErrors1.2 = Gauge32: 0
+  SR1::counterCrcErrors1.3 = Gauge32: 0
+  SR1::counterCrcErrors1.4 = Gauge32: 1
+  SR1::counterCrcErrors1.5 = Gauge32: 0
+  SR1::counterCrcErrors1.6 = Gauge32: 0
+  SR1::counterCrcErrors1.7 = Gauge32: 0
+  SR1::counterCrcErrors1.8 = Gauge32: 0
+  SR1::counterMpeDiscarded1.1 = Gauge32: 0
+  SR1::counterMpeDiscarded1.2 = Gauge32: 0
+  SR1::counterMpeDiscarded1.3 = Gauge32: 0
+  SR1::counterMpeDiscarded1.4 = Gauge32: 1
+  SR1::counterMpeDiscarded1.5 = Gauge32: 0
+  SR1::counterMpeDiscarded1.6 = Gauge32: 0
+  SR1::counterMpeDiscarded1.7 = Gauge32: 0
+  SR1::counterMpeDiscarded1.8 = Gauge32: 0
+
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.1 = Gauge32: 24232996
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.2 = Gauge32: 2521699
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.3 = Gauge32: 11568576
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.4 = Gauge32: 737575
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.5 = Gauge32: 5578054
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.6 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.7 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.4.8 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.1 = Gauge32: 3398799
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.2 = Gauge32: 380761
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.3 = Gauge32: 1548784
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.4 = Gauge32: 153321
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.5 = Gauge32: 741553
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.6 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.7 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.5.8 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.1 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.2 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.3 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.4 = Gauge32: 1
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.5 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.6 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.7 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.6.8 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.7.1 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.7.2 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.7.3 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.7.4 = Gauge32: 1
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.7.5 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.7.6 = Gauge32: 0
+  iso.3.6.1.4.1.27928.101.1.1.1.4.3.1.7.7 = Gauge32: 0

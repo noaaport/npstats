@@ -1,6 +1,12 @@
 #
 # $Id$
 #
+# Define the yesno() values that the template can use
+set tml(yesno,0) "No"
+set tml(yesno,1) "Yes"
+set tml(onoff,0) "Off"
+set tml(onoff,1) "On"
+
 set tml(page) {
 <h3 class="devicesection">$tml(deviceid)</h3>
 
@@ -8,8 +14,8 @@ set tml(page) {
 <table border>
 <tr><th>Start time</th> <td>$tml(starttime)</td></tr>
 <tr><th>End time</th> <td>$tml(endtime)</td></tr>
-<tr><th>Data lock</th> <td>$tml(1)</td></tr>
-<tr><th>Signal lock</th> <td>$tml(2)</td></tr>
+<tr><th>Data lock</th> <td>$tml(yesno,$tml(1))</td></tr>
+<tr><th>Signal lock</th> <td>$tml(yesno,$tml(2))</td></tr>
 <tr> <th>Vber Min</th> <td>$tml(5)</td></tr>
 <tr><th>Vber Max</th> <td>$tml(6)</td></tr>
 <tr><th>Uncorrectable errors</th> <td>$tml(7)</td></tr>
@@ -23,7 +29,6 @@ set tml(page) {
 <tr><th>Frequency offset</th> <td>$tml(13)</td></tr>
 <tr><th>Ethernet packets transmitted</th> <td>$tml(14)</td></tr>
 <tr><th>DVB packets accepted</th> <td>$tml(15)</td></tr>
-</tr>
 </table>
 </p>
 

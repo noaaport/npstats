@@ -12,15 +12,26 @@ Documentation and binary packages for some OS's are available from
 
     http://www.noaaport.net
 
-This package is pre-configured to monitor the Novra receivers for
-Noaaport reception.
+This package is pre-configured to monitor the Novra S300 or Ayecka SR1
+receivers for Noaaport reception.
+
+The default configuration, as installed by the package managers,
+is for monitoring the Novra S300. To switch to the Ayecka SR1,
+execute the following:
+
+    cd /usr/local/etc/npstats/dist
+    cp devices.conf-ayecka ../defaults/devices.conf
+
+and to switch back to the Novra S300,
+
+    cp devices.conf-novra ../defaults/devices.conf
 
 NOTE:
 ====
 
-In this version, npstatsd runs as the "noaaport" user. If a previous
+Npstatsd runs as the "noaaport" user. If a previous
 version that ran as root was installed (that was the default in
-previous versions) then there will be errors due to permissions.
+older versions) then there will be errors due to permissions.
 
 The following directories must be owned by the noaaport user:
 
