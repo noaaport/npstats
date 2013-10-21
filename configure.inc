@@ -11,8 +11,8 @@ TCL_INCDIR="-I /usr/local/include/tcl8.6"
 TCL_LIB="tcl86"
 TCLSH=/usr/local/bin/tclsh8.6
 
-LOCAL_LIBDIR="-L /usr/local/lib"
 LOCAL_INCDIR="-I /usr/local/include"
+LOCAL_LIBDIR="-L /usr/local/lib"
 
 CC=cc
 CCWFLAGS="-Wall -Wextra"
@@ -61,14 +61,14 @@ case $os in
 	INCLUDE=include
 	Q=
 
-	LOCAL_INCDIR=
-	LOCAL_LIBDIR=
 	SUFFIXRULES="%.o: %.c"
 	EXCLUDE="--exclude "
 
 	TCL_INCDIR=
 	TCL_LIB="tcl8.5"
 	TCLSH=/usr/bin/tclsh8.5
+	LOCAL_INCDIR=
+	LOCAL_LIBDIR=
 
 	# Override the defaults for flavor != fedoracore
     	if [ $flavor = opensuse ]
