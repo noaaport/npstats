@@ -1,0 +1,3 @@
+  tcl86: {origin: lang/tcl86, version: 8.6}
+  tcllib: {origin: devel/tcllib, version: 1.15}
+  gnuplot-nox: {origin: math/gnuplot-nox, version: 4.6}

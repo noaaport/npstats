@@ -1,0 +1,8 @@
+#
+# Requires:
+#   tcl86 tcllib gnuplot-nox novramon net-snmp curl nbsp npemwin"
+#
+# novramon required by novrapoll 
+# net-snmp required by ipricot
+# curl required by inpemwin
+#
