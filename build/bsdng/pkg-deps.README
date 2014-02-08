@@ -3,6 +3,6 @@
 #   tcl86 tcllib gnuplot-nox novramon net-snmp curl nbsp npemwin"
 #
 # novramon required by novrapoll 
-# net-snmp required by ipricot
+# net-snmp required by ipricot and ayecka
 # curl required by inpemwin
 #
