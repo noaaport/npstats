@@ -106,3 +106,49 @@ cd htdocs/pub
 #
 [ -d "plots" ] || install -d -m 755 -o $user -g $user plots
 # [ -e "plotdata" ] || ln -s /var/npstats/plotdata 
+
+#
+# Display message
+#
+cat <<__EOF__
+
+-
+The configuration files are in
+
+	/usr/local/etc/npstats
+
+and the directory
+	
+	/usr/local/share/doc/npstats
+
+contains documentation and examples to get started.
+
+The web server is enabled by default, and can be accesed as
+        
+        http://localhost:8025
+or
+        http://<hostname>:8025
+
+Depending on what is monitored, the following packages are required
+and must installed separately:
+
+	nbsp
+	npemwin
+	novramon	(novra receivers)
+	net-snmp	(snmp capable receivers and devices)
+	curl		(iemwin pool servers)
+
+NOTE:
+====
+
+In this version, npstatsd runs as the "noaaport" user. If the previous
+version that you had installed ran as root (that was the default in
+previous versions) then there will be errors due to permissions.
+
+The following directories must be owned by the noaaport user:
+
+/var/log/npstats
+/var/run/npstats
+/var/npstats  (and all its subdirectories)
+-
+__EOF__

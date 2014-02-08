@@ -104,7 +104,11 @@ cd htdocs/pub
 [ -d "plots" ] || install -d -m 755 -o $user -g $user plots
 # [ -e "plotdata" ] || ln -s /var/npstats/plotdata 
 
+#
+# Display message
+#
 cat <<__EOF__
+
 -
 The configuration files are in
 
