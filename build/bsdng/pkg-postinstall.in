@@ -111,7 +111,6 @@ cd htdocs/pub
 # Display message
 #
 cat <<__EOF__
-
 -
 The configuration files are in
 
