@@ -15,6 +15,6 @@ name=npstatsd
 command=/usr/local/sbin/${name}
 [ -z "$npstatsd_enable" ] && npstatsd_enable=0
 
-rcvar=`set_rcvar`
+rcvar=npstatsd_enable
 load_rc_config $name
 run_rc_command "$1"
