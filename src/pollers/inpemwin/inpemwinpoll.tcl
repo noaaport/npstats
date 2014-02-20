@@ -62,7 +62,7 @@ proc inpemwin_get_data {} {
 	return;
     }
 
-    # format 1 is separated by ";\n" while in format it is just "\n"
+    # format 1 is separated by ";\n" while in format 2 it is just "\n"
     set rawdata_lines [split $rawdata "\n"];
 
     foreach line $rawdata_lines {

@@ -1,0 +1,40 @@
+#
+# $Id$
+#
+
+if {$tml(status_code) != 0} {
+    set tml(page) {
+        <h1>$tml(deviceid)</h1>
+        <p>$tml(status_msg)</p>
+    }
+    return;
+}
+
+set tml(page) {
+<h1>$tml(deviceid)</h1>
+
+<p>
+<table border>
+<tr><th>Report start time</th> <td>$tml(starttime)</td></tr>
+<tr><th>Report end time</th> <td>$tml(endtime)</td></tr>
+<tr><th>Frames Received</th> <td>$tml(2)</td></tr>
+<tr><th>Frames Jumps</th> <td>$tml(3)</td></tr>
+<tr><th>Frames Data Size</th> <td>$tml(4)</td></tr>
+<tr><th>Products Tramsitted</th> <td>$tml(5)</td></tr>
+<tr><th>Products Retramsitted</th> <td>$tml(6)</td></tr>
+<tr><th>Products Missed</th> <td>$tml(7)</td></tr>
+<tr><th>Processor Queue</th> <td>$tml(8)</td></tr>
+<tr><th>Filter Queue</th> <td>$tml(9)</td></tr>
+<tr><th>Server Queue</th> <td>$tml(10)</td></tr>
+</table>
+</p>
+}
+
+#
+# Generate the plot(s) used by the tml(script) above
+#
+#foreach p [list files bytes] {
+#    set tml(plot.${p}) [file join $tml(outputdir) $tml(deviceid).${p}.png];
+#    exec npstatsplot -o [file join $tml(docroot) $tml(plot.${p})] \
+#	$tml(deviceid) inpemwin.${p}.g;
+#}
