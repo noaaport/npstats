@@ -36,7 +36,7 @@ TMLSOURCES =	novra_s75.tml \
 		novra_s300.tml m.novra_s300.tml \
 		ipricot_s500.tml \
 		ayecka_sr1.tml m.ayecka_sr1.tml \
-		nbsp.tml inpemwin.tml \
+		nbsp.tml inbsp.tml inpemwin.tml \
 		fs.tml load.tml mem_freebsd.tml mem_linux.tml \
 		qdbstats.tml mdbstats.tml qstate.tml
 TMLDIR =	tml
