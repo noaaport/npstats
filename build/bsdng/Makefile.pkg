@@ -32,6 +32,10 @@ pkg/pkg-postinstall: pkg-postinstall.in
 	awk '{printf("    %s\n", $$0);}' pkg-postinstall.in > \
 	pkg/pkg-postinstall
 
+pkg/pkg-postdeinstall: pkg-postdeinstall.in
+	awk '{printf("    %s\n", $$0);}' pkg-postdeinstall.in > \
+	pkg/pkg-postdeinstall
+
 pkg/+DISPLAY: pkg-display
 	cp pkg-display pkg/+DISPLAY
 
@@ -42,6 +46,8 @@ pkg/+MANIFEST: manifest.in pkg/pkg-postinstall
 	-e "/@abi@/s//${abi}/" \
 	-e "/@postinstall@/r pkg/pkg-postinstall" \
 	-e "/@postinstall@/d" \
+	-e "/@postdeinstall@/r pkg/pkg-postdeinstall" \
+	-e "/@postdeinstall@/d" \
 	-e "/@deps@/r pkg-deps"\
 	-e "/@deps@/d" \
 	-e "/@desc@/r pkg-desc"\

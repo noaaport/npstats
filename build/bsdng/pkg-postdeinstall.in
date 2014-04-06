@@ -1,0 +1,15 @@
+[ -f /usr/local/etc/rc.d/npstatsd ] && rm /usr/local/etc/rc.d/npstatsd
+
+cat <<EOF
+
+To deinstall completely this package, the directories
+
+/usr/local/etc/npstats
+/usr/local/share/doc/npstats
+/usr/local/libexec/npstats
+/var/npstats
+/var/log/npstats
+/var/run/npstats
+
+may have to be removed manually.
+EOF
