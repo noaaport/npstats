@@ -39,7 +39,7 @@ pkg/pkg-postdeinstall: pkg-postdeinstall.in
 pkg/+DISPLAY: pkg-display
 	cp pkg-display pkg/+DISPLAY
 
-pkg/+MANIFEST: manifest.in pkg/pkg-postinstall
+pkg/+MANIFEST: manifest.in pkg/pkg-postinstall pkg/pkg-postdeinstall
 	sed -e "/@name@/s//${name}/" \
 	-e "/@version@/s//${version}/" \
 	-e "/@pkgbuild@/s//${pkg_build}/" \
