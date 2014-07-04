@@ -30,7 +30,17 @@ rootdirs="/usr/local/etc/npstats/defaults
 /usr/local/libexec/npstats/site
 /usr/local/libexec/npstats/tclhttpd/site
 /usr/local/libexec/npstats/tclhttpd/importers"
+#
+# target directories for optional files
+#
+docdir=/usr/local/share/doc/npstats
+confdir=/usr/local/etc/npstats
+rcdir=/etc/init.d
+defaultdir=/etc/default
 
+#
+# the noaaport user
+#
 useradd -d $home $user > /dev/null 2>&1
 status=$?
 if [ $status -ne 9 -a $status -ne 0 ]
@@ -52,11 +62,10 @@ done
 #
 # install optional files from doc directory
 #
-docdir=/usr/local/share/doc/npstats
-confdir=/usr/local/etc/npstats
-rcdir=/etc/init.d
-
 install -m 0755 $docdir/npstatsd.sh-sample $rcdir/npstatsd
+[ -f $defaultdir/npstatsd ] || \
+    install -m 0644 $docdir/npstatsd.sh.conf-debian $defaultdir/npstatsd
+
 if [ -n "`which chkconfig`" ]
 then
         chkconfig --add npstatsd

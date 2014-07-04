@@ -4,6 +4,7 @@
 # deinstall optional files
 #
 rcdir=/etc/init.d
+defaultdir=/etc/default
 logrotatedir=/etc/logrotate.d
 
 if [ -n "`which chkconfig`" ]
@@ -12,11 +13,15 @@ then
 elif [ -n "`which update-rc.d`" ]
 then
 	update-rc.d -f npstatsd remove
+	# rm -f $defaultdir/npstatsd
 fi
 
 cat <<__EOF__
-To deinstall completely this package, the directories
 
+To deinstall completely this package, the noaaport user and the
+following directories or files must be removed manually:
+
+/etc/default/npstatsd
 /usr/local/etc/npstats
 /usr/local/share/doc/npstats
 /usr/local/libexec/npstats
@@ -24,5 +29,4 @@ To deinstall completely this package, the directories
 /var/log/npstats
 /var/run/npstats
 
-may have to be removed manually.
 __EOF__
