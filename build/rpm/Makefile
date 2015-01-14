@@ -8,10 +8,10 @@ include ../../VERSION
 #
 requires = $(shell grep -v "^\#" rpm-requires)
 rpmrelease = $(shell grep -v "^\#" rpm-release)
-rpmroot = ${HOME}/rpmbuild
+rpmroot = ${HOME}/docs/devel/rpmbuild
 
 flavor = $(shell ./flavor.sh)
-arch =  $(shell uname -i)
+arch =  $(shell uname -m)
 dist = $(shell ./dist.sh)
 
 ifeq (${flavor}, opensuse)
@@ -54,4 +54,4 @@ package: rpm-spec ${tgzfile}
 	cp ${rpmroot}/RPMS/${arch}/${rpmfile} .
 
 clean:
-	rm -f *~ rpm-spec ${tgzfile} ${rpmfile} ${rpmfile_client}
+	rm -f *~ rpm-spec ${tgzfile} ${rpmfile}
