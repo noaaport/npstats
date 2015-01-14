@@ -27,7 +27,7 @@ if {[llength $monitor(rcfiles)] != 0} {
             lappend monitor(alert) $alert;
         }
     }
-    unset _rc;
-    unset cond;
-    unset alert;
+    unset -nocomplain _rc;
+    unset -nocomplain cond;
+    unset -nocomplain action;
 }
