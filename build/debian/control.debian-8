@@ -7,7 +7,7 @@ Standards-Version: 3.7.2
 
 Package: npstats
 Architecture: any
-Depends: ${shlibs:Depends}, tcl8.5, tcllib, gnuplot-nox
+Depends: ${shlibs:Depends}, tcl, tcllib, gnuplot-nox
 Description: Noaaport Statistics Tracking System
  Npstats is a set of programs that work together for collecting,
  tracking and reporting the quality of noaaport receivers and servers.
