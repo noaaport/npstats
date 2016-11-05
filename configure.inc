@@ -92,7 +92,7 @@ case $os in
 		TCL_INCDIR="-I /usr/include/tcl8.6"
 	   	TCL_LIB="tcl8.6"
 	   	TCLSH=/usr/bin/tclsh8.6
-	   elif [ $ubuntu = "14.04" ]
+	   elif [ $ubuntu = "14.04" -o $ubuntu = "16.04" ]
 	   then
  	   	TCL_INCDIR="-I /usr/include/tcl8.6"
 	   	TCL_LIB="tcl8.6"
