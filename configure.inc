@@ -87,7 +87,7 @@ case $os in
 	   TCL_INCDIR="-I /usr/include/tcl8.5"
 	   TCL_LIB="tcl8.5"
 	   TCLSH=/usr/bin/tclsh8.5
-	   if [ $debian = "8" ]
+	   if [ $debian = "8" -o $debian = "9" ]
 	   then
 		TCL_INCDIR="-I /usr/include/tcl8.6"
 	   	TCL_LIB="tcl8.6"
