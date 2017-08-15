@@ -14,6 +14,11 @@ lappend devices(devicelist) {
     displaytemplate "novra_s75.tml"
 }
 
+#
+# This monitors an nbsp process running in the localhost. For monitoring
+# a remote nbsp server using the web interface see the file
+# ``devices.conf-inbsp''
+#
 lappend devices(devicelist) {
     deviceid "noaaportnet.atom"
     devicenumber 1002

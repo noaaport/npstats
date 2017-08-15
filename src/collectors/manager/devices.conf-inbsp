@@ -1,0 +1,24 @@
+#
+# Sample configuration file for monitoring a remote nbsp server
+# Uses the "/_inbsp/stats" web interface
+#
+set devices(devicelist) [list]
+set devices(alertlist) [list]
+
+lappend devices(devicelist) {
+    deviceid "inoaaportnet.lin1"
+    devicenumber 1001
+    devicetype "inbsp"
+    export 0
+    csvarchive 1
+    displaystatus 1
+    displaytemplate "inbsp.tml"
+}
+set devices(poller,inoaaportnet.lin1) "inbsppoll lin1.inoaaport.net";
+
+lappend devices(alertlist) {
+        inoaaportnet\.
+        (warn|error|crit)
+        4
+        smtp://nieves@volkron.net
+}
