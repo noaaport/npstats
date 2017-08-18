@@ -34,7 +34,11 @@
 # -s => plot size (default "1,1")
 # -y => the day yyyymmdd (conflicts with -n)
 #
+
+# Packages from tcllib
 package require cmdline;
+## package require fileutil;
+## package require textutil::split;
 
 set usage {npstatsplot [-b] [-d outputdir] [-D var1=val1,...] [-f fmt] [-F]
     [-g fmtoptions] [-i datafile] [-n days_back | -y yyyymmdd]
@@ -234,10 +238,6 @@ if {[file exists $defaultsfile] == 0} {
 }
 source $defaultsfile;
 unset defaultsfile;
-
-# Packages from tcllib
-## package require fileutil;
-## package require textutil::split;
 
 # Local packages - 
 ## The errx library. syslog enabled below if -b is given.

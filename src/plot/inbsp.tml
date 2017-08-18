@@ -15,8 +15,8 @@ set tml(page) {
 
 <p>
 <table border>
-<tr><th>Report start time</th> <td>$tml(starttime)</td></tr>
-<tr><th>Report end time</th> <td>$tml(endtime)</td></tr>
+<tr><th>Stats Report Start Time</th> <td>$tml(starttime)</td></tr>
+<tr><th>Stats Report End Time</th> <td>$tml(endtime)</td></tr>
 <tr><th>Frames Received</th> <td>$tml(1)</td></tr>
 <tr><th>Frames Jumps</th> <td>$tml(2)</td></tr>
 <tr><th>Frames Data Size</th> <td>$tml(3)</td></tr>
@@ -26,6 +26,12 @@ set tml(page) {
 <tr><th>Processor Queue</th> <td>$tml(7)</td></tr>
 <tr><th>Filter Queue</th> <td>$tml(8)</td></tr>
 <tr><th>Server Queue</th> <td>$tml(9)</td></tr>
+<tr><th>Inventory Report End Time</th> <td>$tml(10)</td></tr>
+<tr><th>Inventory Total Files</th> <td>$tml(11)</td></tr>
+<tr><th>Inventory Total Bytes</th> <td>$tml(12)</td></tr>
+<tr><th>Stats Time Diff</th> <td>$tml(13)</td></tr>
+<tr><th>Inventory Time Diff</th> <td>$tml(14)</td></tr>
+<tr><th>Monitor Code</th> <td>$tml(15)</td></tr>
 </table>
 </p>
 }

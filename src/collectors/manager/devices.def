@@ -147,16 +147,22 @@ set devices(dbcols,nbsp) [concat "devicenumber" $devices(param,nbsp)];
 
 # inbsp (pool) server
 set devices(param,inbsp) [list \
-	stats_time \
-	frames_received \
-	frames_jumps \
-	frames_data_size \
-	products_transmitted \
-	products_retransmitted \
-	products_missed \
-	queue_processor \
-	queue_filter \
-	queue_server];
+      stats_time \
+      frames_received \
+      frames_jumps \
+      frames_data_size \
+      products_transmitted \
+      products_retransmitted \
+      products_missed \
+      queue_processor \
+      queue_filter \
+      queue_server \
+      chstats_time \
+      total_files \
+      total_bytes \
+      stats_timediff \
+      chstats_timediff \
+      monitor_code];
 set devices(poller,inbsp) "inbsppoll";
 set devices(defaulttemplate,inbsp) "inbsp.tml";
 set devices(dbtable,inbsp) "inbsp";
