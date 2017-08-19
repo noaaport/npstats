@@ -267,9 +267,9 @@ proc monitor_fileevent_handler_stdin {} {
 
 proc monitor_process {pdata} {
 #
-# <pdata> is a string of the form
-#
-# <deviceid>|<devivetype>|<devicetid>|<output>
+# <pdata> is a string of the form (see lib/devices.tcl)
+#    
+# <deviceid>|<devicenumber>|<devicetype>|<output>
 #
 # where <output> is the csv separated string of values as emitted by the
 # pollers.
@@ -282,14 +282,15 @@ proc monitor_process {pdata} {
     # Initialization
     array set rc [list];
     set rc(deviceid) "";
+    set rc(devicenumber) "";
     set rc(devicetype) "";
-    set rc(devicetid) "";
     set rc(devicedata) "";
 
     set pdataparts [::npstats::devices::data_unpack $pdata];
     set rc(deviceid) [::npstats::devices::data_unpack_deviceid $pdataparts];
+    set rc(devicenumber) \
+	[::npstats::devices::data_unpack_devicenumber $pdataparts];
     set rc(devicetype) [::npstats::devices::data_unpack_devicetype $pdataparts];
-    set rc(devicetid) [::npstats::devices::data_unpack_devicetid $pdataparts];
     set rc(devicedata) [::npstats::devices::data_unpack_output $pdataparts];
 
     set datalist [split $rc(devicedata) ","];

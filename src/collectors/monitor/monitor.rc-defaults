@@ -13,28 +13,33 @@ lappend cond {
 lappend alert "crit";
 
 lappend cond {
-    ($rc(devicetype) eq "nbsp") && [expr $rc(products_retransmitted) >= 100]
+    ($rc(devicetype) eq "nbsp") && ($rc(products_retransmitted) >= 100)
 }
 lappend alert "warn";
 
 lappend cond {
     ($rc(devicetype) eq "nbsp") && \
-	[expr $rc(products_missed) >= 1] && [expr $rc(products_missed) < 5]
+	($rc(products_missed) >= 1) && ($rc(products_missed) < 5)
 }
 lappend alert "warn";
 
 lappend cond {
-    ($rc(devicetype) eq "nbsp") && [expr $rc(products_missed) >= 5]
+    ($rc(devicetype) eq "nbsp") && ($rc(products_missed) >= 5)
 }
 lappend alert "crit";
 
 lappend cond {
-    ($rc(devicetype) eq "fs") && \
-	[expr $rc(usedfr) >= 90] && [expr $rc(usedfr) < 95]
+    ($rc(devicetype) eq "inbsp") && ($rc(total_files) == 0)
 }
 lappend alert "warn";
 
 lappend cond {
-    ($rc(devicetype) eq "fs") && [expr $rc(usedfr) >= 95]
+    ($rc(devicetype) eq "fs") && \
+	($rc(usedfr) >= 90) && ($rc(usedfr) < 95)
+}
+lappend alert "warn";
+
+lappend cond {
+    ($rc(devicetype) eq "fs") && ($rc(usedfr) >= 95)
 }
 lappend alert "crit";
