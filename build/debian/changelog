@@ -1,3 +1,9 @@
+npstats (0.6.1p3-1) stable; urgency=low
+
+  * Updated inbsp template and poll 
+
+ -- Jose F Nieves <nieves@ltp.uprrp.edu>  Fri, 18 Aug 2017 20:21:19 -0400
+
 npstats (0.6.1p2-1) stable; urgency=low
 
   * Added support for the Ayecka SR1 receiver
