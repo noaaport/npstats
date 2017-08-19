@@ -26,7 +26,7 @@ set tml(page) {
 <tr><th>Processor Queue</th> <td>$tml(7)</td></tr>
 <tr><th>Filter Queue</th> <td>$tml(8)</td></tr>
 <tr><th>Server Queue</th> <td>$tml(9)</td></tr>
-<tr><th>Inventory Report End Time</th> <td>$tml(10)</td></tr>
+<tr><th>Inventory Report Time</th> <td>[clock format $tml(10) -gmt 1]</td></tr>
 <tr><th>Inventory Total Files</th> <td>$tml(11)</td></tr>
 <tr><th>Inventory Total Bytes</th> <td>$tml(12)</td></tr>
 <tr><th>Stats Time Diff</th> <td>$tml(13)</td></tr>
