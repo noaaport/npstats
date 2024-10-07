@@ -1,0 +1,13 @@
+Source: npstats
+Section: unknown
+Priority: extra
+Maintainer: Jose F Nieves <nieves@ltp.upr.clu.edu>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.2
+
+Package: npstats
+Architecture: any
+Depends: ${shlibs:Depends}, tcl8.6, tcllib, gnuplot-nox
+Description: Noaaport Statistics Tracking System
+ Npstats is a set of programs that work together for collecting,
+ tracking and reporting the quality of noaaport receivers and servers.
