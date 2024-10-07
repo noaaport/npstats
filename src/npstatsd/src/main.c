@@ -9,16 +9,17 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <tcl.h>
-#include "globals.h"
-#include "defaults.h"
 #include "err.h"
-#include "conf.h"
 #include "init.h"
 #include "exec.h"
 #include "signal.h"
 #include "per.h"
 #include "manager.h"
 #include "httpd.h"
+#include "conf.h"
+#include "defaults.h"
+#define NPSTATSD_GLOBALS_DEF
+#include "globals.h"
 
 static int parse_args(int argc, char **argv);
 static int loop(void);

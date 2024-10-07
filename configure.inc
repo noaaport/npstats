@@ -67,8 +67,8 @@ case $os in
 	EXCLUDE="--exclude "
 
 	TCL_INCDIR=
-	TCL_LIB="tcl8.5"
-	TCLSH=/usr/bin/tclsh8.5
+	TCL_LIB="tcl8.6"
+	TCLSH=/usr/bin/tclsh8.6
 	LOCAL_INCDIR=
 	LOCAL_LIBDIR=
 
@@ -83,16 +83,13 @@ case $os in
 	   TCLSH=/usr/bin/tclsh
 	elif [ $flavor = debian ]
 	then
-	   # debian 7
-	   TCL_INCDIR="-I /usr/include/tcl8.5"
-	   TCL_LIB="tcl8.5"
-	   TCLSH=/usr/bin/tclsh8.5
-	   if [ $debian = "8" -o $debian = "9" ]
+	   # debian 12
+	   if [ $debian = "12" ]
 	   then
 		TCL_INCDIR="-I /usr/include/tcl8.6"
 	   	TCL_LIB="tcl8.6"
 	   	TCLSH=/usr/bin/tclsh8.6
-	   elif [ $ubuntu = "14.04" -o $ubuntu = "16.04" ]
+	   elif [ $ubuntu = "18.04" -o $ubuntu = "20.04" ]
 	   then
  	   	TCL_INCDIR="-I /usr/include/tcl8.6"
 	   	TCL_LIB="tcl8.6"
