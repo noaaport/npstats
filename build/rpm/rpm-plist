@@ -1,6 +1,7 @@
 /usr/local/sbin/npstatsd
 /usr/local/etc/npstats/dist/npstatsd.conf-sample
 /usr/local/share/doc/npstats/npstatsd.sh-sample
+/usr/local/share/doc/npstats/npstats.service-generic
 /usr/local/bin/npstatsversion
 /usr/local/bin/npstatsctl
 /usr/local/bin/npstatscleanup

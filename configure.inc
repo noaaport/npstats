@@ -7,13 +7,6 @@ INCLUDE=".include"
 Q='"'
 PREFIX=usr/local
 
-TCL_INCDIR="-I /usr/local/include/tcl8.6"
-TCL_LIB="tcl86"
-TCLSH=/usr/local/bin/tclsh8.6
-
-LOCAL_INCDIR="-I /usr/local/include"
-LOCAL_LIBDIR="-L /usr/local/lib"
-
 CC=cc
 CCWFLAGS="-Wall -Wextra"
 INSTALL=install
@@ -21,6 +14,13 @@ SUFFIXRULES=".c.o:"
 
 # excude options to tar
 EXCLUDE="--exclude "
+
+TCL_INCDIR="-I /usr/local/include/tcl8.6"
+TCL_LIB="tcl86"
+TCLSH=/usr/local/bin/tclsh8.6
+
+LOCAL_INCDIR="-I /usr/local/include"
+LOCAL_LIBDIR="-L /usr/local/lib"
 
 os=`uname`
 [ $os = Linux ] && flavor=unknown
@@ -32,7 +32,7 @@ then
    flavor=opensuse
 elif [ -f /etc/redhat-release ] 
 then
-   flavor=centos
+   flavor=redhat
 elif [ -f /etc/debian_version ] 
 then
    flavor=debian
@@ -72,15 +72,11 @@ case $os in
 	LOCAL_INCDIR=
 	LOCAL_LIBDIR=
 
-	# Override the defaults for flavor != fedoracore
-    	if [ $flavor = opensuse ]
-	then
-	   continue
-	elif [ $flavor = centos ]
+	if [ $flavor = redhat ]
 	then
 	   TCL_INCDIR=
-	   TCL_LIB="tcl8.5"
-	   TCLSH=/usr/bin/tclsh
+	   TCL_LIB="tcl8.6"
+	   TCLSH=/usr/bin/tclsh8.6
 	elif [ $flavor = debian ]
 	then
 	   # debian 12

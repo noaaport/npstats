@@ -11,4 +11,5 @@ sed \
     -e "/@RCFPATH@/s||$RCFPATH|" \
     -e "/@RCCONF@/s||$RCCONF|" \
     -e "/@HOURLYCONF@/s||$HOURLYCONF|" \
+    -e "/@SYSTEMDCONF@/s||$SYSTEMDCONF|" \
     Makefile.in > Makefile

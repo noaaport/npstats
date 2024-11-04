@@ -9,6 +9,7 @@ RCINIT =	@RCINIT@
 RCFPATH =       @RCFPATH@
 RCCONF =	@RCCONF@
 HOURLYCONF =    @HOURLYCONF@
+SYSTEMDCONF =	@SYSTEMDCONF@
 RCINIT_SAMPLE =	npstatsd.sh-sample
 
 SAMPLES =	startstop.rc-sample hourly-cleanup.conf-sample
@@ -16,7 +17,7 @@ BINTOOLS =	npstatsversion npstatscleanup npstatsctl
 LIBFILES =      npstatsd-start.tcl npstatsd-stop.tcl
 LIBTOOLS =      startstop
 DOCS =		${RCINIT_SAMPLE}
-EXTRA_DOCS =	${RCCONF}
+EXTRA_DOCS =	${RCCONF} ${SYSTEMDCONF}
 
 TARGET = 	${RCINIT_SAMPLE} ${SAMPLES} ${BINTOOLS} ${LIBTOOLS}
 

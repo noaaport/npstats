@@ -3,12 +3,13 @@
 #
 include ../../VERSION
 
-# The defaults in spec.in are for SL, and the overrides are other
+# The defaults in spec.in are for Alma, and the overrides for other
 # flavors are below.
 #
 requires = $(shell grep -v "^\#" rpm-requires)
 rpmrelease = $(shell grep -v "^\#" rpm-release)
-rpmroot = ${HOME}/docs/devel/rpmbuild
+#rpmroot = ${HOME}/docs/devel/rpmbuild
+rpmroot = ${HOME}/rpmbuild
 
 flavor = $(shell ./flavor.sh)
 arch =  $(shell uname -m)

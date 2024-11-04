@@ -12,6 +12,8 @@ Requires: @requires@
 %description
 Noaaport and Emwin Statistics Tracking System
 
+%global debug_package %{nil}
+
 %prep
 
 %setup

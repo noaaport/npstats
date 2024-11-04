@@ -7,6 +7,7 @@ RCINIT=npstatsd.sh-freebsd
 RCFPATH=/usr/local/etc/rc.d/npstatsd
 RCCONF=
 HOURLYCONF=hourly-cleanup.conf-freebsd
+SYSTEMDCONF=
 
 case $os in
     FreeBSD) 
@@ -21,6 +22,7 @@ case $os in
 	RCINIT=npstatsd.sh-${flavor}
 	RCFPATH=/etc/init.d/npstatsd
 	HOURLYCONF=hourly-cleanup.conf-generic
+	SYSTEMDCONF=npstats.service-generic
 	[ $flavor = debian ] && RCCONF=npstatsd.sh.conf-debian
     	;;
     Darwin)
