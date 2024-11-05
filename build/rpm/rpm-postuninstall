@@ -1,16 +1,13 @@
 #
 # deinstall optional files
 #
-rcdir=/etc/init.d
-logrotatedir=/etc/logrotate.d
+rcdir=/etc/rc.d/init.d
+systemddir=/usr/local/lib/systemd/system
+#logrotatedir=/etc/logrotate.d
 
-if [ -n "`which chkconfig`" ]
-then
-	chkconfig --del npstatsd
-elif [ -n "`which update-rc.d`" ]
-then
-	update-rc.d -f npstatsd remove
-fi
+#chkconfig --del npstatsd
+[ ! -f ${rcdir}/npstatsd ] || rm ${rcdir}/npstatsd
+[ ! -f ${systemddir}/npstats ] || rm ${systemddir}/npstats
 
 cat <<__EOF__
 To deinstall completely this package, the directories

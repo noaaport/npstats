@@ -49,17 +49,11 @@ done
 #
 docdir=/usr/local/share/doc/npstats
 confdir=/usr/local/etc/npstats
-rcdir=/etc/init.d
+rcdir=/etc/rc.d/init.d
 systemddir=/usr/local/lib/systemd/system
 
 install -m 0755 $docdir/npstatsd.sh-sample $rcdir/npstatsd
-if [ -n "`which chkconfig`" ]
-then
-        chkconfig --add npstatsd
-elif [ -n "`which update-rc.d`" ]
-then
-        update-rc.d npstatsd defaults 99
-fi
+#chkconfig --add npstatsd
 
 [ -d $systemddir ] || mkdir -p $systemddir
 install -m 0644 $docdir/npstats.service-generic $systemddir/npstats.service

@@ -7,6 +7,7 @@
 # chkconfig: 35 99 99
 # description: noaaport statistics tracking system
 
+name=npstats
 daemon=/usr/local/sbin/npstatsd
 pidfile=/var/run/npstats/npstatsd.pid
 rundir=/var/run/$name
