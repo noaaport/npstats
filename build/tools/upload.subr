@@ -16,7 +16,10 @@ upload_get_osparams () {
 	    . /etc/os-release
 	    osname=$ID
 	    osrelease=$VERSION_ID
-	    [ $osname = "debian" -a $osarch = "x86_64" ] && osarch="amd64"
+	    if [ -f /etc/debian_version ]
+	    then
+		[ $osarch = "x86_64" ] && osarch="amd64"
+	    fi	  
 	    ;;
 	SunOS)
 	    osname=solaris
