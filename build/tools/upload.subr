@@ -40,9 +40,9 @@ upload_get_pkgparams () {
 	savedir=`pwd`
 	case $osname in
 	    freebsd)
-	        cd ../bsdng/pkg
-		pkgfilename=`ls ${name}-${version}*.txz`
-		pkglocaldir="../bsdng/pkg"
+	        cd ../freebsd/pkg
+		pkgfilename=`ls ${name}-${version}*.pkg`
+		pkglocaldir="../freebsd/pkg"
 		cd $savedir
 		;;
 	    almalinux)
