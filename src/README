@@ -1,0 +1,20 @@
+The npststs daemon calls the manager through the periodic function,
+in per.c. It requests the manager to POLL the devices pollers
+and also to get the REPORT from the devices pollers. When the pollers report,
+the manager calls the spooler and also the monitor.
+The qrunner is also scheduled to run from the periodic function,
+but it is not enabled by default (can be enabled in the configuration files).
+
+The paragraph below is extracted from the file "collectors/lib/devices.tcl".
+
+# These functions are used to uniformize the exchange of data among
+# the various programs. The rationale is this. The data enters into
+# the system via the manager, which sends the data to the spooler
+# and the monitor, which can in turn propagate it further via the qrunner.
+# The convention is that the data from each poller (called <output>)
+# is a csv string. The manager adds the metadata (using the data_pack
+# function here) and that is the string that is exchanged from program
+# to program. So, every program receives a <pdata> string:
+#
+# <deviceid>|<devicenumber>|<devicetype>|<output>
+ 

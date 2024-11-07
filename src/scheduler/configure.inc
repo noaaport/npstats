@@ -1,7 +1,7 @@
 #
 # $Id$
 #
-. ../../../configure.inc
+. ../../configure.inc
 
 SCHEDCONF=scheduler.conf
 

@@ -3,7 +3,6 @@
 subdirs="lib
 manager
 qrunner
-scheduler
 spooler
 monitor"
 

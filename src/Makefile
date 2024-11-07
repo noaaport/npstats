@@ -6,7 +6,7 @@
 # $Id$
 #
 
-SUBDIRS = npstatsd collectors plot \
+SUBDIRS = npstatsd collectors plot scheduler \
 	pollers/nbsp \
 	pollers/inbsp \
 	pollers/inpemwin \

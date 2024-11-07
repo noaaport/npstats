@@ -6,7 +6,7 @@
 # $Id$
 #
 
-SUBDIRS = lib manager qrunner scheduler spooler monitor
+SUBDIRS = lib manager qrunner spooler monitor
 
 all:
 	for dir in ${SUBDIRS}; do \

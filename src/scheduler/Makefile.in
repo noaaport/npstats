@@ -5,7 +5,7 @@
 #
 # $Id$
 #
-@include@ @q@../../../Makefile.inc@q@
+@include@ @q@../../Makefile.inc@q@
 
 LIBEXECTARGET = scheduler
 TCLSOURCES =	scheduler.tcl
