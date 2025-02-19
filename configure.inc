@@ -79,8 +79,8 @@ case $os in
 	   TCLSH=/usr/bin/tclsh8.6
 	elif [ $flavor = debian ]
 	then
-	   # debian 12
-	   if [ $debian = "12" ]
+	   # debian 11, 12
+	   if [ $debian = "11" -o $debian = "12" ]
 	   then
 		TCL_INCDIR="-I /usr/include/tcl8.6"
 	   	TCL_LIB="tcl8.6"
