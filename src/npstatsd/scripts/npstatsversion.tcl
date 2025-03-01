@@ -4,10 +4,9 @@
 
 set pkgname "npstats";
 
-if {[file executable "/usr/sbin/pkg_info"]} {
-    set output [string trim \
-		    [lindex [split [exec pkg_info | grep "${pkgname}-"]] 0]];
-    regexp ${pkgname}-(.+) $output match version;
+if {[file executable "/usr/sbin/pkg"]} {
+    set output [exec pkg info ${pkgname} | grep Version];
+    set version [string trim [lindex [split $output] end]];
 } elseif {[file executable "/usr/bin/dpkg"]} {
     set output [exec dpkg -s ${pkgname} | grep -m 1 "Version"];
     set version [string trim [lindex [split $output] 1]];
